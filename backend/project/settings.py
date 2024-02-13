@@ -31,9 +31,15 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'rest_framework',
-    'coreapi',
-    'corsheaders',
+    # Apps
+    'administration',  # gestion de todos los videoclubs del pais
+    'clients',  # gestion de los clientes de los videoclubs
+    'videoclub',  # gestion de los videoclubs
+
+    # Frameworks
+    'rest_framework',  # framework para la creacion de APIs
+    'coreapi',  # framework para la documentacion de APIs
+    'corsheaders',  # framework para la comunicacion de servidores para las APIs
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +52,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
 
+    # middleware requerido por el FW: corsheaders
     'corsheaders.middleware.CorsMiddleware',
 
     'django.middleware.common.CommonMiddleware',
