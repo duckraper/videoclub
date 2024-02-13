@@ -1,0 +1,22 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+::-webkit-scrollbar {
+    width: 0px;
+    display:none;
+
+    /* Ancho del scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #fbfbfb;
+    /* Color del botón del scrollbar */
+    border-radius: 5px;
+    /* Bordes redondeados del botón */
+}
+
+::-webkit-scrollbar-track {
+    background-color: #d1c8c8;
+    /* Color de fondo del scrollbar */
+}
