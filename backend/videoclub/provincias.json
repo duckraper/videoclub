@@ -1,0 +1,206 @@
+[
+    {
+        "nombre": "Pinar del Río",
+        "municipios": [
+            "Pinar del Río",
+            "Consolación del Sur",
+            "Guane",
+            "San Juan y Martínez",
+            "San Luis",
+            "Viñales",
+            "La Palma",
+            "Los Palacios",
+            "Mantua"
+        ]
+    },
+    {
+        "nombre": "Artemisa",
+        "municipios": [
+            "Artemisa",
+            "Bauta",
+            "Caimito",
+            "Guanajay",
+            "Güira de Melena",
+            "Mariel",
+            "San Antonio de los Baños",
+            "Bahía Honda",
+            "Candelaria"
+        ]
+    },
+    {
+        "nombre": "La Habana",
+        "municipios": [
+            "La Habana Vieja",
+            "Centro Habana",
+            "Vedado",
+            "Plaza de la Revolución",
+            "Marianao",
+            "Playa",
+            "La Lisa",
+            "Guanabacoa",
+            "Regla",
+            "San Miguel del Padrón",
+            "Diez de Octubre",
+            "Cerro",
+            "Habana del Este",
+            "Boyeros",
+            "Cotorro",
+            "Arroyo Naranjo"
+        ]
+    },
+    {
+        "nombre": "Mayabeque",
+        "municipios": [
+            "San José de las Lajas",
+            "Jaruco",
+            "Santa Cruz del Norte",
+            "Madruga",
+            "Nueva Paz",
+            "Bejucal",
+            "Quivicán",
+            "Güines"
+        ]
+    },
+    {
+        "nombre": "Matanzas",
+        "municipios": [
+            "Matanzas",
+            "Cárdenas",
+            "Colón",
+            "Jovellanos",
+            "Pedro Betancourt",
+            "Perico",
+            "Martí",
+            "Unión de Reyes",
+            "Limonar"
+        ]
+    },
+    {
+        "nombre": "Cienfuegos",
+        "municipios": [
+            "Cienfuegos",
+            "Aguada de Pasajeros",
+            "Cruces",
+            "Cumanayagua",
+            "Lajas",
+            "Palmira"
+        ]
+    },
+    {
+        "nombre": "Villa Clara",
+        "municipios": [
+            "Santa Clara",
+            "Sagua la Grande",
+            "Placetas",
+            "Remedios",
+            "Camajuaní",
+            "Caibarién",
+            "Encrucijada",
+            "Manicaragua"
+        ]
+    },
+    {
+        "nombre": "Sancti Spíritus",
+        "municipios": [
+            "Sancti Spíritus",
+            "Trinidad",
+            "Cabaiguán",
+            "Yaguajay",
+            "Fomento",
+            "Jatibonico",
+            "Taguasco",
+            "La Sierpe"
+        ]
+    },
+    {
+        "nombre": "Ciego de Ávila",
+        "municipios": [
+            "Ciego de Ávila",
+            "Morón",
+            "Chambas",
+            "Ciro Redondo",
+            "Bolivia",
+            "Florencia"
+        ]
+    },
+    {
+        "nombre": "Camagüey",
+        "municipios": [
+            "Camagüey",
+            "Florida",
+            "Nuevitas",
+            "Santa Cruz del Sur",
+            "Esmeralda",
+            "Sierra de Cubitas",
+            "Minas",
+            "Guáimaro",
+            "Jimaguayú",
+            "Vertientes",
+            "Sibanicú"
+        ]
+    },
+    {
+        "nombre": "Las Tunas",
+        "municipios": [
+            "Las Tunas",
+            "Puerto Padre",
+            "Majibacoa",
+            "Jesús Menéndez",
+            "Jobabo",
+            "Colombia"
+        ]
+    },
+    {
+        "nombre": "Holguín",
+        "municipios": [
+            "Holguín",
+            "Gibara",
+            "Moa",
+            "Banes",
+            "Sagua de Tánamo",
+            "Mayarí",
+            "Rafael Freyre",
+            "Calixto García",
+            "Cueto"
+        ]
+    },
+    {
+        "nombre": "Granma",
+        "municipios": [
+            "Bayamo",
+            "Manzanillo",
+            "Campechuela",
+            "Media Luna",
+            "Niquero",
+            "Pilón",
+            "Río Cauto",
+            "Yara"
+        ]
+    },
+    {
+        "nombre": "Santiago de Cuba",
+        "municipios": [
+            "Santiago de Cuba",
+            "Palma Soriano",
+            "Contramaestre",
+            "San Luis",
+            "Segundo Frente",
+            "Songo-La Maya",
+            "Guama",
+            "Tercer Frente"
+        ]
+    },
+    {
+        "nombre": "Guantánamo",
+        "municipios": [
+            "Guantánamo",
+            "Baracoa",
+            "Manuel Tames",
+            "Caimanera",
+            "El Salvador",
+            "Niceto Pérez",
+            "Yateras"
+        ]
+    },
+    { "nombre": "Isla de la Juventud", "municipios": ["Nueva Gerona", "La Fe"] }
+]
