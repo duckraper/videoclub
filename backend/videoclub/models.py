@@ -29,6 +29,9 @@ class Municipio(models.Model):
         related_name="municipios"
     )
 
+    def __str__(self):
+        return f"{self.nombre}({self.provincia})"
+
 
 class Genero(models.Model):
     """

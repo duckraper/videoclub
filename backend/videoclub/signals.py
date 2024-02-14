@@ -10,24 +10,24 @@ def crear_registros_provincias_municipios(sender, **kwargs):
     asi siempre las provincias y municipios seran algo estatico en cada base de datos"""
 
     APP_NAME = "videoclub"
-    if sender.name == APP_NAME:  # si la aplicacion que se migra es la de videoclub
-        # obtiene el modelo Provincia
+    if sender.name == APP_NAME:
         Provincia = apps.get_model(APP_NAME, "Provincia")
-        # obtiene el modelo Municipio
         Municipio = apps.get_model(APP_NAME, "Municipio")
 
-        # abre el archivo provincias.json y lo carga en datos_provincias
-        with open('provincias.json', 'r') as datos:
+        with open('videoclub/assets/provincias.json', 'r') as datos:
             datos_provincias = json.load(datos)
 
-        # por cada provincia en datos_provincias
         for provincia in datos_provincias:
-            # crea el registro de la provincia si no existe
-            p = Provincia.objects.get_or_create(
+            p, p_created = Provincia.objects.get_or_create(
                 nombre=provincia["nombre"])
+            if p_created:
+                print(p)
 
-            # por cada municipio en la lista de municipios de la provincia
             for municipio in provincia["municipios"]:
-                # crea el registro del municipio si no existe
-                m = Municipio.objects.get_or_create(
+                m, m_created = Municipio.objects.get_or_create(
                     nombre=municipio, provincia=p)
+                if m_created:
+                    print(f"\t{m}")
+                    m.save()
+            if p_created:
+                p.save()
