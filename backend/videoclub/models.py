@@ -1,6 +1,32 @@
 from decimal import Decimal
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser
 
+
+class Dependiente(AbstractBaseUser):
+    """
+    Modelo que representa un usuario en el sistema.
+
+    Atributos:
+    - username (str): El nombre de usuario.
+    - email (str): El correo electrónico del usuario.
+    - password (str): La contraseña del usuario.
+    - first_name (str): El primer nombre del usuario.
+    - last_name (str): El apellido del usuario.
+    - is_staff (bool): Indica si el usuario es miembro del personal.
+    - is_active (bool): Indica si el usuario está activo.
+    - date_joined (DateTime): La fecha en la que el usuario se unió.
+    """
+    class Meta:
+        db_table = "usuario"
+
+    username = models.CharField(max_length=32, unique=True)
+    password = models.CharField(max_length=64)
+    is_staff = models.BooleanField(default=False, blank=True, null=True)
+    email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.username
 
 class Provincia(models.Model):
     """
