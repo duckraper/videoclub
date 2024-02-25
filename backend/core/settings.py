@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'coreapi',
 
+    'authentication',
     'videoclub',
 
 ]

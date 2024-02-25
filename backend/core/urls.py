@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin-site/', admin.site.urls),
+    path('auth/', include('authentication.urls')),
     path('videoclub/', include('videoclub.urls')),
-    path('videoclub/api/', include('videoclub.api.urls')),
+
+    path('docs/', include_docs_urls(title='VideoClub API', public=True)),
 ]
