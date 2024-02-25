@@ -110,6 +110,7 @@ class Soporte(models.Model):
     def __str__(self) -> str:
         return f"Soporte {self.pk}"
 
+
 class Casete(Soporte):
     """
     Clase que representa un casete en el videoclub.
@@ -197,7 +198,8 @@ class Pelicula(models.Model):
         db_table = "pelicula"
 
     tamanio = models.DecimalField(max_digits=2, decimal_places=1)  # GB'
-    soporte = models.ManyToManyField(Soporte, related_name="peliculas", editable=False)
+    soporte = models.ManyToManyField(
+        Soporte, related_name="peliculas", editable=False)
     # soporte = models.ForeignKey(
     #     Soporte, on_delete=models.CASCADE, related_name="peliculas")
     titulo = models.CharField(max_length=64)
@@ -239,7 +241,9 @@ class Persona(models.Model):
     nombre = models.CharField(max_length=64)
     apellidos = models.CharField(max_length=64)
     edad = models.IntegerField()
+    municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
     direccion = models.CharField(max_length=64)
+    telefono = models.CharField(max_length=8)
 
     activo = models.BooleanField(default=True)
 
@@ -290,8 +294,6 @@ class ClienteTemporal(models.Model):
     persona = models.OneToOneField(
         Persona, primary_key=True, on_delete=models.CASCADE)
 
-    municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
-    telefono = models.CharField(max_length=8)
     confianza = models.BooleanField(default=True)
 
 
