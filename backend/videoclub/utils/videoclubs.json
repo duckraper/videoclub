@@ -1,0 +1,98 @@
+[
+    {
+        "nombre": "CineClub Habana",
+        "municipio": "Centro Habana",
+        "direccion": "Calle 23, Vedado",
+        "telefono": "555-1234"
+    },
+    {
+        "nombre": "CineManía Artemisa",
+        "municipio": "Artemisa",
+        "direccion": "Avenida Principal, Centro",
+        "telefono": "555-5678"
+    },
+    {
+        "nombre": "DVD Express Mayabeque",
+        "municipio": "San José de las Lajas",
+        "direccion": "Calle Comercial, San José",
+        "telefono": "555-9876"
+    },
+    {
+        "nombre": "Blu-ray Plaza Matanzas",
+        "municipio": "Matanzas",
+        "direccion": "Plaza de la Libertad",
+        "telefono": "555-4321"
+    },
+    {
+        "nombre": "CineFlix Villa Clara",
+        "municipio": "Santa Clara",
+        "direccion": "Avenida Central, Santa Clara",
+        "telefono": "555-2468"
+    },
+    {
+        "nombre": "CineMax Camagüey",
+        "municipio": "Camagüey",
+        "direccion": "Calle Principal, Centro",
+        "telefono": "555-7890"
+    },
+    {
+        "nombre": "DVD World Holguín",
+        "municipio": "Holguín",
+        "direccion": "Avenida del Cine, Reparto",
+        "telefono": "555-6543"
+    },
+    {
+        "nombre": "CineStar Santiago de Cuba",
+        "municipio": "Santiago de Cuba",
+        "direccion": "Calle Cinéfilo, Centro",
+        "telefono": "555-3456"
+    },
+    {
+        "nombre": "Blu-ray Paradise Guantánamo",
+        "municipio": "Guantánamo",
+        "direccion": "Avenida Cinematográfica, Playa",
+        "telefono": "555-8765"
+    },
+    {
+        "nombre": "CineMagic Cienfuegos",
+        "municipio": "Cienfuegos",
+        "direccion": "Calle del Cine, Malecón",
+        "telefono": "555-2345"
+    },
+    {
+        "nombre": "DVD Haven Pinar del Río",
+        "municipio": "Pinar del Río",
+        "direccion": "Avenida Cinéfilo, Centro",
+        "telefono": "555-5432"
+    },
+    {
+        "nombre": "CineWorld Las Tunas",
+        "municipio": "Las Tunas",
+        "direccion": "Calle del Cine, Centro",
+        "telefono": "555-8765"
+    },
+    {
+        "nombre": "CinePlanet Sancti Spíritus",
+        "municipio": "Sancti Spíritus",
+        "direccion": "Avenida Cinematográfica, Plaza",
+        "telefono": "555-9876"
+    },
+    {
+        "nombre": "Blu-ray Galaxy Granma",
+        "municipio": "Bayamo",
+        "direccion": "Calle del Cine, Centro",
+        "telefono": "555-7654"
+    },
+    {
+        "nombre": "CineDreams Camagüey",
+        "municipio": "Camagüey",
+        "direccion": "Avenida Cinéfilo, Reparto",
+        "telefono": "555-2345"
+    },
+    {
+        "nombre": "DVD Oasis Holguín",
+        "municipio": "Holguín",
+        "direccion": "Calle del Cine, Centro",
+        "telefono": "555-6789"
+    }
+]
