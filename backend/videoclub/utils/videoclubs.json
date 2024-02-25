@@ -94,5 +94,11 @@
         "municipio": "Holguín",
         "direccion": "Calle del Cine, Centro",
         "telefono": "555-6789"
+    },
+    {
+        "nombre": "Casetes, Los Valdes",
+        "municipio": "Ciego de Ávila",
+        "direccion": "Calle Caridad, e/ Abraham Delgado y Narciso Lopez",
+        "telefono": "551-5141"
     }
 ]

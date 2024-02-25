@@ -79,6 +79,7 @@ def poblar_con_generos(sender, **kwargs):
                 print(g)
             g.save()
 
+
 @receiver(post_migrate)
 def poblar_con_peliculas(sender, **kwargs):
     "Pobla la base de datos con peliculas, a partir de utils.peliculas.json"

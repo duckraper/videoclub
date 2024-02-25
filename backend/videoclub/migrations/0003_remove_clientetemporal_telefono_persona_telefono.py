@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='persona',
             name='telefono',
-            field=models.CharField(default=0, max_length=8),
+            field=models.CharField(default=0, max_length=8), #type: ignore
             preserve_default=False,
         ),
-    ]
+    ] #type: ignore
