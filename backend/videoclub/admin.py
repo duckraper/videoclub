@@ -8,9 +8,11 @@ class VideoClubAdmin(admin.ModelAdmin):
                     'telefono', 'cant_soportes')
     # filter_horizontal = ('soportes',)
 
+
 @admin.register(DVD)
 class DVDAdmin(admin.ModelAdmin):
     list_display = ('id', 'tamanio', 'formato_almacenamiento')
+
 
 @admin.register(Casete)
 class CaseteAdmin(admin.ModelAdmin):
@@ -20,6 +22,7 @@ class CaseteAdmin(admin.ModelAdmin):
 @admin.register(VCD)
 class VCDAdmin(admin.ModelAdmin):
     list_display = ('id', 'marca')
+    
 
 
 @admin.register(Municipio)
@@ -36,7 +39,13 @@ class PeliculaAdmin(admin.ModelAdmin):
 
 @admin.register(Genero)
 class GeneroAdmin(admin.ModelAdmin):
-    list_display = ('nombre',)
+    list_display = ('nombre', 'mostrar_peliculas')
+
+    def mostrar_peliculas(self, obj):
+        peliculas = obj.peliculas.all()
+        return ", ".join([pelicula.titulo for pelicula in peliculas])
+
+
 
 
 @admin.register(SolicitudPrestamo)
