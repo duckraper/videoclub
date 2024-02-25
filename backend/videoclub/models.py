@@ -1,32 +1,8 @@
 from decimal import Decimal
+from typing import Iterable
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 
-
-class Dependiente(AbstractBaseUser):
-    """
-    Modelo que representa un usuario en el sistema.
-
-    Atributos:
-    - username (str): El nombre de usuario.
-    - email (str): El correo electrónico del usuario.
-    - password (str): La contraseña del usuario.
-    - first_name (str): El primer nombre del usuario.
-    - last_name (str): El apellido del usuario.
-    - is_staff (bool): Indica si el usuario es miembro del personal.
-    - is_active (bool): Indica si el usuario está activo.
-    - date_joined (DateTime): La fecha en la que el usuario se unió.
-    """
-    class Meta:
-        db_table = "usuario"
-
-    username = models.CharField(max_length=32, unique=True)
-    password = models.CharField(max_length=64)
-    is_staff = models.BooleanField(default=False, blank=True, null=True)
-    email = models.EmailField(unique=True)
-
-    def __str__(self):
-        return self.username
 
 class Provincia(models.Model):
     """
@@ -80,7 +56,6 @@ class VideoClub(models.Model):
     Representa un videoclub del pais.
 
     Atributos:
-    - id (int): Identificador único del videoclub.
     - nombre (str): Nombre del videoclub.
     - municipio (Municipio): Municipio al que pertenece el videoclub.
     - direccion (str): Dirección del videoclub.
@@ -92,7 +67,6 @@ class VideoClub(models.Model):
     class Meta:
         db_table = "videoclub"
 
-    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=32)
     municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
     direccion = models.CharField(max_length=64)
@@ -117,7 +91,6 @@ class Soporte(models.Model):
     class Meta:
         db_table = "soporte"
 
-    id = models.AutoField(primary_key=True)
     costo_adquisicion = models.DecimalField(max_digits=5, decimal_places=2)
     videoclub = models.ForeignKey(
         VideoClub, on_delete=models.CASCADE, null=False)
@@ -134,6 +107,8 @@ class Soporte(models.Model):
     cant_prestamos = models.PositiveIntegerField(default=0)
     disponible = models.BooleanField(default=False)
 
+    def __str__(self) -> str:
+        return f"Soporte {self.pk}"
 
 class Casete(Soporte):
     """
@@ -221,10 +196,10 @@ class Pelicula(models.Model):
     class Meta:
         db_table = "pelicula"
 
-    id = models.CharField(primary_key=True, unique=True, max_length=255)
-    tamanio = models.DecimalField(max_digits=2, decimal_places=1)  # GB
-    soporte = models.ForeignKey(
-        Soporte, on_delete=models.CASCADE, related_name="peliculas")
+    tamanio = models.DecimalField(max_digits=2, decimal_places=1)  # GB'
+    soporte = models.ManyToManyField(Soporte, related_name="peliculas", editable=False)
+    # soporte = models.ForeignKey(
+    #     Soporte, on_delete=models.CASCADE, related_name="peliculas")
     titulo = models.CharField(max_length=64)
     genero = models.ForeignKey(
         Genero,  on_delete=models.CASCADE, related_name="peliculas")
@@ -240,25 +215,6 @@ class Pelicula(models.Model):
     clasif_edad = models.CharField(
         max_length=1, choices=CLASIFICACIONES, default="A")
     estreno = models.BooleanField(default=False)
-
-    def save(self, *args, **kwargs):
-        """
-        Guarda la película en la base de datos.
-
-        Si la película no tiene un identificador único asignado,
-        se genera uno basado en el número de películas en el soporte y
-        el soporte contenedor.
-
-        Args:
-            *args: Argumentos posicionales adicionales.
-            **kwargs: Argumentos de palabras clave adicionales.
-        """
-        if not self.pk:
-            num_peliculas = self.soporte.cant_peliculas_grabadas
-            letra = chr(ord('A') + num_peliculas)
-
-            self.id = f"{self.soporte.pk}{letra}"
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.titulo} ({self.anio})"
@@ -279,11 +235,13 @@ class Persona(models.Model):
     class Meta:
         db_table = "persona"
 
-    ci = models.CharField(max_length=11, unique=True, primary_key=True)
+    ci = models.CharField(max_length=11, unique=True)
     nombre = models.CharField(max_length=64)
     apellidos = models.CharField(max_length=64)
     edad = models.IntegerField()
     direccion = models.CharField(max_length=64)
+
+    activo = models.BooleanField(default=True)
 
     videoclubs = models.ManyToManyField(VideoClub)
 
@@ -301,7 +259,6 @@ class ClienteFijo(models.Model):
 
     Meta:
     - db_table (str): El nombre de la tabla en la base de datos.
-    - db_table_comment (str): Un comentario sobre la tabla en la base de datos.
     """
 
     class Meta:
@@ -343,10 +300,12 @@ class SolicitudPrestamo(models.Model):
         db_table = "solicitud_prestamo"
 
     cliente = models.ForeignKey(
-        Persona, on_delete=models.CASCADE, related_name="solicitudes")
-    soporte = models.ForeignKey(Soporte, on_delete=models.CASCADE)
+        Persona, on_delete=models.CASCADE, related_name="prestamos")
+    soporte = models.ForeignKey(
+        Soporte, related_name="prestamos", on_delete=models.CASCADE)
 
     precio_prestamo = models.DecimalField(max_digits=5, decimal_places=2)
+
     fecha_prestamo = models.DateField(auto_now_add=True)
     fecha_devolucion = models.DateField()
     recargo = models.DecimalField(
