@@ -46,7 +46,9 @@ INSTALLED_APPS = [
 
     'authentication',
     'videoclub',
-
+    'peliculas',
+    'prestamos',
+    'clientes',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True

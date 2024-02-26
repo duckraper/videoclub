@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin-site/', admin.site.urls),
     path('auth/', include('authentication.urls')),
     path('videoclub/', include('videoclub.urls')),
+    path('asdasd/', include('rest_framework.urls')),
 
     path('docs/', include_docs_urls(title='VideoClub API', public=True)),
 ]
