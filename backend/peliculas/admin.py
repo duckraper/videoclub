@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Pelicula, Genero
+from .models import Pelicula
 
 
 @admin.register(Pelicula)
@@ -8,11 +8,3 @@ class PeliculaAdmin(admin.ModelAdmin):
                     'duracion', 'clasif_edad')
     filter_horizontal = ('soporte',)
 
-
-@admin.register(Genero)
-class GeneroAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'mostrar_peliculas')
-
-    def mostrar_peliculas(self, obj):
-        peliculas = obj.peliculas.all()
-        return ", ".join([pelicula.titulo for pelicula in peliculas])

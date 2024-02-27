@@ -1,20 +1,35 @@
+from typing import Literal
 from django.db import models
 
+GENEROS = [
+    ("Comedia", "Comedia"),
+    ("Acción", "Acción"),
+    ("Aventura", "Aventura"),
+    ("Ciencia Ficción", "Ciencia Ficción"),
+    ("Drama", "Drama"),
+    ("Romance", "Romance"),
+    ("Fantasía", "Fantasía"),
+    ("Terror", "Terror"),
+    ("Suspenso", "Suspenso"),
+    ("Animación", "Animación"),
+    ("Documental", "Documental"),
+    ("Musical", "Musical"),
+    ("Crimen", "Crimen"),
+    ("Misterio", "Misterio"),
+    ("Western", "Western"),
+    ("Histórico", "Histórico"),
+    ("Guerra", "Guerra"),
+    ("Biografía", "Biografía"),
+    ("Fantástico", "Fantástico"),
+    ("Infantil", "Infantil")
+]
 
-class Genero(models.Model):
-    """
-    Modelo que representa un género de películas.
-
-    Atributos:
-    - nombre: El nombre del género de películas.
-    """
-    class Meta:
-        db_table = "genero"
-
-    nombre = models.CharField(max_length=32)
-
-    def __str__(self) -> str:
-        return self.nombre
+CLASIFICACIONES = [
+    ("A", "Apto para todo publico"),
+    ("B", "Pelicula para niños mayores de 12"),
+    ("C", "Pelicula para mayores de 16"),
+    ("D", "Pelicula para mayores de 18")
+]
 
 
 class Pelicula(models.Model):
@@ -37,24 +52,22 @@ class Pelicula(models.Model):
     class Meta:
         db_table = "pelicula"
 
-    tamanio = models.DecimalField(max_digits=2, decimal_places=1)  # GB'
-    soporte = models.ManyToManyField(
-        'videoclub.Soporte', related_name="peliculas")
     titulo = models.CharField(max_length=64)
-    genero = models.ForeignKey(
-        Genero,  on_delete=models.CASCADE, related_name="peliculas")
+    genero = models.CharField(
+        max_length=64, default="Indefinido", choices=GENEROS)
     anio = models.IntegerField()
     duracion = models.IntegerField()  # duracion en mins
     director = models.CharField(max_length=64, default="Indefinido")
-    CLASIFICACIONES = [
-        ("A", "Apto para todo publico"),
-        ("B", "Pelicula para niños mayores de 12"),
-        ("C", "Pelicula para mayores de 16"),
-        ("D", "Pelicula para mayores de 18")
-    ]
+
     clasif_edad = models.CharField(
         max_length=1, choices=CLASIFICACIONES, default="A")
+    
     estreno = models.BooleanField(default=False)
+
+    tamanio = models.DecimalField(max_digits=2, decimal_places=1)  # GB'
+
+    soporte = models.ManyToManyField(
+        'videoclub.Soporte', related_name="peliculas")
 
     def __str__(self):
         return f"{self.titulo} ({self.anio})"
