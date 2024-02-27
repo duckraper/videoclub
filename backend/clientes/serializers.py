@@ -1,22 +1,19 @@
 from rest_framework.serializers import PrimaryKeyRelatedField, ModelSerializer
 from .models import Cliente, ClienteTemporal, ClienteFijo
-from peliculas.serializers import GeneroSerializer
+
 
 class ClienteSerializer(ModelSerializer):
-    videoclubs = PrimaryKeyRelatedField(read_only=True, many=True)
-
     class Meta:
         model = Cliente
-        fields = '__all__'
+        exclude = ['cant_soportes_alquilados']
 
 
 class ClienteTemporalSerializer(ModelSerializer):
     persona = ClienteSerializer()
-    genero_favorito = GeneroSerializer()
 
     class Meta:
         model = ClienteTemporal
-        exclude = ['max_soportes_prestados', 'cant_soportes_alquilados']
+        exclude = ['max_soportes_prestados']
 
 
 class ClienteFijoSerializer(ModelSerializer):
@@ -24,4 +21,4 @@ class ClienteFijoSerializer(ModelSerializer):
 
     class Meta:
         model = ClienteFijo
-        fields = '__all__'
+        exclude = ['max_soportes_prestados']

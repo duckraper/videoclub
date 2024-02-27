@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator as MinValue
 
 class Soporte(models.Model):
     """
@@ -15,7 +15,7 @@ class Soporte(models.Model):
     class Meta:
         db_table = "soporte"
 
-    costo_adquisicion = models.DecimalField(max_digits=5, decimal_places=2)
+    costo_adquisicion = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValue(0.01)])
 
     ESTADOS = [
         ("B", "Bien"),
@@ -82,8 +82,8 @@ class DVD(Soporte):
         db_table = "dvd"
 
     TAMANIOS = [
-        (4.7, '4.7 GB'),
-        (8.5, '8.5 GB'),
+        (4.70, '4.7 GB'),
+        (8.50, '8.5 GB'),
     ]
     tamanio = models.DecimalField(
         max_digits=4, decimal_places=1, choices=TAMANIOS)  # GB

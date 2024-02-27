@@ -1,5 +1,7 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
+from peliculas.models import GENEROS
 
 class Cliente(models.Model):
     """
@@ -19,17 +21,37 @@ class Cliente(models.Model):
     ci = models.CharField(max_length=11, unique=True)
     nombre = models.CharField(max_length=64)
     apellidos = models.CharField(max_length=64)
-    edad = models.IntegerField()
+    edad = models.PositiveIntegerField()
     municipio = models.CharField(max_length=64)
     direccion = models.CharField(max_length=64)
     telefono = models.CharField(max_length=8)
 
     activo = models.BooleanField(default=True)
-
-    videoclubs = models.ManyToManyField('videoclub.VideoClub')
+    cant_soportes_alquilados = models.PositiveIntegerField(
+        default=0, validators=[MinValueValidator(0), MaxValueValidator(3)])
 
     def __str__(self):
         return self.nombre
+
+
+class ClienteTemporal(models.Model):
+    """
+    Modelo que representa a un cliente temporal del videoclub.
+
+    Atributos:
+    - municipio: ForeignKey a la tabla Municipio, indica el municipio del cliente temporal.
+    - telefono: CharField de longitud máxima 16, indica el número de teléfono del cliente temporal.
+    - confianza: BooleanField, indica si el cliente temporal es de confianza o no.
+    """
+
+    class Meta:
+        db_table = "cliente_temporal"
+
+    persona = models.OneToOneField(
+        Cliente, primary_key=True, on_delete=models.CASCADE)
+    max_soportes_prestados = models.PositiveIntegerField(default=1)
+
+    confianza = models.BooleanField(default=True)
 
 
 class ClienteFijo(models.Model):
@@ -50,27 +72,7 @@ class ClienteFijo(models.Model):
     persona = models.OneToOneField(
         Cliente, primary_key=True, on_delete=models.CASCADE)
 
+    genero_favorito = models.CharField(
+        max_length=64, default="Indefinido", choices=GENEROS, null=True, blank=True)
+
     max_soportes_prestados = models.PositiveIntegerField(default=3)
-    cant_soportes_alquilados = models.PositiveIntegerField(default=0)
-
-    genero_favorito = models.ForeignKey(
-        'peliculas.Genero', on_delete=models.DO_NOTHING, related_name="preferido_por")
-
-
-class ClienteTemporal(models.Model):
-    """
-    Modelo que representa a un cliente temporal del videoclub.
-
-    Atributos:
-    - municipio: ForeignKey a la tabla Municipio, indica el municipio del cliente temporal.
-    - telefono: CharField de longitud máxima 16, indica el número de teléfono del cliente temporal.
-    - confianza: BooleanField, indica si el cliente temporal es de confianza o no.
-    """
-
-    class Meta:
-        db_table = "cliente_temporal"
-
-    persona = models.OneToOneField(
-        Cliente, primary_key=True, on_delete=models.CASCADE)
-
-    confianza = models.BooleanField(default=True)
