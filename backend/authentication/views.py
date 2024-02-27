@@ -50,13 +50,17 @@ class UserCRUDView(APIView):
     permission_classes = [IsAdminUser, IsAuthenticated]
 
     def get_user(self, pk):
-        return User.objects.filter(pk=pk).first()
+        user = User.objects.filter(pk=pk).first()
+        
+        if user and user.is_active:
+            return user
+        
+        return None
 
     def get(self, request, pk):
         user = self.get_user(pk)
 
         if user:
-
             serializer = UserSerializer(user)
 
             return Response(serializer.data, status=HTTP_200_OK)
@@ -117,7 +121,7 @@ class RetrieveSelfUser(APIView):
         user = User.objects.all().filter(pk=request.user.pk).first()
 
         if user:
-            if request.user == user:
+            if request.user == user and request.user.is_active:
                 serializer = UserSerializer(user)
 
                 return Response(serializer.data, status=HTTP_200_OK)
