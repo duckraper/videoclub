@@ -3,381 +3,342 @@
         "tamanio": 1.5,
         "titulo": "El gran robo de la Mona Lisa",
         "genero": "Comedia",
-        "anio": 2024,
         "duracion": 90,
         "director": "Pedro Almodóvar",
         "clasif_edad": "B",
-        "estreno": true
+        "fecha_estreno": "2024-01-01"
     },
     {
         "tamanio": 1.8,
         "titulo": "La última misión de James Bond",
         "genero": "Acción",
-        "anio": 2023,
         "duracion": 120,
         "director": "Christopher Nolan",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "2023-01-01"
     },
     {
         "tamanio": 1.6,
         "titulo": "El viaje de Chihiro 2",
         "genero": "Aventura",
-        "anio": 2022,
         "duracion": 100,
         "director": "Hayao Miyazaki",
         "clasif_edad": "A",
-        "estreno": false
+        "fecha_estreno": "2022-01-01"
     },
     {
         "tamanio": 1.9,
         "titulo": "La invasión de los clones",
         "genero": "Ciencia Ficción",
-        "anio": 2025,
         "duracion": 110,
         "director": "Steven Spielberg",
         "clasif_edad": "B",
-        "estreno": true
+        "fecha_estreno": "2025-01-01"
     },
     {
         "tamanio": 1.7,
         "titulo": "La vida de Frida Kahlo",
         "genero": "Drama",
-        "anio": 2021,
         "duracion": 130,
         "director": "Julie Taymor",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "2021-01-01"
     },
     {
         "tamanio": 1.4,
         "titulo": "El diario de Ana Frank",
         "genero": "Romance",
-        "anio": 2020,
         "duracion": 95,
         "director": "Ari Folman",
         "clasif_edad": "B",
-        "estreno": false
+        "fecha_estreno": "2020-01-01"
     },
     {
         "tamanio": 1.8,
         "titulo": "El señor de los anillos: El retorno del rey",
         "genero": "Fantasía",
-        "anio": 2003,
         "duracion": 201,
         "director": "Peter Jackson",
         "clasif_edad": "B",
-        "estreno": false
+        "fecha_estreno": "2003-01-01"
     },
     {
         "tamanio": 1.6,
         "titulo": "El exorcista",
         "genero": "Terror",
-        "anio": 1973,
         "duracion": 122,
         "director": "William Friedkin",
         "clasif_edad": "D",
-        "estreno": false
+        "fecha_estreno": "1973-01-01"
     },
     {
         "tamanio": 1.7,
         "titulo": "El silencio de los inocentes",
         "genero": "Suspenso",
-        "anio": 1991,
         "duracion": 118,
         "director": "Jonathan Demme",
         "clasif_edad": "D",
-        "estreno": false
+        "fecha_estreno": "1991-01-01"
     },
     {
         "tamanio": 1.5,
         "titulo": "Toy Story 4",
         "genero": "Animación",
-        "anio": 2019,
         "duracion": 100,
         "director": "Josh Cooley",
         "clasif_edad": "A",
-        "estreno": false
+        "fecha_estreno": "2019-01-01"
     },
     {
         "tamanio": 1.4,
         "titulo": "La historia de Cuba",
         "genero": "Documental",
-        "anio": 2018,
         "duracion": 90,
         "director": "Oliver Stone",
         "clasif_edad": "A",
-        "estreno": false
+        "fecha_estreno": "2018-01-01"
     },
     {
         "tamanio": 1.6,
         "titulo": "La La Land",
         "genero": "Musical",
-        "anio": 2016,
         "duracion": 128,
         "director": "Damien Chazelle",
         "clasif_edad": "B",
-        "estreno": false
+        "fecha_estreno": "2016-01-01"
     },
     {
         "tamanio": 1.7,
         "titulo": "El padrino",
         "genero": "Crimen",
-        "anio": 1972,
         "duracion": 175,
         "director": "Francis Ford Coppola",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "1972-01-01"
     },
-    
     {
         "tamanio": 1.8,
         "titulo": "El código Da Vinci",
         "genero": "Misterio",
-        "anio": 2006,
         "duracion": 149,
         "director": "Ron Howard",
         "clasif_edad": "B",
-        "estreno": false
+        "fecha_estreno": "2006-01-01"
     },
     {
         "tamanio": 1.5,
         "titulo": "El bueno, el malo y el feo",
         "genero": "Western",
-        "anio": 1966,
         "duracion": 161,
         "director": "Sergio Leone",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "1966-01-01"
     },
     {
         "tamanio": 1.9,
         "titulo": "Gladiador",
         "genero": "Histórico",
-        "anio": 2000,
         "duracion": 155,
         "director": "Ridley Scott",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "2000-01-01"
     },
     {
         "tamanio": 1.8,
         "titulo": "Salvar al soldado Ryan",
         "genero": "Guerra",
-        "anio": 1998,
         "duracion": 169,
         "director": "Steven Spielberg",
         "clasif_edad": "D",
-        "estreno": false
+        "fecha_estreno": "1998-01-01"
     },
     {
         "tamanio": 1.6,
         "titulo": "Gandhi",
         "genero": "Biografía",
-        "anio": 1982,
         "duracion": 191,
         "director": "Richard Attenborough",
         "clasif_edad": "A",
-        "estreno": false
+        "fecha_estreno": "1982-01-01"
     },
     {
         "tamanio": 1.7,
         "titulo": "Harry Potter y la piedra filosofal",
         "genero": "Fantástico",
-        "anio": 2001,
         "duracion": 152,
         "director": "Chris Columbus",
         "clasif_edad": "A",
-        "estreno": false
+        "fecha_estreno": "2001-01-01"
     },
     {
         "tamanio": 1.4,
         "titulo": "El rey león",
         "genero": "Infantil",
-        "anio": 1994,
         "duracion": 88,
         "director": "Roger Allers y Rob Minkoff",
         "clasif_edad": "A",
-        "estreno": false
+        "fecha_estreno": "1994-01-01"
     },
     {
         "tamanio": 1.7,
         "titulo": "La isla de los dinosaurios",
         "genero": "Aventura",
-        "anio": 2026,
         "duracion": 105,
         "director": "Colin Trevorrow",
         "clasif_edad": "B",
-        "estreno": true
+        "fecha_estreno": "2026-01-01"
     },
     {
         "tamanio": 1.6,
         "titulo": "La noche de los muertos vivientes",
         "genero": "Terror",
-        "anio": 1968,
         "duracion": 96,
         "director": "George A. Romero",
         "clasif_edad": "D",
-        "estreno": false
+        "fecha_estreno": "1968-01-01"
     },
     {
         "tamanio": 1.5,
         "titulo": "Casablanca",
         "genero": "Romance",
-        "anio": 1942,
         "duracion": 102,
         "director": "Michael Curtiz",
         "clasif_edad": "A",
-        "estreno": false
+        "fecha_estreno": "1942-01-01"
     },
     {
         "tamanio": 1.8,
         "titulo": "Avatar",
         "genero": "Ciencia Ficción",
-        "anio": 2009,
         "duracion": 162,
         "director": "James Cameron",
         "clasif_edad": "B",
-        "estreno": false
+        "fecha_estreno": "2009-01-01"
     },
     {
         "tamanio": 1.4,
         "titulo": "Coco",
         "genero": "Animación",
-        "anio": 2017,
         "duracion": 105,
         "director": "Lee Unkrich y Adrian Molina",
         "clasif_edad": "A",
-        "estreno": false
+        "fecha_estreno": "2017-01-01"
     },
     {
         "tamanio": 1.7,
         "titulo": "El fantasma de la ópera",
         "genero": "Musical",
-        "anio": 2004,
         "duracion": 143,
         "director": "Joel Schumacher",
         "clasif_edad": "B",
-        "estreno": false
+        "fecha_estreno": "2004-01-01"
     },
     {
         "tamanio": 1.6,
         "titulo": "El resplandor",
         "genero": "Terror",
-        "anio": 1980,
         "duracion": 146,
         "director": "Stanley Kubrick",
         "clasif_edad": "D",
-        "estreno": false
+        "fecha_estreno": "1980-01-01"
     },
     {
         "tamanio": 1.5,
         "titulo": "El club de la pelea",
         "genero": "Drama",
-        "anio": 1999,
         "duracion": 139,
         "director": "David Fincher",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "1999-01-01"
     },
     {
         "tamanio": 1.9,
         "titulo": "El gran hotel Budapest",
         "genero": "Comedia",
-        "anio": 2014,
         "duracion": 100,
         "director": "Wes Anderson",
         "clasif_edad": "B",
-        "estreno": false
+        "fecha_estreno": "2014-01-01"
     },
     {
         "tamanio": 1.8,
         "titulo": "El club de los cinco",
         "genero": "Comedia",
-        "anio": 1985,
         "duracion": 97,
         "director": "John Hughes",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "1985-01-01"
     },
     {
         "tamanio": 1.6,
         "titulo": "El club de los poetas muertos",
         "genero": "Drama",
-        "anio": 1989,
         "duracion": 128,
         "director": "Peter Weir",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "1989-01-01"
     },
     {
         "tamanio": 1.7,
         "titulo": "El club de las madres rebeldes",
         "genero": "Comedia",
-        "anio": 2016,
         "duracion": 100,
         "director": "Jon Lucas y Scott Moore",
         "clasif_edad": "B",
-        "estreno": false
+        "fecha_estreno": "2016-01-01"
     },
     {
         "tamanio": 1.5,
         "titulo": "El club de los emperadores",
         "genero": "Drama",
-        "anio": 2002,
         "duracion": 109,
         "director": "Michael Hoffman",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "2002-01-01"
     },
     {
         "tamanio": 1.4,
         "titulo": "El club de los suicidas",
         "genero": "Drama",
-        "anio": 2019,
         "duracion": 90,
         "director": "Edoardo Winspeare",
         "clasif_edad": "D",
-        "estreno": false
+        "fecha_estreno": "2019-01-01"
     },
     {
         "tamanio": 1.8,
         "titulo": "El club de los incomprendidos",
         "genero": "Drama",
-        "anio": 2014,
         "duracion": 105,
         "director": "Carlos Sedes",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "2014-01-01"
     },
     {
         "tamanio": 1.6,
         "titulo": "El club de los cinco",
         "genero": "Drama",
-        "anio": 1985,
         "duracion": 97,
         "director": "John Hughes",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "1985-01-01"
     },
     {
         "tamanio": 1.7,
         "titulo": "El club de las madres rebeldes",
         "genero": "Comedia",
-        "anio": 2016,
         "duracion": 100,
         "director": "Jon Lucas y Scott Moore",
         "clasif_edad": "B",
-        "estreno": false
+        "fecha_estreno": "2016-01-01"
     },
     {
         "tamanio": 1.5,
         "titulo": "El club de los emperadores",
         "genero": "Drama",
-        "anio": 2002,
         "duracion": 109,
         "director": "Michael Hoffman",
         "clasif_edad": "C",
-        "estreno": false
+        "fecha_estreno": "2002-01-01"
     }
 ]

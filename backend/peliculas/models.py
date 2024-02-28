@@ -1,5 +1,8 @@
-from typing import Literal
 from django.db import models
+from decimal import Decimal
+# importo los validadores
+from django.core.validators import MinValueValidator, MaxValueValidator
+from datetime import date, timedelta, datetime
 
 GENEROS = [
     ("Comedia", "Comedia"),
@@ -31,22 +34,24 @@ CLASIFICACIONES = [
     ("D", "Pelicula para mayores de 18")
 ]
 
+PRECIO_BASE = Decimal(10.00)  # CUP
+
 
 class Pelicula(models.Model):
     """
-    Modelo que representa una película en el videoclub.
+    # Modelo que representa una película en el videoclub.
 
-    Atributos:
-        id (str): El identificador único de la película.
-        tamanio (Decimal): El tamaño de la película en GB.
-        soporte (ForeignKey): El soporte al que pertenece la película.
-        titulo (str): El título de la película.
-        genero (ForeignKey): El género al que pertenece la película.
-        anio (int): El año de lanzamiento de la película.
-        duracion (int): La duración de la película en minutos.
-        director (str): El director de la película.
-        clasif_edad (str): La clasificación de edad de la película.
-        estreno (bool): Indica si la película es un estreno o no.
+    ## Atributos:
+        - tamanio (Decimal): El tamaño de la película en GB.
+        - soporte (ForeignKey): Soportes a los que pertenece la película.
+        - titulo (str): El título de la película.
+        - genero (str): El género al que pertenece la película.
+        - fecha_estreno (Date): Fecha de lanzamiento de la película.
+        - duracion (int): La duración de la película en minutos.
+        - director (str): El director de la película.
+        - precio (Decimal): El precio base de la pelicula
+        - clasif_edad (str): La clasificación de edad de la película.
+        - estreno (bool): Indica si la película es un estreno o no.
     """
 
     class Meta:
@@ -55,19 +60,61 @@ class Pelicula(models.Model):
     titulo = models.CharField(max_length=64)
     genero = models.CharField(
         max_length=64, default="Indefinido", choices=GENEROS)
-    anio = models.IntegerField()
     duracion = models.IntegerField()  # duracion en mins
     director = models.CharField(max_length=64, default="Indefinido")
-
     clasif_edad = models.CharField(
         max_length=1, choices=CLASIFICACIONES, default="A")
-    
-    estreno = models.BooleanField(default=False)
+    fecha_estreno = models.DateField(
+        editable=False, help_text="must be format: YYYY-MM-DD")
 
-    tamanio = models.DecimalField(max_digits=2, decimal_places=1)  # GB'
+    estreno = models.BooleanField(blank=True, null=True, default=None)
+
+    tamanio = models.DecimalField(max_digits=3, decimal_places=1)  # GB'
+    precio = models.DecimalField(
+        # CUP'
+        max_digits=10,  # To do: cambiar el anio que viene a 50 por la inflacion
+        decimal_places=2,
+        blank=True, null=True,
+        default=PRECIO_BASE,
+        validators=[MinValueValidator(Decimal(0.01))]
+    )
 
     soporte = models.ManyToManyField(
         'videoclub.Soporte', related_name="peliculas")
 
+    def get_price(self):
+        # TODO: implementar el calculo del precio de la pelicula
+        precio = PRECIO_BASE
+
+        if self.estreno:
+            precio += 50
+
+        if self.duracion <= 60:
+            precio += 5
+        elif self.duracion <= 120:
+            precio += 10
+        elif self.duracion <= 180:
+            precio += 15
+        else:
+            precio += 20
+
+        return precio
+
+    def save(self, *args, **kwargs):
+        # definir si la pelicula es estreno o no
+        if self.estreno == None:
+            fecha_estreno = datetime.strptime(
+                str(self.fecha_estreno), "%Y-%m-%d").date()
+            if date.today() - fecha_estreno <= timedelta(days=20):
+                self.estreno = True
+            else:
+                self.estreno = False
+
+        # asignar precio a la pelicula
+        if not self.precio or self.precio == PRECIO_BASE:
+            self.precio = self.get_price()
+
+        return super().save(*args, **kwargs)
+
     def __str__(self):
-        return f"{self.titulo} ({self.anio})"
+        return f"{self.titulo}"

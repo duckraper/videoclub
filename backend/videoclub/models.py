@@ -1,6 +1,12 @@
 from django.db import models
 from django.core.validators import MinValueValidator as MinValue
 
+ESTADOS = [
+        ("B", "Bien"),
+        ("M", "Mal"),
+        ("R", "Regular")
+    ]
+
 class Soporte(models.Model):
     """
     Representa un soporte en el videoclub.
@@ -17,11 +23,7 @@ class Soporte(models.Model):
 
     costo_adquisicion = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValue(0.01)])
 
-    ESTADOS = [
-        ("B", "Bien"),
-        ("M", "Mal"),
-        ("R", "Regular")
-    ]
+    
     estado = models.CharField(max_length=1, choices=ESTADOS, default="B")
 
     cant_peliculas_grabadas = models.PositiveIntegerField(

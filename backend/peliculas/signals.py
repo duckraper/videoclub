@@ -1,16 +1,17 @@
 import re
 from django.db import migrations
-from django.db.models.signals import post_migrate, post_save
+from django.db.models.signals import post_migrate, post_save, post_delete
 from django.dispatch import receiver
 from django.apps import apps
 import json
 import codecs
+from datetime import datetime
 
+APP_NAME = "peliculas"
 
 @receiver(post_migrate)
 def poblar_con_peliculas(sender, **kwargs):
     "Pobla la base de datos con peliculas, a partir de utils.peliculas.json"
-    APP_NAME = "peliculas"
     if sender.name == APP_NAME:
         Pelicula = apps.get_model(APP_NAME, "Pelicula")
 
@@ -24,11 +25,10 @@ def poblar_con_peliculas(sender, **kwargs):
                 tamanio=pelicula["tamanio"],
                 titulo=pelicula["titulo"],
                 genero=genero,
-                anio=pelicula["anio"],
+                fecha_estreno=pelicula["fecha_estreno"],
                 director=pelicula["director"],
                 duracion=pelicula["duracion"],
-                clasif_edad=pelicula["clasif_edad"],
-                estreno=pelicula["estreno"]
+                clasif_edad=pelicula["clasif_edad"]
             )
             if p_created:
                 print(pelicula)
