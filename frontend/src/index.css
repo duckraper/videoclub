@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Set the width of the scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/* Set the color and rounded borders of the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: rgb(117, 167, 255);
+  border-radius: 10px;
+}
+
+
+*{
+  font-family: sans-serif;
+}
+
