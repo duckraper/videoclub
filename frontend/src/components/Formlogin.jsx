@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -67,6 +67,7 @@ const Formlogin = ({ users, setLog }) => {
                             component="div"
                             className="text-red-400"
                         />
+                        
                     </div>
                     <div className="space-y-2 mb-6 relative">
                         <Field
@@ -100,7 +101,7 @@ const Formlogin = ({ users, setLog }) => {
                         type="submit"
                         className="w-full bg-orange-400 hover:bg-orange-300 rounded-lg text-white p-3 transition-all"
                     >
-                        Login <LoginOutlined />
+                        Acceder <LoginOutlined />
                     </button>
                 </Form>
             </Formik>
