@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'coreapi',
 
     'apps.authentication',
-    'apps.videoclub',
+    'apps.soportes',
     'apps.peliculas',
     'apps.prestamos',
     'apps.clientes',

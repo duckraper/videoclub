@@ -6,7 +6,6 @@ from django.forms import ValidationError
 
 from .models import User
 from .serializers import MyTokenObtainPairSerializer, UserSerializer
-from .permissions import IsSelf
 
 from rest_framework.status import (
     HTTP_200_OK,
@@ -115,7 +114,7 @@ class UserCRUDView(APIView):
 
 
 class RetrieveSelfUser(APIView):
-    permission_classes = [IsAuthenticated, IsSelf]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = User.objects.all().filter(pk=request.user.pk).first()

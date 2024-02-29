@@ -4,6 +4,8 @@ from decimal import Decimal
 from django.core.validators import MinValueValidator, MaxValueValidator
 from datetime import date, timedelta, datetime
 
+from apps import soportes
+
 GENEROS = [
     ("Comedia", "Comedia"),
     ("Acción", "Acción"),
@@ -39,11 +41,11 @@ PRECIO_BASE = Decimal(10.00)  # CUP
 
 class Pelicula(models.Model):
     """
-    # Modelo que representa una película en el videoclub.
+    # Modelo que representa una película en el soportes.
 
     ## Atributos:
         - tamanio (Decimal): El tamaño de la película en GB.
-        - soporte (ForeignKey): Soportes a los que pertenece la película.
+        - soportes (ForeignKey): Soportes a los que pertenece la película.
         - titulo (str): El título de la película.
         - genero (str): El género al que pertenece la película.
         - fecha_estreno (Date): Fecha de lanzamiento de la película.
@@ -63,7 +65,7 @@ class Pelicula(models.Model):
     duracion = models.IntegerField()  # duracion en mins
     director = models.CharField(max_length=64, default="Indefinido")
     clasif_edad = models.CharField(
-        max_length=1, choices=CLASIFICACIONES, default="A")
+        max_length=1, choices=CLASIFICACIONES, default="A", editable=False)
     fecha_estreno = models.DateField(
         editable=False, help_text="must be format: YYYY-MM-DD")
 
@@ -79,15 +81,14 @@ class Pelicula(models.Model):
         validators=[MinValueValidator(Decimal(0.01))]
     )
 
-    soporte = models.ManyToManyField(
-        'videoclub.Soporte', related_name="peliculas")
+    soportes = models.ManyToManyField(
+        'soportes.Soporte', related_name="peliculas")
+
+    disponible = models.BooleanField(default=True, blank=True)
 
     def get_price(self):
         # TODO: implementar el calculo del precio de la pelicula
         precio = PRECIO_BASE
-
-        if self.estreno:
-            precio += 50
 
         if self.duracion <= 60:
             precio += 5
@@ -97,6 +98,9 @@ class Pelicula(models.Model):
             precio += 15
         else:
             precio += 20
+
+        if self.estreno:
+            return precio + precio/2
 
         return precio
 

@@ -24,7 +24,7 @@ urlpatterns = [
     path('auth/', include('apps.authentication.urls')),
     path('api/', include('apps.peliculas.urls')),
     path('api/', include('apps.prestamos.urls')),
-    path('api/', include('apps.videoclub.urls')),
+    path('api/', include('apps.soportes.urls')),
 
     path('api/docs/', include_docs_urls(title='VideoClub APIs',
          public=True, permission_classes=[AllowAny])),

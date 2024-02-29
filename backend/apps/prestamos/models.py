@@ -12,7 +12,7 @@ class SolicitudPrestamo(models.Model):
     cliente = models.ForeignKey(
         'clientes.Cliente', on_delete=models.CASCADE, related_name="prestamos")
     soporte = models.ForeignKey(
-        'videoclub.Soporte', related_name="prestamos", on_delete=models.CASCADE)
+        'soportes.Soporte', related_name="prestamos", on_delete=models.CASCADE)
 
     precio_prestamo = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0.01)])
 

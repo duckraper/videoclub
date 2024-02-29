@@ -4,7 +4,7 @@ from .models import Pelicula
 
 
 class PeliculaSerializer(ModelSerializer):
-    soporte = PrimaryKeyRelatedField(read_only=True, many=True)
+    soportes = PrimaryKeyRelatedField(read_only=True, many=True)
 
     class Meta:
         model = Pelicula

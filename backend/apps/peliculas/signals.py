@@ -1,18 +1,16 @@
-import re
-from django.db import migrations
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 from django.apps import apps
 import json
 import codecs
-from datetime import datetime
 
 APP_NAME = "peliculas"
 
 @receiver(post_migrate)
 def poblar_con_peliculas(sender, **kwargs):
+    print(sender.name)
     "Pobla la base de datos con peliculas, a partir de utils.peliculas.json"
-    if sender.name == APP_NAME:
+    if sender.name == "apps.peliculas":
         Pelicula = apps.get_model(APP_NAME, "Pelicula")
 
         with codecs.open('static/jsons/peliculas.json', 'r', encoding='utf-8') as datos:
