@@ -1,7 +1,8 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 
 from apps.peliculas.models import GENEROS
+
 
 class Cliente(models.Model):
     """
@@ -18,15 +19,19 @@ class Cliente(models.Model):
     class Meta:
         db_table = "cliente"
 
-    ci = models.CharField(max_length=11, unique=True)
+    ci = models.CharField(max_length=11, unique=True, validators=[
+        RegexValidator(r'^\d{11}$', 'El CI debe tener 11 números sin letras')
+    ])
     nombre = models.CharField(max_length=64)
     apellidos = models.CharField(max_length=64)
-    edad = models.PositiveIntegerField()
-    municipio = models.CharField(max_length=64)
+    edad = models.PositiveIntegerField(
+        validators=[MaxValueValidator(120, 'La edad no puede ser mayor a 120')])
+    provincia = models.CharField(max_length=64)
     direccion = models.CharField(max_length=64)
     telefono = models.CharField(max_length=8)
 
     activo = models.BooleanField(default=True)
+
     cant_soportes_alquilados = models.PositiveIntegerField(
         default=0, validators=[MinValueValidator(0), MaxValueValidator(3)])
 
