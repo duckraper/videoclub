@@ -1,6 +1,6 @@
 import re
 from django.db import migrations
-from django.db.models.signals import post_migrate, post_save, post_delete
+from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 from django.apps import apps
 import json
@@ -20,11 +20,10 @@ def poblar_con_peliculas(sender, **kwargs):
 
         print("Poblando con peliculas ...")
         for pelicula in peliculas:
-            genero = pelicula["genero"]
             pelicula, p_created = Pelicula.objects.get_or_create(
                 tamanio=pelicula["tamanio"],
                 titulo=pelicula["titulo"],
-                genero=genero,
+                genero=pelicula["genero"],
                 fecha_estreno=pelicula["fecha_estreno"],
                 director=pelicula["director"],
                 duracion=pelicula["duracion"],

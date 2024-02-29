@@ -21,10 +21,10 @@ from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('authentication.urls')),
-    path('api/', include('peliculas.urls')),
-    path('api/', include('prestamos.urls')),
-    path('api/', include('videoclub.urls')),
+    path('auth/', include('apps.authentication.urls')),
+    path('api/', include('apps.peliculas.urls')),
+    path('api/', include('apps.prestamos.urls')),
+    path('api/', include('apps.videoclub.urls')),
 
     path('api/docs/', include_docs_urls(title='VideoClub APIs',
          public=True, permission_classes=[AllowAny])),

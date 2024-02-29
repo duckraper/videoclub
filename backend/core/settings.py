@@ -46,11 +46,11 @@ INSTALLED_APPS = [
     'corsheaders',
     'coreapi',
 
-    'authentication',
-    'videoclub',
-    'peliculas',
-    'prestamos',
-    'clientes',
+    'apps.authentication',
+    'apps.videoclub',
+    'apps.peliculas',
+    'apps.prestamos',
+    'apps.clientes',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -63,7 +63,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 12,
 }
-
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),

@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='pelicula',
             name='fecha_estreno',
-            field=models.DateField(default='1971-12-31', editable=False, help_text='must be format: YYYY-MM-DD'),
+            field=models.DateField(default='1971-12-31', editable=False, help_text='must be format: YYYY-MM-DD'), # type: ignore
             preserve_default=False,
         ),
         migrations.AddField(

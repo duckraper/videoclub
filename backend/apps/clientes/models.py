@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-from peliculas.models import GENEROS
+from apps.peliculas.models import GENEROS
 
 class Cliente(models.Model):
     """

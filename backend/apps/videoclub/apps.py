@@ -6,4 +6,4 @@ if settings.DEBUG:
 
 class VideoclubConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'videoclub'
+    name = 'apps.videoclub'
