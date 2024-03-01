@@ -16,7 +16,7 @@ class PeliculaListCreateView(ListCreateAPIView):
     """
     View para listar y crear películas.
     """
-    queryset = Pelicula.objects.all()
+    queryset = Pelicula.objects.all().order_by('titulo')
     serializer_class = PeliculaSerializer
 
 
