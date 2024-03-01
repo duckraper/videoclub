@@ -58,15 +58,20 @@ API dedicada a la administracion de soportes.
       - Tipos de cinta de casete
         - VHS
         - Betamax
-        - VHS-C
-        - Video8
-        - Hi8
-        - Digital8
-        - MiniDV
-        - MicroMV
         - Blu-ray
-        - UHD Blu-ray
+
+- Obtener un soporte: `GET api/soportes/{id}/`
 
 - Grabar pelicula en soporte: `POST api/soportes/{id}/grabar/`
+  
+  ```json
+  {
+    "pelicula": 82
+  }
+  ```
+
+- Dar de baja un soporte: `POST api/soportes/{id}/baja/`
+
+###### Se debe presentar un token de acceso para acceder a cada *endpoint*.
 
 ### Modelo

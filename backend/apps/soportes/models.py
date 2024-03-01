@@ -12,14 +12,7 @@ ESTADOS = [
 FORMATO_CINTA = [
     ("VHS", "VHS"),
     ("Betamax", "Betamax"),
-    ("VHS-C", "VHS-C"),
-    ("Video8", "Video8"),
-    ("Hi8", "Hi8"),
-    ("Digital8", "Digital8"),
-    ("MiniDV", "MiniDV"),
-    ("MicroMV", "MicroMV"),
-    ("Blu-ray", "Blu-ray"),
-    ("UHD Blu-ray", "UHD Blu-ray")
+    ("Blu-ray", "Blu-ray")
 ]
 
 FORMATOS_ALMACENAMIENTO = [
