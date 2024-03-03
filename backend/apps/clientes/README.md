@@ -16,3 +16,5 @@ Aplicación dedicada al manejo de clientes, con la posibilidad de registrar, edi
 - Películas alquiladas por cliente
 - Historial de alquileres de cliente
 - Recomendacion de peliculas basadas en clientes fijos
+
+<!-- TODO hacer el readme de clientes -->

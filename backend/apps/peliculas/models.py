@@ -1,10 +1,8 @@
 from django.db import models
 from decimal import Decimal
-# importo los validadores
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator
 from datetime import date, timedelta, datetime
 
-from apps import soportes
 
 GENEROS = [
     ("Comedia", "Comedia"),
@@ -39,29 +37,28 @@ CLASIFICACIONES = [
 PRECIO_BASE = Decimal(10.00)  # CUP
 
 
-class Pelicula(models.Model):
-    """
-    # Modelo que representa una película en el soportes.
+class Genero(models.Model):
 
-    ## Atributos:
-        - tamanio (Decimal): El tamaño de la película en GB.
-        - soportes (ForeignKey): Soportes a los que pertenece la película.
-        - titulo (str): El título de la película.
-        - genero (str): El género al que pertenece la película.
-        - fecha_estreno (Date): Fecha de lanzamiento de la película.
-        - duracion (int): La duración de la película en minutos.
-        - director (str): El director de la película.
-        - precio (Decimal): El precio base de la pelicula
-        - clasif_edad (str): La clasificación de edad de la película.
-        - estreno (bool): Indica si la película es un estreno o no.
-    """
+    class Meta:
+        db_table = "genero"
+        ordering = ["nombre"]
+
+    nombre = models.CharField(max_length=64, unique=True, choices=GENEROS)
+
+    def __str__(self):
+        return f"{self.nombre}"
+
+
+class Pelicula(models.Model):
 
     class Meta:
         db_table = "pelicula"
+        ordering = ["fecha_estreno", "titulo"]
 
     titulo = models.CharField(max_length=64)
-    genero = models.CharField(
-        max_length=64, default="Indefinido", choices=GENEROS)
+    genero = models.ForeignKey(
+        Genero, on_delete=models.CASCADE, related_name="peliculas")
+    
     duracion = models.IntegerField()  # duracion en mins
     director = models.CharField(max_length=64, default="Indefinido")
     clasif_edad = models.CharField(
@@ -83,8 +80,6 @@ class Pelicula(models.Model):
 
     soportes = models.ManyToManyField(
         'soportes.Soporte', related_name="peliculas")
-
-    disponible = models.BooleanField(default=True, blank=True)
 
     def get_price(self):
         # TODO: implementar el calculo del precio de la pelicula

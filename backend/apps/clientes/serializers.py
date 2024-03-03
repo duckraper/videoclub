@@ -1,24 +1,25 @@
-from rest_framework.serializers import PrimaryKeyRelatedField, ModelSerializer
-from .models import Cliente, ClienteTemporal, ClienteFijo
+from rest_framework.serializers import ModelSerializer
+from .models import Cliente, ClienteFijo, Invalidacion
+from apps.peliculas.serializers import GeneroSerializer
 
 
 class ClienteSerializer(ModelSerializer):
+
     class Meta:
         model = Cliente
-        exclude = ['cant_soportes_alquilados']
+        exclude = ['max_soportes_prestados', 'activo']
 
 
-class ClienteTemporalSerializer(ModelSerializer):
-    persona = ClienteSerializer()
+class ClienteFijoSerializer(ClienteSerializer):
+    genero_favorito = GeneroSerializer(read_only=True)
 
-    class Meta:
-        model = ClienteTemporal
-        exclude = ['max_soportes_prestados']
-
-
-class ClienteFijoSerializer(ModelSerializer):
-    persona = ClienteSerializer()
-
-    class Meta:
+    class Meta(ClienteSerializer.Meta):
         model = ClienteFijo
-        exclude = ['max_soportes_prestados']
+
+
+class InvalidacionSerializer(ModelSerializer):
+    cliente = ClienteSerializer(read_only=True)
+
+    class Meta:
+        model = Invalidacion
+        fields = '__all__'

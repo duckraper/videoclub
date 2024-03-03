@@ -1,0 +1,18 @@
+[
+    {
+        "username": "fermin",
+        "password": "fermin",
+        "first_name": "Fermin",
+        "last_name": "Garcia",
+        "email": "ferminga@gmail.com",
+        "is_staff": true
+    },
+    {
+        "username": "emilito02",
+        "first_name": "Emilio Jose",
+        "last_name": "Nuñez Prieto",
+        "password": "emilito02",
+        "email": "emilit02@yahoo.com",
+        "is_staff": false
+    }
+]

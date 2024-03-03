@@ -72,6 +72,34 @@ API dedicada a la administracion de soportes.
 
 - Dar de baja un soporte: `POST api/soportes/{id}/baja/`
 
-###### Se debe presentar un token de acceso para acceder a cada *endpoint*.
+#### Se debe presentar un token de acceso para acceder a cada *endpoint*
 
-### Modelo
+### Modelos
+
+#### Soporte
+
+- id
+- costo_adquisicion*
+- estado
+  - B (Bien)
+  - R (Regular)
+  - M (Mal)
+- cant_peliculas_grabadas
+- cant_prestamos
+- disponible
+
+#### Casete (Soporte)
+
+- ... (atributos de soporte)
+- formato_cinta
+  
+#### DVD (Soporte)
+
+- ... (atributos de soporte)
+- formato_almacenamiento
+- capacidad
+  
+#### VCD (Soporte)
+
+- ... (atributos de soporte)
+- marca

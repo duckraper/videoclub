@@ -34,7 +34,7 @@ class ChangeEstrenoStateView(APIView):
     """
     permission_classes = [AllowAny]
 
-    def get(self):
+    def post(self):
         peliculas = Pelicula.objects.all().filter(estreno=True)
 
         print("Chequeando peliculas en estreno...")

@@ -1,4 +1,4 @@
-from .models import VCD, Casete, DVD, Soporte
+from .models import VCD, Casete, DVD
 
 
 def parseSoporte(soporte):

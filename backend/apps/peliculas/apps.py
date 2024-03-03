@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-from .signals import poblar_con_peliculas
+# from ..signals import poblar_con_peliculas
 
 
 class PeliculasConfig(AppConfig):
