@@ -6,54 +6,68 @@ El objetivo de este proyecto es desarrollar un sistema integral para la gestión
 
 ## Instalación
 
-### Backend (Django)
+### Requisitos previos
 
-1. Clona este repositorio en tu máquina local.
+1. Clona este repositorio en tu máquina local:
 
-2. Ve al directorio del backend del proyecto:
-
-    ```bash
-    cd videoclub/backend
+    ```shell
+    git clone https://github.com/duckraper/videoclub
     ```
 
-3. Crea un entorno virtual (se recomienda utilizar `venv`):
+2. Asegúrate de tener instalado [Python](https://www.python.org/downloads/) y [Node.js](https://nodejs.org/es/download/).
 
-    ```bash
+3. Ve al directorio del proyecto:
+
+    ```shell
+    cd videoclub
+    ```
+
+### Backend (Django)
+
+1. Navega al directorio del proyecto backend:
+
+    ```shell
+    cd backend
+    ```
+
+2. Crea un entorno virtual (se recomienda utilizar `venv`):
+
+    ```shell
     python -m venv .venv
     ```
 
-4. Activa el entorno virtual:
+3. Activa el entorno virtual:
     - En Windows:
 
-        ```bash
+        ```shell
         .\.venv\Scripts\activate
         ```
 
     - En macOS y Linux:
 
-        ```bash
+        ```shell
         source .venv/bin/activate
         ```
 
-5. Instala las dependencias del proyecto:
+4. Instala las dependencias del proyecto:
 
-    ```bash
+    ```shell
     pip install -r requirements.txt
     ```
 
-6. Realiza las migraciones de la base de datos:
+5. Realiza las migraciones de la base de datos:
 
-    ```bash
+    ```shell
     python manage.py migrate
     ```
 
-7. Ejecuta el servidor backend:
+6. Ejecuta el servidor backend:
 
-    ```bash
+    ```shell
     python manage.py runserver
     ```
 
-8. El servidor backend estará disponible en `http://localhost:8000`.
+7. El servidor backend estará disponible en `http://localhost:8000`.
 
 - #### [Documentacion de la API](http://localhost:8000/api/docs/)
 
@@ -61,18 +75,18 @@ El objetivo de este proyecto es desarrollar un sistema integral para la gestión
 
 1. Ve al directorio del proyecto frontend:
 
-    ```bash
+    ```shell
     cd videoclub/frontend
     ```
 
 2. Instala las dependencias del proyecto:
 
-    ```bash
+    ```shell
     npm install
     ```
 
 3. Ejecuta el servidor de desarrollo:
 
-    ```bash
+    ```shell
     npm run dev
     ```
