@@ -8,7 +8,7 @@ from rest_framework.status import (
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
-    HTTP_404_NOT_FOUND,
+    HTTP_404_NOT_FOUND
 )
 
 from apps.peliculas.models import Genero
@@ -33,7 +33,7 @@ class ListCreateClienteView(APIView):
 
     def post(self, request):
         """
-        Si se intenta crear un cliente con una cédula ya existente, se reactiva el cliente
+        Si se intenta crear un cliente con una cédula ya existente y esta inactivo, se reactiva el cliente
         """
 
         try:
@@ -53,6 +53,14 @@ class ListCreateClienteView(APIView):
             return Response(serializer.data, status=HTTP_201_CREATED)
 
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+
+class ListClientesFijosView(APIView):
+    def get(self, request):
+        clientes = ClienteFijo.objects.all().filter(activo=True)
+        serializer = ClienteFijoSerializer(clientes, many=True)
+
+        return Response(serializer.data, status=HTTP_200_OK)
 
 
 class RetrieveUpdateDestroyClienteView(APIView):

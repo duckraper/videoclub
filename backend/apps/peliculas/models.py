@@ -66,8 +66,6 @@ class Pelicula(models.Model):
     fecha_estreno = models.DateField(
         editable=False, help_text="must be format: YYYY-MM-DD")
 
-    estreno = models.BooleanField(blank=True, null=True, default=None)
-
     tamanio = models.DecimalField(max_digits=3, decimal_places=1)  # GB'
     precio = models.DecimalField(
         # CUP'
@@ -80,6 +78,10 @@ class Pelicula(models.Model):
 
     soportes = models.ManyToManyField(
         'soportes.Soporte', related_name="peliculas")
+
+    @property
+    def estreno(self):
+        return date.today() - self.fecha_estreno <= timedelta(days=20)
 
     def get_price(self):
         # TODO: implementar el calculo del precio de la pelicula
@@ -100,15 +102,6 @@ class Pelicula(models.Model):
         return precio
 
     def save(self, *args, **kwargs):
-        # definir si la pelicula es estreno o no
-        if self.estreno == None:
-            fecha_estreno = datetime.strptime(
-                str(self.fecha_estreno), "%Y-%m-%d").date()
-            if date.today() - fecha_estreno <= timedelta(days=20):
-                self.estreno = True
-            else:
-                self.estreno = False
-
         # asignar precio a la pelicula
         if not self.precio or self.precio == PRECIO_BASE:
             self.precio = self.get_price()

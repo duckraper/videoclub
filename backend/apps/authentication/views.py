@@ -1,6 +1,8 @@
+from email import message
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from django.forms import ValidationError
 
@@ -21,6 +23,19 @@ class MyTokenObtainPairView(TokenObtainPairView):
     permission_classes = [AllowAny]
     serializer_class = MyTokenObtainPairSerializer
 
+
+class LogoutView(APIView):
+
+    def post(self, request):
+        try:
+            refresh_token = request.data.get('refresh')
+
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response({"message": "Cierre de sesion exitoso"}, status=HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({"message": f"Error al cerrar sesion: {str(e)}"}, status=HTTP_400_BAD_REQUEST)
 
 class UserViewSet(APIView):
     permission_classes = [IsAdminUser, IsAuthenticated]
@@ -50,10 +65,10 @@ class UserCRUDView(APIView):
 
     def get_user(self, pk):
         user = User.objects.filter(pk=pk).first()
-        
+
         if user and user.is_active:
             return user
-        
+
         return None
 
     def get(self, request, pk):

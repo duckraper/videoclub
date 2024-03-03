@@ -1,5 +1,3 @@
-from os import error
-from random import randint
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 
@@ -8,7 +6,7 @@ from ..peliculas.models import Genero
 PROVINCIAS = [
     ("PRI", "Pinar del Río"),
     ("ART", "Artemisa"),
-    ("LHA", "La Habana"),
+    ("HAB", "La Habana"),
     ("MAY", "Mayabeque"),
     ("MTZ", "Matanzas"),
     ("CFG", "Cienfuegos"),
@@ -31,7 +29,7 @@ class Cliente(models.Model):
 
     ci = models.CharField(
         max_length=11,
-        unique=True,
+        unique=True,  
         validators=[
             RegexValidator(r"^(?:[0-9]{2})(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])[0-9]{5}$",
                            'El CI debe tener 11 números sin letras')
@@ -76,7 +74,7 @@ class Cliente(models.Model):
         return hasattr(self, "invalidacion")
 
     def __str__(self):
-        return f"{self.nombre} {self.apellidos} ({self.ci})"
+        return f"{self.nombre} {self.apellidos}"
 
 
 class ClienteFijo(Cliente):

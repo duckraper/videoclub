@@ -5,12 +5,20 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView
 )
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.status import HTTP_200_OK
 from datetime import date, timedelta, datetime
 
-from .models import Pelicula
+from .models import Pelicula, Genero
 from .serializers import PeliculaSerializer
 
+
+class GeneroListView(ReadOnlyModelViewSet):
+    """
+    View para listar géneros.
+    """
+    queryset = Genero.objects.all().order_by('nombre')
+    serializer_class = PeliculaSerializer
 
 class PeliculaListCreateView(ListCreateAPIView):
     """
@@ -27,24 +35,3 @@ class PeliculaRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Pelicula.objects.all()
     serializer_class = PeliculaSerializer
 
-
-class ChangeEstrenoStateView(APIView):
-    """
-    Chequea que peliculas ya no son estrenos
-    """
-    permission_classes = [AllowAny]
-
-    def post(self):
-        peliculas = Pelicula.objects.all().filter(estreno=True)
-
-        print("Chequeando peliculas en estreno...")
-        for pelicula in peliculas:
-            fecha_estreno = datetime.strptime(
-                str(pelicula.fecha_estreno), "%Y-%m-%d").date()
-
-            if date.today() - fecha_estreno >= timedelta(days=20):
-                print(f"{pelicula.titulo} ya no es un estreno. Actualizando...")
-                pelicula.estreno = False
-                pelicula.save()
-
-        return Response({"message": "Estados de estreno actualizados."}, status=HTTP_200_OK)

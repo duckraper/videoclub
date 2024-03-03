@@ -4,7 +4,7 @@
 
 API dedicada a la administracion de soportes.
 
-### Requisitos
+## Requisitos
 
 - Obtener la lista de soportes disponibles globalmente
 - Obtener la lista de peliculas grabadas en un dado soporte
@@ -12,10 +12,10 @@ API dedicada a la administracion de soportes.
 - Poder dar de baja a un soporte de baja calidad
 - Registro de todas las acciones con un soporte
 
-### Endpoints
+## Endpoints
 
-- Obtener soportes: `GET api/soportes/`
-- Agregar soportes: `POST api/soportes/`
+- `GET api/soportes/` Obtener soportes
+- `POST api/soportes/` Agregar soportes
   - Formato del JSON Body
     - VCD
   
@@ -60,9 +60,9 @@ API dedicada a la administracion de soportes.
         - Betamax
         - Blu-ray
 
-- Obtener un soporte: `GET api/soportes/{id}/`
+- `GET api/soportes/{id}/` Obtener un soporte
 
-- Grabar pelicula en soporte: `POST api/soportes/{id}/grabar/`
+- `POST api/soportes/{id}/grabar/` Grabar pelicula en soporte
   
   ```json
   {
@@ -70,36 +70,59 @@ API dedicada a la administracion de soportes.
   }
   ```
 
-- Dar de baja un soporte: `POST api/soportes/{id}/baja/`
+- `POST api/soportes/{id}/baja/` Dar de baja un soporte
 
-#### Se debe presentar un token de acceso para acceder a cada *endpoint*
+### Se debe presentar un token de acceso para acceder a cada *endpoint*
 
-### Modelos
+## Modelos
 
-#### Soporte
+### Soporte
 
-- id
-- costo_adquisicion*
-- estado
+- `costo_adquisicion`: Costo de adquisicion del soporte
+- `estado`: Estado del soporte
   - B (Bien)
   - R (Regular)
   - M (Mal)
-- cant_peliculas_grabadas
-- cant_prestamos
-- disponible
+- `cant_peliculas_grabadas`: Cantidad de peliculas grabadas en tiempo real
+- `cant_prestamos`: Cantidad de prestamos totales
+- `disponible`: Disponibilidad del soporte
 
-#### Casete (Soporte)
+### Casete (Soporte)
 
-- ... (atributos de soporte)
-- formato_cinta
+- `formato_cinta`: Formato de cinta que usa el casete (VHS, Betamax, Blu-ray)
   
-#### DVD (Soporte)
+### DVD (Soporte)
 
-- ... (atributos de soporte)
-- formato_almacenamiento
-- capacidad
+- `formato_almacenamiento`: Formato de almacenamiento del DVD (Dato, DVDVideo)
+- `capacidad`: Capacidad del DVD (4.7, 8.5)
   
-#### VCD (Soporte)
+### VCD (Soporte)
 
-- ... (atributos de soporte)
-- marca
+- `marca`: Marca del fabricante del VCD
+
+## Diagrama de Clases
+
+```plaintext
+                                                   +------------------+
+                                                   |      Casete      |
+                                                 1 +------------------+
+                                          +--------| soporte_ptr_id   |
+                                          |        | formato_cinta    |
+    +------------------+                  |        +------------------+   
+    |     Soporte      |                  |
+    +------------------+                  |        +-------------------+
+    | costo_adquisic.. |                  |        |       DVD         |
+    | estado           |  1               |      1 +-------------------+
+    | cant_peliculas.. |<-----------------+--------| soporte_ptr_id    |
+    | cant_prestamos   |                  |        | formato_almacen.. |
+    | disponible       |                  |        | capacidad         |
+    +------------------+                  |        +-------------------+
+                                          |     
+                                          |        +-------------------+
+                                          |        |       VCD         |
+                                          |      1 +-------------------+
+                                          +--------| soporte_ptr_id    |
+                                                   | marca             |
+                                                   +-------------------+
+
+```
