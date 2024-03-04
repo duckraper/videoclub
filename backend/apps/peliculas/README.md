@@ -10,6 +10,9 @@ API dedicada a la administracion de peliculas grabadas en el sistema
 - Ver, editar, eliminar y crear una pelicula
 - Ver generos disponibles
 - Chequear si una pelicula es estreno
+- Al agregar una pelicula verificar que no este repetida
+  - Se comprobara si una pelicula es repetida, si coincide, el titulo, director y tamanio
+  - Se permitiran peliculas de mismo titulo y director si y solo si tienen diferente tamanio
 
 ## Endpoints
 
@@ -62,19 +65,20 @@ API dedicada a la administracion de peliculas grabadas en el sistema
 
 ```plaintext
 
-+-------------------+ 1     +-------------------+
-|     Genero        +---+   |     Pelicula      |
-+-------------------+   |   +-------------------+
-| nombre            |   |   | titulo            |
-+-------------------+   +---+ genero            |
-                          1 | duracion          |
-                            | director          |
-                            | duracion          |
-                            | clasif_edad       |
-                            | fecha_estreno     |
-                            | tamanio           |
-                            | estreno           |
-                            | precio            |
-                            | soportes          |
-                            +-------------------+
+    +-------------------+
+    |     Pelicula      |
+    +-------------------+
+    | titulo            |
+    | genero            |
+    | duracion          |
+    | director          |
+    | duracion          |
+    | clasif_edad       |
+    | fecha_estreno     |
+    | tamanio           |
+    | estreno           |
+    | precio            |
+    | soportes          |
+    +-------------------+
+    
 ```
