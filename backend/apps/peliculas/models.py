@@ -76,6 +76,7 @@ class Pelicula(models.Model):
         validators=[MinValueValidator(Decimal(0.01))]
     )
 
+    disponible = models.BooleanField(default=True)
     soportes = models.ManyToManyField(
         'soportes.Soporte', related_name="peliculas")
 
@@ -102,8 +103,7 @@ class Pelicula(models.Model):
         return precio
 
     def save(self, *args, **kwargs):
-        # asignar precio a la pelicula
-        if not self.precio or self.precio == PRECIO_BASE:
+        if not self.pk or not self.precio or self.precio == PRECIO_BASE:
             self.precio = self.get_price()
 
         return super().save(*args, **kwargs)
