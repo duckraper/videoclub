@@ -71,7 +71,7 @@ class SolicitudPrestamo(models.Model):
     def aplicar_recargo(self, costo):
         return costo + self.recargo if self.recargo > 0 else costo
 
-    # ========================== Fin de calcular el costo del préstamo ========================== #
+    # ======================= Fin de calcular el costo del préstamo ======================== #
 
     def has_changed(self, *fields):
         """

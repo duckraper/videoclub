@@ -5,18 +5,11 @@ from rest_framework.generics import (
 )
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND, HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from rest_framework.viewsets import ReadOnlyModelViewSet
-from .models import Pelicula, Genero
+from .models import Pelicula
 from .serializers import PeliculaSerializer
 
-
-class GeneroListView(ReadOnlyModelViewSet):
-    """
-    View para listar géneros.
-    """
-    queryset = Genero.objects.all()
-    serializer_class = PeliculaSerializer
 
 class PeliculaListCreateView(ListCreateAPIView):
     """

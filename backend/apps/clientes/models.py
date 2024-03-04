@@ -1,7 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
+from django.forms import CharField
 
-from ..peliculas.models import Genero
+from ..peliculas.models import GENEROS
 
 PROVINCIAS = [
     ("PRI", "Pinar del Río"),
@@ -82,13 +83,7 @@ class ClienteFijo(Cliente):
     class Meta:
         db_table = "cliente_fijo"
 
-    genero_favorito = models.ForeignKey(
-        Genero,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="clientes_fijos",
-    )
+    genero_favorito = models.CharField(max_length=32, choices=GENEROS, default='Indefinido')
 
     def save(self, *args, **kwargs):
         self.max_soportes_prestados = 3

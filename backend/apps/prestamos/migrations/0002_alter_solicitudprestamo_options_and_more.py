@@ -63,13 +63,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='solicitudprestamo',
             name='dias_para_devolucion',
-            field=models.PositiveSmallIntegerField(default=django.utils.timezone.now, validators=[django.core.validators.MinValueValidator(1)]), # type: ignore
+            field=models.PositiveSmallIntegerField(default=1, validators=[django.core.validators.MinValueValidator(1)]), # type: ignore
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='solicitudprestamo',
             name='empleado_que_solicita',
-            field=models.ForeignKey(default=django.utils.timezone.now, on_delete=django.db.models.deletion.CASCADE, related_name='prestamos_realizados', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(default=2, on_delete=django.db.models.deletion.CASCADE, related_name='prestamos_realizados', to=settings.AUTH_USER_MODEL),
             preserve_default=False,
         ),
     ]

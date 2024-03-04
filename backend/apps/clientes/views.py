@@ -11,8 +11,6 @@ from rest_framework.status import (
     HTTP_404_NOT_FOUND
 )
 
-from apps.peliculas.models import Genero
-
 from .serializers import ClienteSerializer, ClienteFijoSerializer, InvalidacionSerializer
 from .models import Cliente, ClienteFijo, Invalidacion
 from .utils import parseCliente
@@ -170,19 +168,10 @@ class CrearClienteFijoView(APIView):
         if isinstance(cliente, ClienteFijo):
             return Response("Cliente ya es fijo", status=HTTP_400_BAD_REQUEST)
 
-        try:
-            genero = Genero.objects.get(
-                nombre=request.data.get("genero_favorito"))
-        except Genero.DoesNotExist:
-            genero = None
-
-        if not genero:
-            return Response("Género no encontrado", status=HTTP_404_NOT_FOUND)
-
         with transaction.atomic():
             cliente.delete()
 
-            cliente_fijo: ClienteFijo = ClienteFijo.objects.create(
+            cliente_fijo, created = ClienteFijo.objects.get_or_create(
                 ci=cliente.ci,
                 nombre=cliente.nombre,
                 apellidos=cliente.apellidos,
@@ -193,9 +182,12 @@ class CrearClienteFijoView(APIView):
                 fecha_registro=cliente.fecha_registro,
                 activo=cliente.activo,
                 cant_soportes_alquilados=cliente.cant_soportes_alquilados,
-                genero_favorito=genero
+                genero_favorito=request.data.get("genero_favorito")
             )
 
+        if not created:
+            return Response("Cliente ya es fijo", status=HTTP_400_BAD_REQUEST)
+        
         return Response("Cliente convertido a fijo", status=HTTP_200_OK)
 
 

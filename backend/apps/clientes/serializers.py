@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from .models import Cliente, ClienteFijo, Invalidacion
-from apps.peliculas.serializers import GeneroSerializer
+from apps.peliculas.models import GENEROS
 
 
 class ClienteSerializer(ModelSerializer):
@@ -11,7 +11,6 @@ class ClienteSerializer(ModelSerializer):
 
 
 class ClienteFijoSerializer(ClienteSerializer):
-    genero_favorito = GeneroSerializer(read_only=True)
 
     class Meta(ClienteSerializer.Meta):
         model = ClienteFijo

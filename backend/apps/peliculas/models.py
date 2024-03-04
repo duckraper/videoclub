@@ -24,7 +24,9 @@ GENEROS = [
     ("Guerra", "Guerra"),
     ("Biografía", "Biografía"),
     ("Fantástico", "Fantástico"),
-    ("Infantil", "Infantil")
+    ("Infantil", "Infantil"),
+    ("Indie", "Indie"),
+    ("Indefinido", "Indefinido")
 ]
 
 CLASIFICACIONES = [
@@ -36,19 +38,6 @@ CLASIFICACIONES = [
 
 PRECIO_BASE = Decimal(10.00)  # CUP
 
-
-class Genero(models.Model):
-
-    class Meta:
-        db_table = "genero"
-        ordering = ["nombre"]
-
-    nombre = models.CharField(max_length=64, unique=True, choices=GENEROS)
-
-    def __str__(self):
-        return f"{self.nombre}"
-
-
 class Pelicula(models.Model):
 
     class Meta:
@@ -56,15 +45,13 @@ class Pelicula(models.Model):
         ordering = ["fecha_estreno", "titulo"]
 
     titulo = models.CharField(max_length=64)
-    genero = models.ForeignKey(
-        Genero, on_delete=models.CASCADE, related_name="peliculas")
+    genero = models.CharField(max_length=32, choices=GENEROS, default='Indefinido')
     
     duracion = models.IntegerField()  # duracion en mins
     director = models.CharField(max_length=64, default="Indefinido")
     clasif_edad = models.CharField(
         max_length=1, choices=CLASIFICACIONES, default="A", editable=False)
-    fecha_estreno = models.DateField(
-        editable=False, help_text="must be format: YYYY-MM-DD")
+    fecha_estreno = models.DateField(help_text="must be format: YYYY-MM-DD")
 
     tamanio = models.DecimalField(max_digits=3, decimal_places=1)  # GB'
     precio = models.DecimalField(
@@ -82,6 +69,9 @@ class Pelicula(models.Model):
 
     @property
     def estreno(self):
+        if self.fecha_estreno is None:
+            return False
+        
         return date.today() - self.fecha_estreno <= timedelta(days=20)
 
     def get_price(self):

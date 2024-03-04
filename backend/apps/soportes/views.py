@@ -126,6 +126,7 @@ class GrabarPeliculaView(APIView):
                     if soporte.cant_peliculas_grabadas < soporte.cant_max_peliculas and \
                             soporte.estado != "M" and soporte.disponible:
                         soporte.cant_peliculas_grabadas += 1
+                        soporte.peliculas.add(pelicula) # type:ignore
                         soporte.save()
 
                         pelicula.soportes.add(soporte)
@@ -141,6 +142,7 @@ class GrabarPeliculaView(APIView):
                     if dvd and dvd.disponible:
                         if pelicula.tamanio < dvd.capacidad and dvd.estado == 'B' and dvd.disponible:
                             soporte.cant_peliculas_grabadas += 1
+                            soporte.peliculas.add(pelicula) # type: ignore
                             soporte.save()
 
                             dvd.cant_peliculas_grabadas += 1
