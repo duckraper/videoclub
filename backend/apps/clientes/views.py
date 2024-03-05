@@ -13,7 +13,7 @@ from rest_framework.status import (
 
 from .serializers import ClienteSerializer, ClienteFijoSerializer, InvalidacionSerializer
 from .models import Cliente, ClienteFijo, Invalidacion
-from .utils import parseCliente
+from .utils import parse_cliente
 
 
 class ListCreateClienteView(APIView):
@@ -77,7 +77,7 @@ class RetrieveUpdateDestroyClienteView(APIView):
             return Response("Cliente no encontrado", status=HTTP_404_NOT_FOUND)
 
         if cliente.activo:
-            cliente = parseCliente(cliente)
+            cliente = parse_cliente(cliente)
 
             if isinstance(cliente, ClienteFijo):
                 serializer = ClienteFijoSerializer(cliente)
@@ -118,7 +118,7 @@ class RetrieveUpdateDestroyClienteView(APIView):
             return Response("Cliente no encontrado", status=HTTP_404_NOT_FOUND)
 
         if cliente.activo:
-            cliente = parseCliente(cliente)
+            cliente = parse_cliente(cliente)
 
             if isinstance(cliente, ClienteFijo):
                 serializer = ClienteFijoSerializer(
@@ -163,7 +163,7 @@ class CrearClienteFijoView(APIView):
         if not cliente.activo:
             return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
 
-        cliente = parseCliente(cliente)
+        cliente = parse_cliente(cliente)
 
         if isinstance(cliente, ClienteFijo):
             return Response("Cliente ya es fijo", status=HTTP_400_BAD_REQUEST)
@@ -210,7 +210,7 @@ class InvalidarClienteView(APIView):
         if not cliente.activo:
             return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
 
-        if parseCliente(cliente).__class__.__name__ == "ClienteFijo":
+        if parse_cliente(cliente).__class__.__name__ == "ClienteFijo":
             return Response("No se puede invalidar un cliente fijo", status=HTTP_400_BAD_REQUEST)
 
         motivo = request.data.get("motivo")

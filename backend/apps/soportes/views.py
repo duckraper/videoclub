@@ -103,7 +103,6 @@ class DarBajaSoporteView(APIView):
         return Response("Soporte no encontrado", status=HTTP_404_NOT_FOUND)
 
 
-# TODO: Implementar sistema de cola para grabar peliculas en dependencia del soporte que sea
 class GrabarPeliculaView(APIView):
     def post(self, request, pk):
         try:

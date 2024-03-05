@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
-from django.forms import CharField
 
 from ..peliculas.models import GENEROS
 
@@ -58,8 +57,6 @@ class Cliente(models.Model):
     fecha_registro = models.DateField(auto_now_add=True, editable=False)
     activo = models.BooleanField(default=True)
 
-
-
     cant_soportes_alquilados = models.PositiveIntegerField(
         default=0,
         validators=[
@@ -74,8 +71,13 @@ class Cliente(models.Model):
     def invalidado(self):
         return hasattr(self, "invalidacion")
 
+    @property
+    def es_fijo(self):
+        return self.pk in ClienteFijo.objects.all().values_list('pk', flat=True)
+
     def __str__(self):
         return f"{self.nombre} {self.apellidos}"
+
 
 class ClienteFijo(Cliente):
 
@@ -88,7 +90,6 @@ class ClienteFijo(Cliente):
         self.max_soportes_prestados = 3
 
         return super().save(*args, **kwargs)
-
 
 
 class Invalidacion(models.Model):

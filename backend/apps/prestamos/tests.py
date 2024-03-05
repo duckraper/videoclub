@@ -1,3 +1,8 @@
 from django.test import TestCase
 
-# Create your tests here.
+from .models import SolicitudPrestamo
+from apps.soportes.models import Soporte
+from apps.clientes.models import Cliente
+from datetime import date
+from decimal import Decimal
+

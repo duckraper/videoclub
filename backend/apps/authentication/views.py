@@ -5,6 +5,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from django.forms import ValidationError
+import rest_framework.viewsets
+from rest_framework.generics import DestroyAPIView
 
 from .models import User
 from .serializers import MyTokenObtainPairSerializer, UserSerializer
@@ -57,7 +59,7 @@ class UserViewSet(APIView):
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
         except ValidationError as e:
-            return Response(str(e), status=HTTP_400_BAD_REQUEST)
+            return Response(f"{str(e)} hola", status=HTTP_400_BAD_REQUEST)
 
 
 class UserCRUDView(APIView):
@@ -121,8 +123,12 @@ class UserCRUDView(APIView):
         user = self.get_user(pk)
 
         if user:
-            user.is_active = False
-            user.save()
+            try:
+                user.delete()
+                
+            except Exception as e:
+                return Response(str(e), status=HTTP_400_BAD_REQUEST)
+            
             return Response(status=HTTP_204_NO_CONTENT)
 
         return Response(status=HTTP_404_NOT_FOUND)

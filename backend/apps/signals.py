@@ -9,7 +9,6 @@ import codecs
 
 @receiver(post_migrate)
 def poblar_con_peliculas(sender, **kwargs):
-    print(sender.name)
     "Pobla la base de datos con peliculas, a partir de utils.peliculas.json"
     if sender.name == "apps.peliculas":
         Pelicula = apps.get_model("peliculas", "Pelicula")
