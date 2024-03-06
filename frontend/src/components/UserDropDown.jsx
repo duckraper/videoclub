@@ -12,9 +12,14 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+import { auth_state, loginState } from "../app/slices/Auth.slice";
+import { useDispatch, useSelector } from "react-redux";
+
 
 export default function AccountMenu() {
+    const { user } = useSelector(auth_state);
     const navigateClose = useNavigate();
+    
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -28,6 +33,7 @@ export default function AccountMenu() {
     }
     return (
         <React.Fragment>
+            <div>Bienvenido, {user} </div>
             <Box
                 sx={{
                     display: "flex",
@@ -48,6 +54,7 @@ export default function AccountMenu() {
                         <Avatar sx={{ width: 32, height: 32 }} className=" border-orange-400 border-2">M</Avatar>
                     </IconButton>
                 </Tooltip>
+                
             </Box>
             <Menu
                 anchorEl={anchorEl}

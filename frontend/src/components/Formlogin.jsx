@@ -6,9 +6,17 @@ import {
     VisibilityOutlined,
     LoginOutlined,
 } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../app/services/Auth.service";
+import { auth_state, loginState } from "../app/slices/Auth.slice";
 import { useNavigate } from "react-router-dom";
 
-const Formlogin = ({ users, setLog }) => {
+const Formlogin = ({}) => {
+    const [login, { isSuccess, isError, isLoading }] = useLoginMutation();
+ 
+    const dispatch = useDispatch();
+    const { authenticated } = useSelector(auth_state);
+    console.log(authenticated)
     const navigate = useNavigate();
 
     const initialValues = {
@@ -21,24 +29,32 @@ const Formlogin = ({ users, setLog }) => {
         password: Yup.string().required("Campo Obligatorio"),
     });
 
-    const handleSubmit = (values, { setFieldError }) => {
-        const { username, password } = values;
-        const user = users.find(
-            (user) => user.username === username && user.password === password
-        );
-        if (user) {
-            setLog(user.role);
-            console.log(user.role);
-            navigate(`/${user.role}`);
-        } else {
-            if (!users.some((user) => user.username === username)) {
-                setFieldError("username", "Usuario incorrecto");
-            }
-            else if (!users.some((user) => user.password === password)) {
-                setFieldError("password", "Contraseña incorrecta");
-            }
+    const handleSubmit = (values, actions) => {
+        actions.setSubmitting(false);
+        actions.resetForm();
+    
+        login({ username: values.username, password: values.password });
+      };
+    
+      React.useEffect(() => {
+        if (isSuccess) {
+          dispatch(loginState());
+          navigate("/admini");
+          console.log("exito")
         }
-    };
+    
+        if (isError) {
+          console.log("error")
+          navigate("/");
+        }
+      }, [isLoading]);
+    
+      React.useEffect(() => {
+        if (authenticated) {
+          navigate("/");
+        }
+
+      }, []);
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -53,20 +69,28 @@ const Formlogin = ({ users, setLog }) => {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
+              {({
+              values,
+              errors,
+              touched,
+              isValid,
+              handleChange,
+              handleBlur,
+            }) => (  
                 <Form>
                     <div className="space-y-2 mb-6">
                         <Field
                             type="text"
                             id="username"
                             name="username"
-                            className="border-2 border-gray-200 w-full rounded-lg focus:outline-none p-3"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none p-3 ${
+                                errors.username && touched.username && "border-red-400"
+                              } `}
                             placeholder="Usuario"
                         />
-                        <ErrorMessage
-                            name="username"
-                            component="div"
-                            className="text-red-400"
-                        />
+                        
                         
                     </div>
                     <div className="space-y-2 mb-6 relative">
@@ -74,7 +98,11 @@ const Formlogin = ({ users, setLog }) => {
                             type={showPassword ? "text" : "password"}
                             id="password"
                             name="password"
-                            className="border-2 border-gray-200 w-full rounded-lg focus:outline-none p-3 pr-10"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none p-3 ${
+                                errors.password && touched.password && "border-red-400"
+                              } `}
                             placeholder="Contraseña"
                         />
                         <span
@@ -91,11 +119,7 @@ const Formlogin = ({ users, setLog }) => {
                                 />
                             )}
                         </span>
-                        <ErrorMessage
-                            name="password"
-                            component="div"
-                            className="text-red-400"
-                        />
+                    
                     </div>
                     <button
                         type="submit"
@@ -104,6 +128,7 @@ const Formlogin = ({ users, setLog }) => {
                         Acceder <LoginOutlined />
                     </button>
                 </Form>
+            )}
             </Formik>
         </div>
     );

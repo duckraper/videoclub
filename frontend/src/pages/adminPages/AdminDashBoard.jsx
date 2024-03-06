@@ -67,6 +67,7 @@ export default function AdminDashBoard() {
                         </tr>
                     </tbody>
                 </table>
+                
             </div>
         </main>
     );
