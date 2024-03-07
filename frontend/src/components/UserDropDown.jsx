@@ -4,21 +4,20 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { useNavigate } from "react-router-dom";
-import { auth_state, loginState } from "../app/slices/Auth.slice";
+import { auth_state, logoutState } from "../app/slices/Auth.slice";
+import { useLogoutMutation } from "../app/services";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 export default function AccountMenu() {
     const { user } = useSelector(auth_state);
-    const navigateClose = useNavigate();
+    const dispatch = useDispatch();
+    const [logout] = useLogoutMutation();
+    const Navigate = useNavigate();
     
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -28,12 +27,20 @@ export default function AccountMenu() {
     const handleClose = () => {
        setAnchorEl(null);
     };
-    const handleExit = () => {
-        navigateClose("/");
-    }
+
+    
+        const logoutUser = async () => {
+            await logout()
+              .unwrap()
+              .then(() => {
+                dispatch(logoutState());
+                Navigate("/")
+              });
+          };
+        
+    
     return (
         <React.Fragment>
-            <div>Bienvenido, {user} </div>
             <Box
                 sx={{
                     display: "flex",
@@ -92,9 +99,9 @@ export default function AccountMenu() {
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
                 <MenuItem onClick={handleClose}>
-                    <Avatar /> Perfil
+                    <Avatar /> {user}
                 </MenuItem>
-                <MenuItem onClick={handleExit}>
+                <MenuItem onClick={logoutUser}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>

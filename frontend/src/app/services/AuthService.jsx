@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import customFetchBase from "../../config/customBaseQuery";
-import { userAPI } from "./User.service";
+import { userAPI } from "./UserService";
 import {jwtDecode} from "jwt-decode";
 
 export const authAPI = createApi({
@@ -46,6 +46,8 @@ export const authAPI = createApi({
           await queryFulfilled;
 
            sessionStorage.removeItem("access");
+           sessionStorage.removeItem("user")
+           sessionStorage.removeItem("id")
          
         } catch (error) {
           console.log(error);

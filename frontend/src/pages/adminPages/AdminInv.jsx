@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { useLoginMutation } from "../../app/services/Auth.service";
+import { useLoginMutation } from "../../app/services/AuthService";
 import { auth_state, loginState } from "../../app/slices/Auth.slice";
 
 const AdminInv = () => {

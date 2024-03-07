@@ -4,7 +4,7 @@ import {
     CameraOutdoorOutlined,
     PeopleAltOutlined,
     ShoppingCartOutlined,
-    LogoutOutlined,
+    Person2Outlined,
 } from "@mui/icons-material";
 import { Outlet, useNavigate, NavLink, useLocation } from "react-router-dom";
 import UserDropDown from "../../components/UserDropDown";
@@ -73,6 +73,18 @@ export default function AdminView() {
                             >
                                 <ShoppingCartOutlined />
                                 Rentas
+                            </NavLink>
+                            <NavLink
+                                className={
+                                    location.pathname ===
+                                    "/admini/Dashboard/Clientes"
+                                        ? "flex items-center gap-3 text-xl text-orange-400 pl-3 pr-4 border-r-4 border-orange-400 transition-all"
+                                        : "flex items-center gap-3 text-xl px-3  text-orange-400 transition-all hover:text-yellow-900"
+                                }
+                                to="Clientes"
+                            >
+                                <Person2Outlined />
+                                Clientes
                             </NavLink>
                         </div>
                     </nav>

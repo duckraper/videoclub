@@ -30,6 +30,8 @@ const customFetchBase = async (args, api, extraOptions) => {
 
   if (result.error?.status === 401) {
      sessionStorage.removeItem("access");
+     sessionStorage.removeItem("user")
+     sessionStorage.removeItem("id")
     
     window.location
       .replace("http://127.0.0.1:5173 ")
