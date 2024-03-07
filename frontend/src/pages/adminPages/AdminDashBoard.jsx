@@ -40,7 +40,7 @@ export default function AdminDashBoard() {
                             <th>Clientes</th>
                             <th>Fecha de entrega</th>
                             <th>Formato</th>
-                            <th>Precio</th>
+                            <th>Precio</th> 
                         </tr>
                     </thead>
                     <tbody>

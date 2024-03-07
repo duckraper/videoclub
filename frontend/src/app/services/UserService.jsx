@@ -73,7 +73,7 @@ export const userAPI = createApi({
               { type: "User", id: "LIST" },
             ]
           : [{ type: "User", id: "LIST" }],
-    }),
+    }),   
   }),
 });
 
