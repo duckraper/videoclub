@@ -38,6 +38,7 @@ CLASIFICACIONES = [
 
 PRECIO_BASE = Decimal(10.00)  # CUP
 
+
 class Pelicula(models.Model):
 
     class Meta:

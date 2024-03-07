@@ -21,6 +21,7 @@ from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('api/', include('apps.authentication.urls')),
     path('api/', include('apps.peliculas.urls')),
     path('api/', include('apps.prestamos.urls')),

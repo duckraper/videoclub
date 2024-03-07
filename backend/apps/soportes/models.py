@@ -5,8 +5,9 @@ from decimal import Decimal
 
 ESTADOS = [
     ("B", "Bien"),
+    ("R", "Regular"),
     ("M", "Mal"),
-    ("R", "Regular")
+    ("I", "Inutilizable")
 ]
 
 FORMATO_CINTA = [
@@ -44,6 +45,17 @@ class Soporte(models.Model):
     cant_prestamos = models.PositiveIntegerField(default=0, blank=True)
 
     disponible = models.BooleanField(default=True)
+
+    def calcular_estado(self):
+        """
+        # Estado del soporte con base a su cantidad de usos (Habran otros factores que influyan)
+        - 0-9 >= Bien
+        - 10-19 >= Regular
+        - 20-29 >= Mal
+        - 30-...>= Inutilizable
+        """
+
+        return ESTADOS[self.cant_prestamos // 10][0] if self.cant_prestamos < 30 else "I"
 
     def __str__(self) -> str:
         return f"Soporte {self.pk}"

@@ -1,11 +1,10 @@
-from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, ChoiceField
-
-from apps.clientes import serializers
+from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField
 
 from .models import Casete, DVD, VCD, Soporte
 from apps.peliculas.serializers import PeliculaSerializer
 
 SOPORTES = ['casete', 'vcd', 'dvd']
+
 
 class SoporteSerializer(ModelSerializer):
     peliculas = PeliculaSerializer(many=True, read_only=True)

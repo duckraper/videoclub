@@ -16,7 +16,8 @@ from .utils import parseSoporte
 
 
 class RetrieveSoporte(APIView):
-    def get(self, request, pk):
+    @staticmethod
+    def get(request, pk):
         soporte = Soporte.objects.all().filter(pk=pk).first()
 
         if soporte and soporte.disponible:
@@ -39,17 +40,19 @@ class RetrieveSoporte(APIView):
 class SoporteListCreateSet(APIView):
     permission_classes = [IsAdminUser]
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
         soportes = Soporte.objects.all().filter(disponible=True)
         serializer = SoporteSerializer(soportes, many=True)
 
         return Response(serializer.data, status=HTTP_200_OK)
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         try:
             tipo_soporte = request.data.pop("tipo_soporte")
 
-        except Exception as e:
+        except ValueError:
             return Response("Tipo de soporte no especificado", status=HTTP_400_BAD_REQUEST)
 
         try:
@@ -82,13 +85,14 @@ class SoporteListCreateSet(APIView):
         except Exception as e:
             return Response(str(e), status=HTTP_400_BAD_REQUEST)
 
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        return Response(status=HTTP_400_BAD_REQUEST)
 
 
 class DarBajaSoporteView(APIView):
     permission_classes = [IsAdminUser]
 
-    def post(self, request, pk):
+    @staticmethod
+    def post(request, pk):
         soporte = Soporte.objects.all().filter(pk=pk).first()
 
         if soporte:
@@ -104,7 +108,8 @@ class DarBajaSoporteView(APIView):
 
 
 class GrabarPeliculaView(APIView):
-    def post(self, request, pk):
+    @staticmethod
+    def post(request, pk):
         try:
             soporte = Soporte.objects.all().filter(pk=pk).first()
 

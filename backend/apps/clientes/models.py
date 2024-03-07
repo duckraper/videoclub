@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
+from datetime import datetime as dt
 
 from ..peliculas.models import GENEROS
 
@@ -67,6 +68,15 @@ class Cliente(models.Model):
 
     max_soportes_prestados = models.PositiveIntegerField(default=1)
 
+    def invalidar(self, motivo: str = None):
+        invalidacion = Invalidacion.objects.create(
+            cliente=self,
+            motivo=motivo if motivo else None,
+            fecha_invalidacion=dt.today().date()
+        )
+
+        return invalidacion
+
     @property
     def invalidado(self):
         return hasattr(self, "invalidacion")
@@ -77,6 +87,8 @@ class Cliente(models.Model):
 
     def __str__(self):
         return f"{self.nombre} {self.apellidos}"
+
+
 
 
 class ClienteFijo(Cliente):

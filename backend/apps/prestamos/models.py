@@ -8,6 +8,7 @@ from apps.clientes.models import ClienteFijo
 PORCENTAJE_CLIENTE_FIJO = Decimal(0.1)
 PORCENTAJE_POR_RETRASO = Decimal(0.5)
 PRECIO_POR_DIA = Decimal(0.1)
+DIAS_LIMITE_PARA_ENTREGA = 14
 
 
 class SolicitudPrestamo(models.Model):
@@ -31,6 +32,14 @@ class SolicitudPrestamo(models.Model):
     ha_sido_devuelto = models.BooleanField(default=False)
     fecha_de_devolucion = models.DateField(null=True, blank=True)
 
+    activo = models.BooleanField(default=True)
+
+    # ============================= Comprobar si ya se vencio el prestamo ================== #
+
+    @property
+    def vencido(self):
+        return (date.today() - self.fecha_de_prestamo).days > self.dias_para_devolucion + DIAS_LIMITE_PARA_ENTREGA
+
     # ================================ Calcular el recargo ================================= #
 
     @property
@@ -42,7 +51,7 @@ class SolicitudPrestamo(models.Model):
             dias_de_retraso = (date.today() - self.fecha_de_prestamo).days - self.dias_para_devolucion
 
         if dias_de_retraso > 0:
-            return dias_de_retraso * self.costo_del_prestamo * PORCENTAJE_POR_RETRASO
+            return dias_de_retraso * (self.costo_del_prestamo + (self.costo_del_prestamo * PORCENTAJE_POR_RETRASO))
 
         return Decimal(0)
 
@@ -56,7 +65,7 @@ class SolicitudPrestamo(models.Model):
         if self.dias_para_devolucion and self.fecha_de_prestamo:
             costo += self.aplicar_recargo()
 
-        return costo * PORCENTAJE_CLIENTE_FIJO if self.cliente.es_fijo else costo
+        return costo - (costo * PORCENTAJE_CLIENTE_FIJO) if self.cliente.es_fijo else costo
 
     def costo_de_soporte(self):
         return self.soporte.costo_adquisicion + self.costo_de_peliculas()
@@ -76,18 +85,16 @@ class SolicitudPrestamo(models.Model):
         old_values = self.__class__.objects.filter(
             pk=self.pk).values(*fields)[0]
 
+        print(old_values)
+
         return any(getattr(self, field) != old_values[field] for field in fields)
 
     def save(self, *args, **kwargs):
-
-        if (self.pk is None or self.has_changed(
-                'soporte', 'dias_para_devolucion', 'fecha_de_devolucion')) and \
-                not self.ha_sido_devuelto:
-
+        if self.pk is None or \
+                self.has_changed('ha_sido_devuelto', 'fecha_de_devolucion'):
             self.costo_del_prestamo = self.calcular_costo_del_prestamo()
 
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Préstamo: {self.soporte} a {self.cliente} ${self.costo_del_prestamo} ({self.fecha_de_prestamo})"
-

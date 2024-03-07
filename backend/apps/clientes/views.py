@@ -1,4 +1,3 @@
-from ast import parse
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from rest_framework.views import APIView
@@ -33,7 +32,7 @@ class ListCreateClienteView(APIView):
     @staticmethod
     def post(request):
         """
-        Si se intenta crear un cliente con una cédula ya existente y esta inactivo, se reactiva el cliente
+        Si se intenta crear un cliente con una cédula ya existente y está inactivo, se reactiva el cliente
         """
 
         try:
@@ -179,19 +178,24 @@ class CrearClienteFijoView(APIView):
         with transaction.atomic():
             cliente.delete()
 
-            cliente_fijo, created = ClienteFijo.objects.get_or_create(
-                ci=cliente.ci,
-                nombre=cliente.nombre,
-                apellidos=cliente.apellidos,
-                edad=cliente.edad,
-                provincia=cliente.provincia,
-                direccion=cliente.direccion,
-                telefono=cliente.telefono,
-                fecha_registro=cliente.fecha_registro,
-                activo=cliente.activo,
-                cant_soportes_alquilados=cliente.cant_soportes_alquilados,
-                genero_favorito=request.data.get("genero_favorito")
-            )
+            genero = str(request.data.get("genero_favorito"))
+
+            try:
+                cliente_fijo, created = ClienteFijo.objects.get_or_create(
+                    ci=cliente.ci,
+                    nombre=cliente.nombre,
+                    apellidos=cliente.apellidos,
+                    edad=cliente.edad,
+                    provincia=cliente.provincia,
+                    direccion=cliente.direccion,
+                    telefono=cliente.telefono,
+                    fecha_registro=cliente.fecha_registro,
+                    activo=cliente.activo,
+                    cant_soportes_alquilados=cliente.cant_soportes_alquilados,
+                    genero_favorito=genero if genero else "Indefinido"
+                )
+            except Exception as e:
+                return Response(f"Error al crear: {str(e)}", status=HTTP_400_BAD_REQUEST)
 
         if not created:
             return Response("Cliente ya es fijo", status=HTTP_400_BAD_REQUEST)
@@ -203,7 +207,7 @@ class InvalidarClienteView(APIView):
     """
     Invalida un cliente por indebido comportamiento
     `POST`: Invalida un cliente no invalidado
-    `DELETE`: Elimina la invalidación de un cliente previamente invalidado
+    `DELETE`: Elimina la invalidación de un cliente previamente invalidado (revalida)
     """
 
     @staticmethod
@@ -219,12 +223,12 @@ class InvalidarClienteView(APIView):
         if not cliente.activo:
             return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
 
-        if parse_cliente(cliente).__class__.__name__ == "ClienteFijo":
-            return Response("No se puede invalidar un cliente fijo", status=HTTP_400_BAD_REQUEST)
+        if cliente.es_fijo:
+            cliente_fijo = ClienteFijo.objects.get(pk=cliente.pk)
+            cliente_fijo.delete(keep_parents=True)
 
         try:
             motivo = request.data.get("motivo")
-
             cliente.invalidar(motivo) if motivo else cliente.invalidar()
 
         except ValidationError as e:
@@ -255,4 +259,3 @@ class ListInvalidadosView(APIView):
         serializer = InvalidacionSerializer(invalidados, many=True)
 
         return Response(serializer.data, status=HTTP_200_OK)
-
