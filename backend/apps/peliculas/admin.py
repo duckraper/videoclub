@@ -12,12 +12,11 @@ class PeliculaAdmin(admin.ModelAdmin):
         "duracion",
         "director",
         "clasif_edad",
-        "estreno",
         "tamanio",
         "precio",
         "disponible",
     )
-    list_filter = ("genero", "clasif_edad", "estreno", "disponible")
+    list_filter = ("genero", "clasif_edad", "disponible")
     search_fields = ("titulo", "director")
     readonly_fields = ("clasif_edad", "estreno")
 

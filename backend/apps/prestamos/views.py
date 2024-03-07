@@ -3,11 +3,13 @@ from rest_framework.views import APIView
 from rest_framework.status import (
         HTTP_200_OK,
         HTTP_201_CREATED,
+        HTTP_204_NO_CONTENT,
         HTTP_400_BAD_REQUEST,
         HTTP_404_NOT_FOUND
 )
 
 from django.utils import timezone
+from django.forms import ValidationError
 
 from apps.clientes.models import Cliente
 from apps.soportes.models import Soporte
@@ -53,7 +55,9 @@ class ListCreateSolicitudView(APIView):
                 cliente = Cliente.objects.get(pk=serializer.data['cliente'])
                 soporte = Soporte.objects.get(pk=serializer.data['soporte'])
 
-            except Cliente.DoesNotExist | Soporte.DoesNotExist as e:
+            except Cliente.DoesNotExist as e:
+                return Response(str(e), status=HTTP_404_NOT_FOUND)
+            except Soporte.DoesNotExist as e:
                 return Response(str(e), status=HTTP_404_NOT_FOUND)
 
             try:
@@ -63,9 +67,51 @@ class ListCreateSolicitudView(APIView):
                 else:
                     crear_solicitud(cliente, soporte)
 
-            except Exception as e:
+            except ValidationError as e:
                 return Response(str(e), status=HTTP_400_BAD_REQUEST)
 
             return Response(serializer.data, status=HTTP_201_CREATED)
 
         return Response("Error al crear solicitud", status=HTTP_400_BAD_REQUEST)
+
+
+class DevolverPrestamoView(APIView):
+    @staticmethod
+    def post(request, pk):
+        try:
+            prestamo = SolicitudPrestamo.objects.get(pk=pk)
+        except SolicitudPrestamo.DoesNotExist:
+            return Response({'message': f'Solicitud con id {pk} no encontrado'}, status=HTTP_404_NOT_FOUND)
+
+        fecha_entrega = request.query_params.get('fecha')
+
+        if fecha_entrega:
+            devolucion(prestamo, fecha_entrega)
+        else:
+            devolucion(prestamo)
+
+        return Response({'message': 'La devolucion ha sido realizada correctamente'}, status=HTTP_200_OK)
+
+
+class RetrieveDeleteSolicitudView(APIView):
+    @staticmethod
+    def get(request, pk):
+        try:
+            solicitud_prestamo = SolicitudPrestamo.objects.get(pk=pk)
+        except SolicitudPrestamo.DoesNotExist:
+            return Response({'message': f'Solicitud con id {pk} no encontrado'}, status=HTTP_404_NOT_FOUND)
+
+        serializer = SolicitudPrestamoSerializer(solicitud_prestamo, read_only=True)
+
+        return Response(serializer.data, status=HTTP_200_OK)
+
+    @staticmethod
+    def delete(request, pk):
+        try:
+            solicitud_prestamo = SolicitudPrestamo.objects.get(pk=pk)
+        except SolicitudPrestamo.DoesNotExist:
+            return Response({'message': f'Solicitud con id {pk} no encontrado'}, status=HTTP_404_NOT_FOUND)
+
+        solicitud_prestamo.delete(keep_parents=True)
+
+        return Response(status=HTTP_204_NO_CONTENT)

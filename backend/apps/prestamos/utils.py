@@ -1,24 +1,21 @@
 from .models import SolicitudPrestamo
-from apps.clientes.models import Cliente, ClienteFijo, Invalidacion
+from apps.clientes.models import Cliente, ClienteFijo
 from apps.soportes.models import Soporte
+from django.db import transaction
+from django.forms import ValidationError
 
 from datetime import datetime as dt
 
 
-def invalidar(cliente: Cliente | ClienteFijo, motivo: str = None) -> Invalidacion:
-    invalidacion = Invalidacion.objects.create(
-        cliente=cliente,
-        motivo=motivo if motivo else None,
-        fecha_invalidacion=dt.today().date()
-    )
-
-    return invalidacion
-
-
+@transaction.atomic
 def crear_solicitud(cliente: Cliente | ClienteFijo, soporte: Soporte, dias: int = 3):
+    """
+    Funcion de apoyo para hacer tod el proceso que es crear una nueva solicitud de prestamo
+    """
+
     if not cliente.cant_soportes_alquilados < cliente.max_soportes_prestados\
             or cliente.invalidado:
-        raise Exception(f"El cliente {cliente} no puede alquilar más soportes")
+        raise ValidationError(f"El cliente {cliente} no puede alquilar más soportes")
 
     prestamo = SolicitudPrestamo.objects.create(
         cliente=cliente,
@@ -38,7 +35,12 @@ def crear_solicitud(cliente: Cliente | ClienteFijo, soporte: Soporte, dias: int 
     return prestamo
 
 
+@transaction.atomic
 def devolucion(prestamo: SolicitudPrestamo, fecha=None):
+    """
+    Realiza la devolucion de un prestamo, se le aplicarán los correspondientes cargos en caso de existir
+    """
+
     if fecha is None:
         fecha = dt.today().date()
 

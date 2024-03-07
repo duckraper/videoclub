@@ -1,7 +1,7 @@
 from django.db import models
 from decimal import Decimal
 from django.core.validators import MinValueValidator
-from datetime import date, timedelta, datetime
+from datetime import date, timedelta
 
 
 GENEROS = [
@@ -47,7 +47,7 @@ class Pelicula(models.Model):
 
     titulo = models.CharField(max_length=64)
     genero = models.CharField(max_length=32, choices=GENEROS, default='Indefinido')
-    
+
     duracion = models.IntegerField()  # duracion en mins
     director = models.CharField(max_length=64, default="Indefinido")
     clasif_edad = models.CharField(

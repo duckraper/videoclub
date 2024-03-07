@@ -12,7 +12,7 @@ from rest_framework.status import (
 from apps.peliculas.models import Pelicula
 from .models import Casete, DVD, VCD, Soporte
 from .serializers import CaseteSerializer, DVDSerializer, SoporteSerializer, VCDSerializer
-from .utils import parseSoporte
+from .utils import parse_soporte
 
 
 class RetrieveSoporte(APIView):
@@ -21,7 +21,7 @@ class RetrieveSoporte(APIView):
         soporte = Soporte.objects.all().filter(pk=pk).first()
 
         if soporte and soporte.disponible:
-            soporte = parseSoporte(soporte)
+            soporte = parse_soporte(soporte)
 
             if isinstance(soporte, VCD):
                 serializer = VCDSerializer(soporte)

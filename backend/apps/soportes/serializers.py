@@ -1,6 +1,7 @@
-from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from .models import Casete, DVD, VCD, Soporte
+from .utils import parse_soporte
 from apps.peliculas.serializers import PeliculaSerializer
 
 SOPORTES = ['casete', 'vcd', 'dvd']
@@ -8,10 +9,15 @@ SOPORTES = ['casete', 'vcd', 'dvd']
 
 class SoporteSerializer(ModelSerializer):
     peliculas = PeliculaSerializer(many=True, read_only=True)
+    tipo_de_soporte = SerializerMethodField()
 
     class Meta:
         model = Soporte
         fields = '__all__'
+
+    @staticmethod
+    def get_tipo_de_soporte(obj):
+        return parse_soporte(obj).__class__.__name__
 
 
 class CaseteSerializer(SoporteSerializer):

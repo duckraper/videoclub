@@ -1,9 +1,9 @@
 from .models import VCD, Casete, DVD
 
 
-def parseSoporte(soporte):
+def parse_soporte(soporte):
     """
-    Convierte un soporte dado, a el tipo que le corresponde basandose en su FPK
+    Convierte un soporte dado, al tipo que le corresponde basandose en su FPK
     """
     if soporte.pk in VCD.objects.all().values_list('pk', flat=True):
         return VCD.objects.all().filter(pk=soporte.pk).first()
