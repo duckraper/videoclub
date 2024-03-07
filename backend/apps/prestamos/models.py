@@ -38,7 +38,8 @@ class SolicitudPrestamo(models.Model):
 
     @property
     def vencido(self):
-        return (date.today() - self.fecha_de_prestamo).days > self.dias_para_devolucion + DIAS_LIMITE_PARA_ENTREGA
+        return ((date.today() - self.fecha_de_prestamo).days > self.dias_para_devolucion + DIAS_LIMITE_PARA_ENTREGA and
+                not self.ha_sido_devuelto)
 
     # ================================ Calcular el recargo ================================= #
 

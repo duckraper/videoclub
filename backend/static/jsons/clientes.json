@@ -1,0 +1,92 @@
+[
+  {
+    "ci": "8503141234",
+    "nombre": "Ana",
+    "apellidos": "Pérez García",
+    "direccion": "Calle 12 No. 34",
+    "edad": 32,
+    "provincia": "HAB",
+    "telefono": "53456789"
+  },
+  {
+    "ci": "9010255678",
+    "nombre": "Juan",
+    "apellidos": "Martínez Rodríguez",
+    "direccion": "Avenida 5ta No. 12",
+    "edad": 28,
+    "provincia": "PRI",
+    "telefono": "59876543"
+  },
+  {
+    "ci": "0005123456",
+    "nombre": "María",
+    "apellidos": "González López",
+    "direccion": "Callejón del Carmen No. 1",
+    "edad": 22,
+    "provincia": "MTZ",
+    "telefono": "55432109"
+  },
+  {
+    "ci": "7511204567",
+    "nombre": "Pedro",
+    "apellidos": "Díaz Hernández",
+    "direccion": "Reparto Alamar No. 54",
+    "edad": 45,
+    "provincia": "CFG",
+    "telefono": "52345678"
+  },
+  {
+    "ci": "6008051234",
+    "nombre": "Rosa",
+    "apellidos": "Fernández Pérez",
+    "direccion": "Calle 8 No. 12",
+    "edad": 60,
+    "provincia": "VCL",
+    "telefono": "51234567"
+  },
+  {
+    "ci": "0502147890",
+    "nombre": "Miguel",
+    "apellidos": "Sánchez Rodríguez",
+    "direccion": "Reparto El Vedado No. 12",
+    "edad": 17,
+    "provincia": "SSP",
+    "telefono": "59876543"
+  },
+  {
+    "ci": "8012315678",
+    "nombre": "Laura",
+    "apellidos": "González Díaz",
+    "direccion": "Calle 100 No. 12",
+    "edad": 40,
+    "provincia": "CAV",
+    "telefono": "53456789"
+  },
+  {
+    "ci": "9509012345",
+    "nombre": "David",
+    "apellidos": "Pérez Martínez",
+    "direccion": "Reparto Cubanacán No. 12",
+    "edad": 25,
+    "provincia": "CMG",
+    "telefono": "55432109"
+  },
+  {
+    "ci": "1004156789",
+    "nombre": "Camila",
+    "apellidos": "López Hernández",
+    "direccion": "Calle 23 No. 12",
+    "edad": 12,
+    "provincia": "LTU",
+    "telefono": "52345678"
+  },
+  {
+    "ci": "7006201234",
+    "nombre": "Jorge",
+    "apellidos": "García Rodríguez",
+    "direccion": "Reparto Miramar No. 12",
+    "edad": 50,
+    "provincia": "GRA",
+    "telefono": "51234567"
+  }
+]

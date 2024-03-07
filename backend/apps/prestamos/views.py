@@ -7,13 +7,13 @@ from rest_framework.status import (
         HTTP_400_BAD_REQUEST,
         HTTP_404_NOT_FOUND
 )
+from django.db import transaction
 
 from django.utils import timezone
 from django.forms import ValidationError
 
-from apps.clientes.models import Cliente
-from apps.soportes.models import Soporte
-
+from ..clientes.models import Cliente
+from ..soportes.models import Soporte
 from .serializers import SolicitudPrestamoSerializer
 from .models import SolicitudPrestamo
 from .utils import crear_solicitud, devolucion
@@ -47,32 +47,34 @@ class ListCreateSolicitudView(APIView):
         return Response(serializer.data, status=HTTP_200_OK)
 
     @staticmethod
+    @transaction.atomic
     def post(request):
-        serializer = SolicitudPrestamoSerializer(data=request.data)
+        c_id = request.data.get('cliente')
+        s_id = request.data.get('soporte')
 
-        if serializer.is_valid():
-            try:
-                cliente = Cliente.objects.get(pk=serializer.data['cliente'])
-                soporte = Soporte.objects.get(pk=serializer.data['soporte'])
+        try:
+            cliente = Cliente.objects.get(pk=c_id)
+            soporte = Soporte.objects.get(pk=s_id)
 
-            except Cliente.DoesNotExist as e:
-                return Response(str(e), status=HTTP_404_NOT_FOUND)
-            except Soporte.DoesNotExist as e:
-                return Response(str(e), status=HTTP_404_NOT_FOUND)
+        except Cliente.DoesNotExist as e:
+            return Response(str(e), status=HTTP_404_NOT_FOUND)
+        except Soporte.DoesNotExist as e:
+            return Response(str(e), status=HTTP_404_NOT_FOUND)
 
-            try:
-                if serializer.data['dias_para_devolucion']:
-                    dias = serializer.data['dias_para_devolucion']
-                    crear_solicitud(cliente, soporte, dias)
-                else:
-                    crear_solicitud(cliente, soporte)
+        try:
+            if request.data.get('dias_para_devolucion'):
+                dias = request.data.get('dias_para_devolucion')
+                solicitud = crear_solicitud(cliente, soporte, dias)
+            else:
+                solicitud = crear_solicitud(cliente, soporte)
 
-            except ValidationError as e:
-                return Response(str(e), status=HTTP_400_BAD_REQUEST)
+            serializer = SolicitudPrestamoSerializer(solicitud, read_only=True)
 
-            return Response(serializer.data, status=HTTP_201_CREATED)
+        except ValidationError as e:
+            return Response(str(e), status=HTTP_400_BAD_REQUEST)
 
-        return Response("Error al crear solicitud", status=HTTP_400_BAD_REQUEST)
+        return Response(serializer.data, status=HTTP_201_CREATED)
+
 
 
 class DevolverPrestamoView(APIView):
