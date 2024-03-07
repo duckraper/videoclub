@@ -23,13 +23,15 @@ class ListCreateClienteView(APIView):
     - `POST`: Crea un nuevo cliente
     """
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
         clientes = Cliente.objects.all().filter(activo=True)
         serializer = ClienteSerializer(clientes, many=True)
 
         return Response(serializer.data, status=HTTP_200_OK)
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         """
         Si se intenta crear un cliente con una cédula ya existente y esta inactivo, se reactiva el cliente
         """
@@ -54,7 +56,8 @@ class ListCreateClienteView(APIView):
 
 
 class ListClientesFijosView(APIView):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         clientes = ClienteFijo.objects.all().filter(activo=True)
         serializer = ClienteFijoSerializer(clientes, many=True)
 
@@ -70,7 +73,8 @@ class RetrieveUpdateDestroyClienteView(APIView):
     - `DELETE`: Elimina un cliente
     """
 
-    def get(self, request, pk):
+    @staticmethod
+    def get(request, pk):
         try:
             cliente = Cliente.objects.get(pk=pk)
         except Cliente.DoesNotExist:
@@ -94,7 +98,8 @@ class RetrieveUpdateDestroyClienteView(APIView):
 
         return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
 
-    def put(self, request, pk):
+    @staticmethod
+    def put(request, pk):
         try:
             cliente = Cliente.objects.get(pk=pk)
         except Cliente.DoesNotExist:
@@ -111,7 +116,8 @@ class RetrieveUpdateDestroyClienteView(APIView):
 
         return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
 
-    def patch(self, request, pk):
+    @staticmethod
+    def patch(request, pk):
         try:
             cliente = Cliente.objects.get(pk=pk)
         except Cliente.DoesNotExist:
@@ -135,7 +141,8 @@ class RetrieveUpdateDestroyClienteView(APIView):
 
         return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk):
+    @staticmethod
+    def delete(request, pk):
         try:
             cliente = Cliente.objects.get(pk=pk)
         except Cliente.DoesNotExist:
@@ -154,7 +161,8 @@ class CrearClienteFijoView(APIView):
     `POST`: Convierte cliente normal en cliente fijo
     """
 
-    def post(self, request, pk):
+    @staticmethod
+    def post(request, pk):
         try:
             cliente = Cliente.objects.get(pk=pk)
         except Cliente.DoesNotExist:
@@ -198,7 +206,8 @@ class InvalidarClienteView(APIView):
     `DELETE`: Elimina la invalidación de un cliente previamente invalidado
     """
 
-    def post(self, request, pk):
+    @staticmethod
+    def post(request, pk):
         try:
             cliente = Cliente.objects.get(pk=pk)
         except Cliente.DoesNotExist:
@@ -213,21 +222,18 @@ class InvalidarClienteView(APIView):
         if parse_cliente(cliente).__class__.__name__ == "ClienteFijo":
             return Response("No se puede invalidar un cliente fijo", status=HTTP_400_BAD_REQUEST)
 
-        motivo = request.data.get("motivo")
-        if not motivo:
-            motivo = "No especificado"
-
         try:
-            Invalidacion.objects.create(
-                cliente=cliente,
-                motivo=motivo
-            )
+            motivo = request.data.get("motivo")
+
+            cliente.invalidar(motivo) if motivo else cliente.invalidar()
+
         except ValidationError as e:
             return Response({"error": e.message}, status=HTTP_400_BAD_REQUEST)
 
         return Response("Cliente invalidado", status=HTTP_200_OK)
 
-    def delete(self, request, pk):
+    @staticmethod
+    def delete(request, pk):
         try:
             invalidacion = Invalidacion.objects.get(pk=pk)
         except Invalidacion.DoesNotExist:
@@ -243,7 +249,8 @@ class ListInvalidadosView(APIView):
     Lista todos los clientes invalidados
     """
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
         invalidados = Invalidacion.objects.all()
         serializer = InvalidacionSerializer(invalidados, many=True)
 

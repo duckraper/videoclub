@@ -61,7 +61,7 @@ class Cliente(models.Model):
         default=0,
         validators=[
             MinValueValidator(0),
-            MaxValueValidator(3)
+            MaxValueValidator(3, 'No puede alquilar más de 3 soportes')
         ]
     )
 
@@ -95,7 +95,7 @@ class ClienteFijo(Cliente):
 class Invalidacion(models.Model):
     class Meta:
         db_table = "invalidado"
-        ordering = ["cliente"]
+        ordering = ["fecha_invalidacion", "cliente"]
         verbose_name_plural = "Invalidaciones"
 
     cliente = models.OneToOneField(
