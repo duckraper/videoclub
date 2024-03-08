@@ -23,6 +23,7 @@ export const authAPI = createApi({
           let user = jwtDecode(data.access);
 
           sessionStorage.setItem("access", data.access);
+          sessionStorage.setItem("refresh", data.refresh);
           sessionStorage.setItem("id", user.user_id);
           sessionStorage.setItem("username", JSON.stringify(user.username));
          
@@ -46,6 +47,7 @@ export const authAPI = createApi({
           await queryFulfilled;
 
            sessionStorage.removeItem("access");
+           sessionStorage.removeItem("refresh");
            sessionStorage.removeItem("user")
            sessionStorage.removeItem("id")
          

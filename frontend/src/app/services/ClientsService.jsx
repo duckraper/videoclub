@@ -6,7 +6,7 @@ export const clientsAPI = createApi({
     baseQuery: customFetchBase,
     tagTypes: ["Clients"],
     endpoints: (builder) => ({
-        getclients: builder.query({
+        getClients: builder.query({
             query: () =>({ 
                 url: "clientes/",
                 method: "GET",
@@ -23,7 +23,7 @@ export const clientsAPI = createApi({
                 : [{ type: "Clients", id: "LIST" }],
          }),
 
-        getclientById: builder.query({
+        getClientById: builder.query({
             query: (id) =>({ 
                 url: `clientes/${id}/`,
                 method: "GET",
@@ -32,7 +32,7 @@ export const clientsAPI = createApi({
         
         }),
 
-        createclient: builder.mutation({
+        createClient: builder.mutation({
             query: (payload) => ({
                 url: "clientes",
                 method: "POST",
@@ -41,7 +41,7 @@ export const clientsAPI = createApi({
             invalidatesTags: [{ type: "Clients", id: "LIST" }],
         }),
 
-        updateclient: builder.mutation({
+        updateClient: builder.mutation({
             query: ({body}) => ({
                 url: `clientes/${body.id}/`,
                 method: "PATCH",
@@ -56,7 +56,7 @@ export const clientsAPI = createApi({
                     [{ type: "Clients", id: "LIST"}],
 
         }),
-        deleteclient: builder.mutation({
+        deleteClient: builder.mutation({
             query: (id) => ({
                 url: `clientes/${id}/`,
                 method: "DELETE",
