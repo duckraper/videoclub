@@ -1,11 +1,27 @@
 [
     {
+        "username": "foo",
+        "first_name": "Foo",
+        "last_name": "Baz",
+        "email": "foo@example.com",
+        "password": "foo",
+        "is_staff": false
+    },
+    {
+        "username": "beli",
+        "password": "odiotodo",
+        "is_staff": true,
+        "first_name": "Abelardo",
+        "last_name": "Salome",
+        "email": "beli21@gmail.com"
+    },
+    {
         "username": "fermin",
-        "password": "fermin",
+        "password": "fermin12",
         "first_name": "Fermin",
-        "last_name": "Garcia",
+        "last_name": "Ramirez Tunez",
         "email": "ferminga@gmail.com",
-        "is_staff": true
+        "is_staff": false
     },
     {
         "username": "emilito02",
@@ -13,6 +29,14 @@
         "last_name": "Nuñez Prieto",
         "password": "emilito02",
         "email": "emilit02@yahoo.com",
+        "is_staff": false
+    },
+    {
+        "username": "leonor12",
+        "first_name": "Leonor de la Caridad",
+        "last_name": "Garcia de la Torre de las Mil Marias Concepcionadas",
+        "password": "diosmebendiga",
+        "email": "leonorgarcia@yahoo.com",
         "is_staff": false
     }
 ]

@@ -207,7 +207,7 @@ class InvalidarClienteView(APIView):
     """
     Invalida un cliente por indebido comportamiento
     `POST`: Invalida un cliente no invalidado
-    `DELETE`: Elimina la invalidación de un cliente previamente invalidado (revalida)
+    `DELETE`: Elimina la invalidación de un cliente previamente invalidado (reválida)
     """
 
     @staticmethod

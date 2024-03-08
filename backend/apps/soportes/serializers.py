@@ -9,7 +9,7 @@ SOPORTES = ['casete', 'vcd', 'dvd']
 
 class SoporteSerializer(ModelSerializer):
     peliculas = PeliculaSerializer(many=True, read_only=True)
-    tipo_de_soporte = SerializerMethodField()
+    tipo_de_soporte = SerializerMethodField(read_only=True)
 
     class Meta:
         model = Soporte

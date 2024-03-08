@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Este módulo permite gestionar los prestamos de los usuarios.
+Este módulo permite gestionar los préstamos de los usuarios.
 
 ## Requisitos
 
@@ -14,19 +14,33 @@ Este módulo permite gestionar los prestamos de los usuarios.
 - Poder ver el historial de prestamos de un cliente
 - Al un prestamo pasar los 7 dias de atraso, se debe banear al cliente
 - Los clientes fijos pueden tener hasta 3 prestamos activos
-- Los clientes fijos tienen un limite de 10 dias de atraso
-- Los clientes normales tienen hasta un limite de 5 dias de atraso
-- Los clientes fijos a la primera incurrencia, se les da un aviso y se les da una segunda oportunidad
+- Los clientes tienen un límite de 14 dias de atraso luego se invalidara
+- Los clientes normales tienen hasta un límite de 5 días de atraso
 - El tiempo de entrega estandar para clientes fijos sera de 4 dias, para clientes normales sera de 3 dias
 - Los clientes que demoren mas de lo establecido se les aplicara un recargo del 50% del precio inicial del prestamo por cada dia de atraso
-- Al entregar un soporte en muy mal estado, si estaba en buen estado se le da un sobrecargo al cliente
-- Los clientes fijos tienen un descuento del 4% en el costo inicial del prestamo
+- Los clientes fijos tienen un descuento del 10% en el costo inicial del prestamo
 
 ## Endpoints
-<!-- TODO escribir docs de los endpoints -->
 
-
+- `GET api/prestamos/`  Listar los préstamos.
+  - Solo se listarán los prestamos de la última quincena.
+  - Se mostrarán todos independientemente de aún no se ha devuelto.
+  - Se priorizará los préstamos activos, y se ordenará por fecha de solicitud.
+- `POST api/prestamos/` Crear una nueva solicitud de préstamo.
+  - Se requiere especificar él, id del soporte y del cliente.
+    
+    ```json
+    {
+      "soporte": 14,
+      "cliente": 18
+    }
+    ```
+    
 ### Se debe presentar un token de acceso para acceder a cada *endpoint*
+    
+- `GET api/prestamos/{id}/`  Obtener una solicitud especificada.
+- `DELETE api/prestamos/{id}/` Elimina una solicitud de la base de datos (Evitar usar).
+- `POST api/prestamos/{id}/devolver/` Realizar una devolución del préstamo y actualizar las bases de datos.
 
 ## Modelos
 

@@ -1,16 +1,6 @@
-from email import message
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from django.forms import ValidationError
-import rest_framework.viewsets
-from rest_framework.generics import DestroyAPIView
-
-from .models import User
-from .serializers import MyTokenObtainPairSerializer, UserSerializer
-
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
+from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
@@ -19,6 +9,12 @@ from rest_framework.status import (
     HTTP_404_NOT_FOUND,
     HTTP_204_NO_CONTENT
 )
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from .models import User
+from .serializers import MyTokenObtainPairSerializer, UserSerializer
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -28,9 +24,13 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 class LogoutView(APIView):
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         try:
             refresh_token = request.data.get('refresh')
+
+            if not refresh_token:
+                return Response({"message": "No se proveyo ningun token de refresco"}, status=HTTP_400_BAD_REQUEST)
 
             token = RefreshToken(refresh_token)
             token.blacklist()
@@ -39,16 +39,19 @@ class LogoutView(APIView):
         except Exception as e:
             return Response({"message": f"Error al cerrar sesion: {str(e)}"}, status=HTTP_400_BAD_REQUEST)
 
+
 class UserViewSet(APIView):
     permission_classes = [IsAdminUser, IsAuthenticated]
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
         users = User.objects.filter(is_active=True)
         serializer = UserSerializer(users, many=True)
 
         return Response(serializer.data, status=HTTP_200_OK)
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         serializer = UserSerializer(data=request.data)
 
         try:
@@ -65,7 +68,8 @@ class UserViewSet(APIView):
 class UserCRUDView(APIView):
     permission_classes = [IsAdminUser, IsAuthenticated]
 
-    def get_user(self, pk):
+    @staticmethod
+    def get_user(pk):
         user = User.objects.filter(pk=pk).first()
 
         if user and user.is_active:
@@ -137,7 +141,8 @@ class UserCRUDView(APIView):
 class RetrieveSelfUser(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
         user = User.objects.all().filter(pk=request.user.pk).first()
 
         if user:

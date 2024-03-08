@@ -57,7 +57,7 @@ class Pelicula(models.Model):
     tamanio = models.DecimalField(max_digits=3, decimal_places=1)  # GB'
     precio = models.DecimalField(
         # CUP'
-        max_digits=10,  # To do: cambiar el anio que viene a 50 por la inflacion
+        max_digits=10,  # To do: cambiar elanio que viene a 50 por la inflacion
         decimal_places=2,
         blank=True, null=True,
         default=PRECIO_BASE,
