@@ -1,5 +1,5 @@
-from datetime import datetime as dt
 from django.db.models.signals import post_migrate
+from datetime import datetime as dt
 from django.dispatch import receiver
 from django.apps import apps
 import json
@@ -7,7 +7,7 @@ import codecs
 
 
 # @receiver(post_migrate)
-def poblar_con_usuarios(sender):
+def poblar_con_usuarios(sender, **kwargs):
     if sender.name == "apps.authentication":
         User = apps.get_model("authentication", "User")
 
@@ -35,7 +35,7 @@ def poblar_con_usuarios(sender):
 
 
 @receiver(post_migrate)
-def poblar_con_peliculas(sender):
+def poblar_con_peliculas(sender, **kwargs):
     """Pobla la base de datos con peliculas, a partir de utils.peliculas.json"""
     if sender.name == "apps.peliculas":
         Pelicula = apps.get_model("peliculas", "Pelicula")
@@ -67,7 +67,7 @@ def poblar_con_peliculas(sender):
 
 
 @receiver(post_migrate)
-def poblar_con_clientes(sender):
+def poblar_con_clientes(sender, **kwargs):
     """Pobla la base de datos con clientes, a partir de utils.clientes.json"""
     if sender.name == "apps.clientes":
         Cliente = apps.get_model("clientes", "Cliente")

@@ -63,6 +63,7 @@ class SoporteListCreateSet(APIView):
                     serializer.save()
 
                     return Response(serializer.data, status=HTTP_201_CREATED)
+                return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
             elif tipo_soporte == "dvd":
                 serializer = DVDSerializer(data=request.data)
@@ -71,6 +72,7 @@ class SoporteListCreateSet(APIView):
                     serializer.save()
 
                     return Response(serializer.data, status=HTTP_201_CREATED)
+                return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
             elif tipo_soporte == "casete":
                 serializer = CaseteSerializer(data=request.data)
@@ -80,7 +82,7 @@ class SoporteListCreateSet(APIView):
 
                     return Response(serializer.data, status=HTTP_201_CREATED)
 
-                return Response("Tipo de soporte no valido", status=HTTP_400_BAD_REQUEST)
+                return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
         except Exception as e:
             return Response(str(e), status=HTTP_400_BAD_REQUEST)

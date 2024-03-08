@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'apps.clientes',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True  # TODO restringir permisos
 CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
