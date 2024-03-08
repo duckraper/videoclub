@@ -52,7 +52,7 @@ class SoporteListCreateSet(APIView):
         try:
             tipo_soporte = request.data.pop("tipo_soporte")
 
-        except ValueError:
+        except KeyError:
             return Response("Tipo de soporte no especificado", status=HTTP_400_BAD_REQUEST)
 
         try:
