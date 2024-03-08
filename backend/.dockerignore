@@ -4,3 +4,5 @@ lib/
 lib64
 Dockerfile
 .idea
+.venv/
+tests/
