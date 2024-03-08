@@ -1,6 +1,13 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import {PersonOutlined} from "@mui/icons-material";
+import { useGetClientsQuery } from "../../app/services";
 
 export default function AdminDashBoard() {
+    const {data} = useGetClientsQuery(undefined, {
+        refetchOnReconnect: true,
+      });
+    
+    const clientsCount = data ? data.length : 0;
+        
     return (
         <main className="flex flex-1 flex-col p-6 gap-8 py-16 px-44">
             <div className="grid gap-8 md:grid-cols-2">
@@ -11,7 +18,7 @@ export default function AdminDashBoard() {
                         </h1>
                         <p className="text-gray-500 px-3">Numero de clientes</p>
                         <span className="text-3xl font-bold text-center">
-                            345
+                            {clientsCount} <PersonOutlined style={{ fontSize: "xx-large", marginBottom: "5px" }} />
                         </span>
                     </div>
                 </div>

@@ -1,9 +1,9 @@
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+import {jwtDecode} from "jwt-decode"// Add missing import statement
 
 const baseUrl = "http://127.0.0.1:8000/api/";
 
-const client = axios.create({
+export const client = axios.create({
     baseURL: baseUrl,
     headers: {
         "Content-Type": "application/json",
@@ -12,27 +12,27 @@ const client = axios.create({
 
 client.interceptors.request.use(
     async (config) => {
-        const re_login = "/v1/api/login/";
-        const re_refresh = "/v1/api/token/refresh/";
+        const re_login = "auth/token/";
+        const re_refresh = "auth/token/refresh/";
 
         if (
             config?.url.search(re_login) === -1 &&
             config?.url.search(re_refresh) === -1
         ) {
-            let token = sessionStorage.getItem("token");
+            let token = sessionStorage.getItem("access");
 
             const shouldRefresh = isRefreshNeeded(token);
 
             try {
                 if (token && shouldRefresh.needRefresh) {
                     if (shouldRefresh.valid === false) {
-                        token = await client.post("/v1/api/token/refresh/", {
+                        token = await client.post("auth/token/refresh/", {
                             refresh: sessionStorage.getItem("refresh"),
                         });
                     }
                 }
             } catch (e) {
-                sessionStorage.removeItem("token");
+                sessionStorage.removeItem("access");
                 sessionStorage.removeItem("refresh");
                 sessionStorage.removeItem("user");
 
@@ -43,7 +43,7 @@ client.interceptors.request.use(
 
             if (token) {
                 if (typeof token === "object") {
-                    sessionStorage.setItem("token", token.data.access);
+                    sessionStorage.setItem("access", token.data.access);
                     sessionStorage.setItem("refresh", token.data.refresh);
 
                     config.headers = {
@@ -70,7 +70,7 @@ export function isRefreshNeeded(token) {
         return { valid: false, needRefresh: true };
     }
 
-    const decoded = jwt_decode(token);
+    const decoded = jwtDecode(token);
 
     if (!decoded) {
         return { valid: false, needRefresh: true };

@@ -8,13 +8,13 @@ import {
 } from "@mui/icons-material";
 import { Outlet, useNavigate, NavLink, useLocation } from "react-router-dom";
 import UserDropDown from "../../components/UserDropDown";
-import { orange } from "@mui/material/colors";
+
 
 export default function AdminView() {
     const location = useLocation();
     return (
         <div className="flex w-full bg-gray-100 ">
-            <div className=" lg:block">
+            <div>
                 <div className="flex flex-col items-center p-2 h-full">
                     <NavLink
                     to="/admini/Dashboard">
@@ -94,7 +94,7 @@ export default function AdminView() {
                 <header className="flex h-12 items-center gap-4 px-6 justify-end">
                     <UserDropDown />
                 </header>
-                <div className="h-screen w-full bg-gray-50 border-r rounded-lg shadow-xl">
+                <div className="h-screen w-full bg-gray-50 border-r rounded-lg shadow-xl overflow-scroll">
                     <Outlet />
                 </div>
             </div>
