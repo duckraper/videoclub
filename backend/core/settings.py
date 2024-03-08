@@ -26,10 +26,7 @@ SECRET_KEY = 'django-insecure-4p0mv2628)41dj95%=wynw^ulk*$_!a-ula#u4d8g%k&iuc^@p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
-
-# Application definition
+ALLOWED_HOSTS = ['*']  # Cambiar a solo recibir del frontend, y de postgres
 
 AUTH_USER_MODEL = "authentication.User"
 
@@ -65,8 +62,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(hours=10),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False,
