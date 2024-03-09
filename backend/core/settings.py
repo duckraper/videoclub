@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'apps.clientes',
 ]
 
+IPRESTRICT_GEOIP_ENABLED = False
 CORS_ALLOW_ALL_ORIGINS = True  # TODO restringir permisos
 CORS_ALLOW_CREDENTIALS = True
 
@@ -140,7 +141,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
+#
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -148,13 +149,14 @@ DATABASES = {
     }
 }
 
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.psycopg2.postgresql16',
-#         'NAME': BASE_DIR / 'videoclub',
-#         'USERNAME': 'POSTGRES',
-#         'PASSWORD': 'POSTGRES'
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'videoclub',
+#         'USERNAME': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
 #     }
 # }
 
