@@ -29,6 +29,5 @@ urlpatterns = [
     path('api/', include('apps.clientes.urls')),
     path('api/', include('apps.prestamos.urls')),
 
-    path('api/docs/', include_docs_urls(title='VideoClub APIs',
-         public=True, permission_classes=[AllowAny]))
+    path('api/docs/', include_docs_urls(title='VideoClub APIs', public=True, permission_classes=[AllowAny]))
 ]

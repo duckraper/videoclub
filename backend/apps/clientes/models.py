@@ -99,7 +99,8 @@ class ClienteFijo(Cliente):
     genero_favorito = models.CharField(max_length=32, choices=GENEROS, default='Indefinido')
 
     def save(self, *args, **kwargs):
-        self.max_soportes_prestados = 3
+        if not self.pk:
+            self.max_soportes_prestados = 3
 
         return super().save(*args, **kwargs)
 

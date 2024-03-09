@@ -7,8 +7,6 @@ from rest_framework.serializers import ModelSerializer
 
 from .models import User
 
-# AUTHENTICATION
-
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
