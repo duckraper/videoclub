@@ -7,8 +7,6 @@ from rest_framework.serializers import ModelSerializer
 
 from .models import User
 
-# AUTHENTICATION
-
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -32,6 +30,12 @@ class UserSerializer(ModelSerializer):
             'password',
             'is_staff'
         ]
+        extra_kwargs = {
+            'id': {
+                'read_only': True,
+                'required': False
+            }
+        }
 
     def create(self, validated_data):
         try:

@@ -30,7 +30,6 @@ class ClienteAdmin(admin.ModelAdmin):
 class ClienteFijoAdmin(ClienteAdmin):
 
     def get_queryset(self, request):
-        # Filter the queryset to only show ClienteFijo instances
         qs = super().get_queryset(request).filter(pk__in=ClienteFijo.objects.all().values_list('pk', flat=True))
         return qs
 

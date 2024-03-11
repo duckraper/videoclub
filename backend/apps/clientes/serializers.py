@@ -15,7 +15,6 @@ class ClienteSerializer(ModelSerializer):
 
 
 class ClienteFijoSerializer(ClienteSerializer):
-
     class Meta(ClienteSerializer.Meta):
         model = ClienteFijo
 

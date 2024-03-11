@@ -1,15 +1,14 @@
 import codecs
 import json
 from datetime import datetime as dt, date
+from decimal import Decimal
 
 from django.test import TestCase
 
-from .models import SolicitudPrestamo
-from apps.soportes.models import Soporte, Casete, VCD, DVD
-from apps.clientes.models import Cliente, ClienteFijo, Invalidacion
+from apps.clientes.models import Cliente, ClienteFijo
 from apps.peliculas.models import Pelicula
-from .utils import crear_solicitud, devolucion, invalidar
-from decimal import Decimal
+from apps.soportes.models import Casete, VCD, DVD
+from .utils import crear_solicitud
 
 
 class SolicitudPrestamoTestCase(TestCase):

@@ -14,5 +14,4 @@ def parse_soporte(soporte):
     elif soporte.pk in DVD.objects.all().values_list('pk', flat=True):
         return DVD.objects.all().filter(pk=soporte.pk).first()
 
-    print("devolviendo", soporte)
     return soporte

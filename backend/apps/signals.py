@@ -1,9 +1,11 @@
 from django.db.models.signals import post_migrate
+from django.contrib.auth.hashers import make_password
 from datetime import datetime as dt
 from django.dispatch import receiver
 from django.apps import apps
 import json
 import codecs
+from time import sleep
 
 
 # @receiver(post_migrate)
@@ -19,7 +21,7 @@ def poblar_con_usuarios(sender, **kwargs):
         for i, user in enumerate(users, start=1):
             user, p_created = User.objects.get_or_create(
                 username=user["username"],
-                password=user["password"],
+                password=make_password(user["password"]),
                 first_name=user["first_name"],
                 last_name=user["last_name"],
                 email=user["email"],
@@ -29,6 +31,7 @@ def poblar_con_usuarios(sender, **kwargs):
                 count += 1
                 print(f" {i}- {user}")
             user.save()
+            sleep(secs=1)
 
         if count == 0:
             print(' - No hay usuarios para agregar.')
