@@ -12,7 +12,7 @@
 /* Set the color and rounded borders of the scrollbar thumb */
 ::-webkit-scrollbar-thumb {
   background-color: rgb(255, 111, 50);
-  border-radius: 10px;
+  border-radius: 30px;
 }
 
 
@@ -20,3 +20,15 @@
   font-family: sans-serif;
 }
 
+.tooltip {
+  @apply invisible absolute;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply visible z-50;
+}
+/* 
+
+*{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+} */

@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ManageAccountsOutlined } from "@mui/icons-material";
 const LoadingPage = () => {
+
     const navigate = useNavigate();
     useEffect(() => {
         setTimeout(() => {
-            navigate("/admini/Dashboard");
+            navigate("/home/Dashboard");
         }, 1500);
     }, []);
 

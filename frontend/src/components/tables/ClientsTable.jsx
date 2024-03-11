@@ -1,44 +1,49 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useGetClientsQuery } from "../../app/services";
+import { setEdit, setNoHere } from "../../app/slices/TipoActivo.slice";
 import ClientsRow from "../tableBody/ClientsRow";
+import { PersonAddOutlined } from "@mui/icons-material";
 
 const Usuarios = () => {
-//   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { data } = useGetClientsQuery(undefined, {
     refetchOnReconnect: true,
   });
 
+  React.useEffect(() => {
+    dispatch(setEdit(null));
+  }, []);
+
   return (
     <div className=" px-16">
-      <div className="flex-row flex w-full p-6">
+     <div className="flex-row flex w-full p-6">
         <div className="w-2/3 flex items-center">
-          <h1 className="font-bold antialiased text-2xl text-inherit font-mono">
-            Trabajadores
-          </h1>
+          <h1 className="font-bold text-2xl text-inherit ">Trabajadores</h1>
         </div>
-        {/* <div className="w-1/3 flex justify-end"> */}
-          {/* <button
+        <div className="w-1/3 flex justify-end mt-20">
+          <button
             onClick={() => {
               dispatch(setNoHere(false));
-              navigate(ADD_USUARIO_URL);
+              navigate("Agregar/");
             }}
-            className="btn btn-primary p-0 m-0 w-32 uppercase flex-end"
+            className=" rounded-full shadow-sm bg-orange-300 hover:bg-orange-200 transition-all text-white w-12 uppercase flex-end"
           >
-            agregar
+            <PersonAddOutlined />
           </button>
-        </div> */}
+        </div>
       </div>
       <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
         <table className=" w-full">
-          {/* <!-- head --> */}
           <thead className="border-b">
             <tr className="text-left">
               <th className="p-2 px-4 w-16">#</th>
-              <th className="font-sans">Nombre</th>
-              <th className="font-sans">Correo</th>
-              <th className="font-sans">Role</th>
-              <th className=" font-sans font-bold text-center">Acciones</th>
+              <th >Nombre</th>
+              <th >Apellidos</th>
+              <th >Dirección</th>
+              <th className="  font-bold text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>

@@ -10,7 +10,7 @@ const Usuarios = () => {
   });
 
   return (
-    <div className=" px-16 w-1/2">
+    <div className=" px-16 ">
       <div className="flex-row flex w-full p-6">
         <div className="w-2/3 flex items-center">
           <h1 className="font-bold antialiased text-2xl text-inherit font-mono">

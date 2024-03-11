@@ -32,6 +32,9 @@ export const authAPI = createApi({
           );
         } catch (error) {
           sessionStorage.removeItem("access");
+          sessionStorage.removeItem("refresh")
+          sessionStorage.removeItem("user")
+          sessionStorage.removeItem("id")
           stop()
         }
       },
@@ -41,6 +44,7 @@ export const authAPI = createApi({
       query: () => ({
         url: "auth/logout/",
         method: "POST",
+        body: { refresh: sessionStorage.getItem("refresh"), access: sessionStorage.getItem("access")},
       }),
       async onQueryStarted(args, { queryFulfilled }) {
         try {
