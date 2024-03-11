@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { auth_state } from "../app/slices/auth.slice";
+import { auth_state } from "../app/slices/Auth.slice";
 
 export const roles = {
   admin: "Administrador",

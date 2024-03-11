@@ -2,12 +2,15 @@ import { createBrowserRouter } from "react-router-dom";
 import LogIn from "../pages/LogIn";
 
 import LoadingPageAd from "../pages/adminPages/LoadingPageAd";
-import AdminLayout from "../pages/adminPages/AdminLayout";
-import AdminDashBoard from "../pages/adminPages/AdminDashBoard";
-import AdminInv from "../pages/adminPages/AdminInv";
-import AdminWks from "../pages/adminPages/AdminWks";
-import AdminRents from "../pages/adminPages/AdminRents";
-import ClientsTable from "../components/tables/ClientsTable";
+import Layout from "../pages/adminPages/AdminLayout";
+import DashBoard from "../pages/adminPages/AdminDashBoard";
+import Users from "../components/tables/UserTable";
+import UsersForm from "../components/forms/UsersForm";
+import Clients from "../components/tables/ClientsTable";
+import ClientsForm from "../components/forms/ClientsForm"
+import Films from "../components/tables/FilmsTable";
+import Supports from "../components/tables/SupportTables";
+//  import Rents from "../components/tables/PrestamosTable";
 
 
 const router = createBrowserRouter([
@@ -16,33 +19,52 @@ const router = createBrowserRouter([
         element: <LogIn />,
     },
     {
-        path: "/admini",
+        path: "/home",
         element: <LoadingPageAd />,
     },
     {
-        path: "/admini/Dashboard",
-        element: <AdminLayout />,
+        path: "/home/Dashboard",
+        element: <Layout />,
         children: [
             {
                 index: true,
-                element: <AdminDashBoard />,
-            },
-            {
-                path: "Inventario",
-                element: <AdminInv />,
+                element: <DashBoard />,
             },
             {
                 path: "Trabajadores",
-                element: <AdminWks />,
+                element: <Users />,
             },
             {
-                path: "Rentas",
-                element: <AdminRents />,
+                path: "Trabajadores/Agregar",
+                element: <UsersForm />,
+            },
+            {
+                path: "Trabajadores/Editar/:id",
+                element: <UsersForm />,
             },
             {
                 path: "Clientes",
-                element: <ClientsTable />,
-            }
+                element: <Clients />,
+            },{
+                path: "Clientes/Agregar",
+                element: <ClientsForm />,
+            },
+            {
+                path: "Clientes/Editar/:id",
+                element: <ClientsForm />,
+            },
+            {
+                path: "Películas",
+                element: <Films />,
+            },
+            {
+                path: "Soportes",
+                element: <Supports />,
+            },
+            // {
+            //     path: "Préstamos",
+            //     element: <Rents/>,
+            // },
         ],
     },
    

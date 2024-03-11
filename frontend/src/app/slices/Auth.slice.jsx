@@ -8,7 +8,6 @@ const initialState = {
   user: JSON.parse(sessionStorage.getItem("username")),
 };
 
-console.log(initialState.user)
   
 export const authSlice = createSlice({
   name: "auth",
@@ -24,6 +23,7 @@ export const authSlice = createSlice({
       state.user_id = null;
       sessionStorage.removeItem("username");
       sessionStorage.removeItem("access");
+      sessionStorage.removeItem("refresh");
     },
   },
   extraReducers: (builder) => {

@@ -63,7 +63,7 @@ export const userAPI = createApi({
     editUser: builder.mutation({
       query: (body) => ({
         url: `auth/users/${body.id}/`,
-        method: "PUT",
+        method: "PATCH",
         body,
       }),
       invalidatesTags: (result, error, { id }) =>

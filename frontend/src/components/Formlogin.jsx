@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field,} from "formik";
 import * as Yup from "yup";
 import {
     VisibilityOffOutlined,
     VisibilityOutlined,
     LoginOutlined,
 } from "@mui/icons-material";
+import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../app/services/AuthService";
 import { auth_state, loginState } from "../app/slices/Auth.slice";
@@ -35,23 +36,42 @@ const Formlogin = () => {
     
         login({ username: values.username, password: values.password });
       };
+      
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: false,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
     
       React.useEffect(() => {
         if (isSuccess) {
           dispatch(loginState());
-          navigate("/admini");
-          console.log("exito")
+          navigate("/home");
+          Toast.fire({
+            icon: "success",
+            iconColor: "orange",
+            title: "Sesión iniciada correctamente"
+          });
         }
     
         if (isError) {
-          console.log("error")
           navigate("/");
+          Toast.fire({
+            icon: "error",
+            title: "Credenciales incorrectas"
+          });
         }
       }, [isLoading]);
     
       React.useEffect(() => {
         if (authenticated) {
-          navigate("/");
+          navigate("/home");
         }
 
       }, []);
@@ -87,7 +107,7 @@ const Formlogin = () => {
                             onBlur={handleBlur}
                             className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none p-3 ${
                                 errors.username && touched.username && "border-red-400"
-                              } `}
+                              }  ${isError && "border-red-400"} ${values.username.length  > 0 && "border-green-100"} `}
                             placeholder="Usuario"
                         />
                         
@@ -102,7 +122,7 @@ const Formlogin = () => {
                             onBlur={handleBlur}
                             className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none p-3 ${
                                 errors.password && touched.password && "border-red-400"
-                              } `}
+                              } ${isError && "border-red-400"} ${values.password.length  > 0 && "border-green-100"} `}
                             placeholder="Contraseña"
                         />
                         <span

@@ -1,23 +1,41 @@
+import { useState, useEffect } from "react";
 import {
     HomeOutlined,
-    Inventory2Outlined,
     CameraOutdoorOutlined,
     PeopleAltOutlined,
-    ShoppingCartOutlined,
-    Person2Outlined,
+    ContactEmergencyOutlined,
+    MovieCreationOutlined,
+    RequestQuoteOutlined,
+    VideoFileOutlined
 } from "@mui/icons-material";
 import { Outlet, useNavigate, NavLink, useLocation } from "react-router-dom";
 import UserDropDown from "../../components/UserDropDown";
+import { useGetUserByIdQuery } from "../../app/services";
 
 
 export default function AdminView() {
     const location = useLocation();
+    const id = sessionStorage.getItem("id");
+    const [role, setRole] = useState("");
+    const {data}= useGetUserByIdQuery(id);
+
+    useEffect(() => {
+        if (data) {
+
+            if (data.is_staff) {
+                setRole("Admin");
+            } else {
+                setRole("User");
+            }
+        }
+    }, [data]);
+
     return (
         <div className="flex w-full bg-gray-100 ">
             <div>
                 <div className="flex flex-col items-center p-2 h-full">
                     <NavLink
-                    to="/admini/Dashboard">
+                    to="/home/Dashboard">
                         <div className="flex items-center gap-1 text-2xl font-semibold pb-10">
                             <CameraOutdoorOutlined
                                 style={{ fontSize: "xx-large" }}
@@ -29,62 +47,76 @@ export default function AdminView() {
                         <div className="grid gap-10 pt-8">
                             <NavLink
                                 className={
-                                    location.pathname === "/admini/Dashboard"
+                                    location.pathname === "/home/Dashboard"
                                         ? "flex items-center gap-3 text-xl text-orange-400 pl-3 pr-4  border-r-4 border-orange-400 transition-all "
                                         : "flex items-center gap-3 text-xl px-3  text-orange-400 transition-all hover:text-yellow-900"
                                 }
-                                to="/admini/Dashboard"
+                                to="/home/Dashboard"
                             >
                                 <HomeOutlined />
                                 Dashboard
                             </NavLink>
+                            {role === "Admin" && 
                             <NavLink
                                 className={
                                     location.pathname ===
-                                    "/admini/Dashboard/Inventario"
+                                    "/home/Dashboard/Trabajadores"
                                         ? "flex items-center gap-3 text-xl text-orange-400 pl-3 pr-4  border-r-4 border-orange-400 transition-all "
-                                        : "flex items-center gap-3 text-xl px-3  text-orange-400 transition-all hover:text-yellow-900"
-                                }
-                                to="Inventario"
-                            >
-                                <Inventory2Outlined />
-                                Inventario
-                            </NavLink>
-                            <NavLink
-                                className={
-                                    location.pathname ===
-                                    "/admini/Dashboard/Trabajadores"
-                                        ? "flex items-center gap-3 text-xl text-orange-400 pl-3 pr-2.5  border-r-4 border-orange-400 transition-all "
                                         : "flex items-center gap-3 text-xl px-3  text-orange-400 transition-all hover:text-yellow-900"
                                 }
                                 to="Trabajadores"
                             >
-                                <PeopleAltOutlined />
+                                <ContactEmergencyOutlined />
                                 Trabajadores
-                            </NavLink>
+                            </NavLink>}
                             <NavLink
                                 className={
                                     location.pathname ===
-                                    "/admini/Dashboard/Rentas"
-                                        ? "flex items-center gap-3 text-xl text-orange-400 pl-3 pr-4 border-r-4 border-orange-400 transition-all"
-                                        : "flex items-center gap-3 text-xl px-3  text-orange-400 transition-all hover:text-yellow-900"
-                                }
-                                to="Rentas"
-                            >
-                                <ShoppingCartOutlined />
-                                Rentas
-                            </NavLink>
-                            <NavLink
-                                className={
-                                    location.pathname ===
-                                    "/admini/Dashboard/Clientes"
-                                        ? "flex items-center gap-3 text-xl text-orange-400 pl-3 pr-4 border-r-4 border-orange-400 transition-all"
+                                    "/home/Dashboard/Clientes"
+                                        ? "flex items-center gap-3 text-xl text-orange-400 pl-3 pr-2.5  border-r-4 border-orange-400 transition-all "
                                         : "flex items-center gap-3 text-xl px-3  text-orange-400 transition-all hover:text-yellow-900"
                                 }
                                 to="Clientes"
                             >
-                                <Person2Outlined />
+                                <PeopleAltOutlined />
                                 Clientes
+                            </NavLink>
+                            <NavLink
+                                className={
+                                    location.pathname ===
+                                    "/home/Dashboard/Películas"
+                                        ? "flex items-center gap-3 text-xl text-orange-400 pl-3 pr-4 border-r-4 border-orange-400 transition-all"
+                                        : "flex items-center gap-3 text-xl px-3  text-orange-400 transition-all hover:text-yellow-900"
+                                }
+                                to="Películas"
+                            >
+                                <MovieCreationOutlined />
+                                Películas
+                            </NavLink>
+                            {role === "Admin" && 
+                            <NavLink
+                                className={
+                                    location.pathname ===
+                                    "/home/Dashboard/Soportes"
+                                        ? "flex items-center gap-3 text-xl text-orange-400 pl-3 pr-4 border-r-4 border-orange-400 transition-all"
+                                        : "flex items-center gap-3 text-xl px-3  text-orange-400 transition-all hover:text-yellow-900"
+                                }
+                                to="Soportes"
+                            >
+                                <VideoFileOutlined />
+                                Soportes
+                            </NavLink>}
+                            <NavLink
+                                className={
+                                    location.pathname ===
+                                    "/home/Dashboard/Prestamos"
+                                        ? "flex items-center gap-3 text-xl text-orange-400 pl-3 pr-4 border-r-4 border-orange-400 transition-all"
+                                        : "flex items-center gap-3 text-xl px-3  text-orange-400 transition-all hover:text-yellow-900"
+                                }
+                                to="Préstamos"
+                            >
+                                <RequestQuoteOutlined />
+                                Préstamos
                             </NavLink>
                         </div>
                     </nav>

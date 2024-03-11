@@ -34,7 +34,7 @@ export const clientsAPI = createApi({
 
         createClient: builder.mutation({
             query: (payload) => ({
-                url: "clientes",
+                url: "clientes/",
                 method: "POST",
                 body: payload,
             }),
@@ -101,8 +101,8 @@ export const clientsAPI = createApi({
 export const {
     useGetClientsQuery,
     useLazyGetClientByIdQuery,
-    useCreateClientsMutation,
-    useUpdateClientsMutation, 
+    useCreateClientMutation,
+    useUpdateClientMutation, 
     useDeleteClientMutation,
     useCreateFijoClientMutation,
     useListInvalidClientQuery,

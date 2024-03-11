@@ -7,18 +7,22 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
-import { auth_state, logoutState } from "../app/slices/Auth.slice";
+import { logoutState } from "../app/slices/Auth.slice";
 import { useLogoutMutation } from "../app/services";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch,} from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useGetUserByIdQuery } from "../app/services";
+import Swal from "sweetalert2";
 
 
 export default function AccountMenu() {
-    const { user } = useSelector(auth_state);
+    const id = sessionStorage.getItem("id");
+    const [name, setName] = React.useState("");
+    const {data}= useGetUserByIdQuery(id);
     const dispatch = useDispatch();
     const [logout] = useLogoutMutation();
     const Navigate = useNavigate();
-    
+   
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -27,16 +31,38 @@ export default function AccountMenu() {
     const handleClose = () => {
        setAnchorEl(null);
     };
-
+     
+    React.useEffect(() => {
+        if (data) {
+            setName(data.username);
+        }
+    }, [data]);
     
-        const logoutUser = async () => {
-            await logout()
-              .unwrap()
-              .then(() => {
-                dispatch(logoutState());
-                Navigate("/")
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: false,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+    
+    const logoutUser = async () => {
+        await logout()
+            .unwrap()
+            .then(() => {
+             dispatch(logoutState());
+            Navigate("/")
+            Toast.fire({
+                icon: "success",
+                iconColor: "orange",
+                title: "Sesión cerrada correctamente"
               });
-          };
+            });
+        };
         
     
     return (
@@ -99,7 +125,7 @@ export default function AccountMenu() {
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
                 <MenuItem onClick={handleClose}>
-                    <Avatar /> {user}
+                    <Avatar /> {name} 
                 </MenuItem>
                 <MenuItem onClick={logoutUser}>
                     <ListItemIcon>
