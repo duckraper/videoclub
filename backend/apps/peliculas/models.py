@@ -68,7 +68,6 @@ class Pelicula(models.Model):
     soportes = models.ManyToManyField(
         'soportes.Soporte', related_name="peliculas")
 
-
     @property
     def estreno(self):
         if self.fecha_estreno is None:
