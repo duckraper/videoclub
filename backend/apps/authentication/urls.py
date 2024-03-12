@@ -15,6 +15,7 @@ urlpatterns = [
     path('auth/logout/', LogoutView.as_view(), name='logout'),
 
     path('auth/users/', UserViewSet.as_view(), name='users'),
-    path('auth/users/<str:pk>/', UserCRUDView.as_view(), name='users-crud'),
     path('auth/users/profile/', RetrieveSelfUser.as_view(), name='user-profile'),
+    path('auth/users/<str:pk>/', UserCRUDView.as_view(), name='users-crud'),
+    
 ]
