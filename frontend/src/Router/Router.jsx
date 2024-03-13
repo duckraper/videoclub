@@ -54,7 +54,7 @@ const router = createBrowserRouter([
                 element: <ClientsForm />,
             },
             {
-                path: "Películas",
+                path: "Peliculas",
                 element: <Films />,
             },
             {
@@ -62,7 +62,7 @@ const router = createBrowserRouter([
                 element: <Supports />,
             },
             // {
-            //     path: "Préstamos",
+            //     path: "Prestamos",
             //     element: <Rents/>,
             // },
         ],

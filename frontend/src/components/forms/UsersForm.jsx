@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useCreateUserMutation, useEditUserMutation } from "../../app/services";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,10 +9,7 @@ import {
   tipo_state,
   setEdit,
 } from "../../app/slices/TipoActivo.slice";
-import {
-  VisibilityOffOutlined,
-  VisibilityOutlined,
-} from "@mui/icons-material";
+import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material";
 import Swal from "sweetalert2";
 
 const UsersForm = () => {
@@ -27,11 +24,6 @@ const UsersForm = () => {
       error: errorEdit,
     },
   ] = useEditUserMutation();
-
-  const roles = {
-    Administrador: "is_staff",
-    Dependiente: "!is_staff",
-  };
 
   const { noHere, edit } = useSelector(tipo_state);
   const dispatch = useDispatch();
@@ -93,6 +85,7 @@ const UsersForm = () => {
           values?.apellidos.slice(1),
         email: values?.email,
         password: values?.re_password,
+        is_staff: values?.administrador,
       });
     } else {
       await createUser({
@@ -104,6 +97,7 @@ const UsersForm = () => {
           values?.apellidos.slice(1),
         email: values?.email,
         password: values?.re_password,
+        is_staff: values?.administrador,
       });
     }
   };
@@ -113,7 +107,7 @@ const UsersForm = () => {
       <div className="flex w-full p-6 items-center justify-center">
         <div className="w-2/3 flex items-center justify-center">
           <h1 className="font-bold text-orange-400 text-2xl ">
-            {edit ? "Editar Usuario" : "Agregar Usuario"}
+            {edit ? "Editar Trabajador" : "Agregar Trabajador"}
           </h1>
         </div>
       </div>
@@ -126,7 +120,7 @@ const UsersForm = () => {
             password: "",
             email: "",
             re_password: "",
-            
+            administrador: false,
           }}
           validationSchema={Yup.object({
             user: Yup.string().required("El campo usuario es requerido"),
@@ -167,6 +161,7 @@ const UsersForm = () => {
           })}
           onSubmit={handleSubmit}
         >
+          
           {({
             values,
             errors,
@@ -175,7 +170,6 @@ const UsersForm = () => {
             setFieldValue,
             handleChange,
             handleBlur,
-          
           }) => {
             useEffect(() => {
               if (edit) {
@@ -183,17 +177,22 @@ const UsersForm = () => {
                 setFieldValue("nombre", edit?.first_name, true);
                 setFieldValue("apellidos", edit?.last_name, true);
                 setFieldValue("email", edit?.email, true);
+                setFieldValue("administrador", edit?.is_staff, true);
               }
             }, []);
-
-            const [showPass,setShowPass] = useState(false)
+            
+            const [showPass, setShowPass] = useState(false);
             const handleShowPass = () => {
-                setShowPass(!showPass)
-            }
-            const [showPassRe,setShowPassRe] = useState(false)
+              setShowPass(!showPass);
+            };
+            const [showPassRe, setShowPassRe] = useState(false);
             const handleShowPassRe = () => {
-                setShowPassRe(!showPassRe)
-            }
+              setShowPassRe(!showPassRe);
+            };
+
+            const handleRole = () => {
+              setFieldValue("administrador", !values.administrador);
+            };
             return (
               <Form className="w-full p-6 bg-white" autoComplete="off">
                 <div className="md:flex md:items-center mb-6">
@@ -253,7 +252,7 @@ const UsersForm = () => {
                       value={values.apellidos}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder="Escriba el apellidos"
+                      placeholder="Escriba los apellidos"
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
                         errors.apellidos &&
                         touched.apellidos &&
@@ -264,67 +263,59 @@ const UsersForm = () => {
                     />
                   </div>
                 </div>
-                <div className="md:flex md:items-center mb-6">
-                  <div className="md:w-1/3">
-                    <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                      Correo
-                    </label>
+                <div className="flex justify-end space-x-36">
+                  <div className="md:flex mb-6 md:w-2/6 ">
+                    <div className="">
+                      <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
+                        Correo
+                      </label>
+                    </div>
+                    <div className="w-full">
+                      <input
+                        type="email"
+                        name="email"
+                        value={values.email}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        placeholder="pepe@uci.cu"
+                        className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
+                          errors.email && touched.email && "border-red-400"
+                        } ${isError && "border-red-400"} ${
+                          values.email.length > 0 && "border-green-100"
+                        } `}
+                      />
+                    </div>
                   </div>
-                  <div className="md:w-2/3">
-                    <input
-                      type="email"
-                      name="email"
-                      value={values.email}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      placeholder="pepe@uci.cu"
-                      className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
-                        errors.email && touched.email && "border-red-400"
-                      } ${isError && "border-red-400"} ${
-                        values.email.length > 0 && "border-green-100"
-                      } `}
-                    />
+
+                  <div className="flex md:items-center mb-6 md:w-1/4 ml-6">
+                    <div className="">
+                      <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
+                        Administrador
+                      </label>
+                    </div>
+                    
+                      <div className="flex pt-1 ">
+                        <input
+                          type="checkbox"
+                          name="administrador"
+                          value={values.administrador}
+                          onChange={handleRole}
+                          className="mr-2"
+                        />
+                        {/* <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
+                        {values.administrador ? "Si" : "No"}
+                      </label> */}
+                      </div>
+                    
                   </div>
                 </div>
-
-                {/* <div className="md:flex md:items-center mb-6">
-                  <div className="md:w-1/3">
-                    <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                      Role
-                    </label>
-                  </div>
-                  <div className="md:w-2/3">
-                    <select
-                      onBlur={handleBlur}
-                      className={`select select-bordered w-full max-w-xs ${
-                        errors.role && touched.role && "select-error"
-                      } ${
-                        values.role.length > 0 &&
-                        !errors.role &&
-                        "select-success"
-                      }`}
-                      value={values.role}
-                      name="role"
-                      onChange={handleChange}
-                    >
-                      <option value="" disabled>
-                        Seleccione un role
-                      </option>
-                      {roles?.forEach((rol) => (
-                        <option>
-                          {rol}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div> */}
                 <div className="md:flex md:items-center mb-6">
                   <div className="md:w-1/3">
                     <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
                       Contraseña
                     </label>
                   </div>
-                  <div className="md:w-2/3 space-y-2 mb-6 relative">
+                  <div className="md:w-2/3 relative">
                     <input
                       type={showPass ? "text" : "password"}
                       name="password"
@@ -338,20 +329,20 @@ const UsersForm = () => {
                         values.password.length > 0 && "border-green-100"
                       } `}
                     />
-                     <span
-                            className="absolute right-3 top-1/3 transform -translate-y-1/2 cursor-pointer"
-                            onClick={handleShowPass}
-                        >
-                            { showPass ? (
-                                <VisibilityOffOutlined
-                                    style={{ fontSize: "large", color: "gray" }}
-                                />
-                            ) : (
-                                <VisibilityOutlined
-                                    style={{ fontSize: "large", color: "gray" }}
-                                />
-                            )}
-                        </span>
+                    <span
+                      className="absolute right-3 top-1/3 transform -translate-y-1/2 cursor-pointer pt-2.5"
+                      onClick={handleShowPass}
+                    >
+                      {showPass ? (
+                        <VisibilityOffOutlined
+                          style={{ fontSize: "large", color: "gray" }}
+                        />
+                      ) : (
+                        <VisibilityOutlined
+                          style={{ fontSize: "large", color: "gray" }}
+                        />
+                      )}
+                    </span>
                   </div>
                 </div>
                 <div className="md:flex md:items-center mb-6">
@@ -360,7 +351,7 @@ const UsersForm = () => {
                       Confirmar Contraseña
                     </label>
                   </div>
-                  <div className="md:w-2/3 space-y-2 mb-6 relative">
+                  <div className="md:w-2/3 relative">
                     <input
                       type={showPassRe ? "text" : "password"}
                       name="re_password"
@@ -377,26 +368,26 @@ const UsersForm = () => {
                       } `}
                     />
                     <span
-                            className="absolute right-3 top-1/3 transform -translate-y-1/2 cursor-pointer"
-                            onClick={handleShowPassRe}
-                        >
-                            { showPassRe ? (
-                                <VisibilityOffOutlined
-                                    style={{ fontSize: "large", color: "gray" }}
-                                />
-                            ) : (
-                                <VisibilityOutlined
-                                    style={{ fontSize: "large", color: "gray" }}
-                                />
-                            )}
-                        </span>
+                      className="absolute right-3 top-1/3 transform -translate-y-1/2 cursor-pointer pt-2.5"
+                      onClick={handleShowPassRe}
+                    >
+                      {showPassRe ? (
+                        <VisibilityOffOutlined
+                          style={{ fontSize: "large", color: "gray" }}
+                        />
+                      ) : (
+                        <VisibilityOutlined
+                          style={{ fontSize: "large", color: "gray" }}
+                        />
+                      )}
+                    </span>
                   </div>
                 </div>
-
+                        
                 <div className="flex justify-between w-full px-auto">
                   <button
                     onClick={() => navigate(-1)}
-                    className=" rounded-md bg-red-400 uppercase w-1/6 text-white font-semibold"
+                    className=" rounded-md bg-red-400 uppercase py-1 px-2 text-white font-medium text-sm"
                     type="button"
                   >
                     cancelar
@@ -404,8 +395,8 @@ const UsersForm = () => {
                   <button
                     disabled={!isValid}
                     className={` rounded-md ${
-                      !isValid && "bg-orange-200"
-                    } bg-orange-300 uppercase w-1/6 text-white font-semibold`}
+                      !isValid || values.user === "" && "bg-orange-200"
+                    } bg-orange-300 uppercase py-1 px-2 text-white font-medium text-sm`}
                     type="submit"
                   >
                     {edit ? "editar" : "agregar"}

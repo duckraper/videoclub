@@ -19,7 +19,7 @@ client.interceptors.request.use(
             config?.url.search(re_login) === -1 &&
             config?.url.search(re_refresh) === -1
         ) {
-            let token = sessionStorage.getItem("access");
+            let token = localStorage.getItem("access");
 
             const shouldRefresh = isRefreshNeeded(token);
 
@@ -27,14 +27,14 @@ client.interceptors.request.use(
                 if (token && shouldRefresh.needRefresh) {
                     if (shouldRefresh.valid === false) {
                         token = await client.post("auth/token/refresh/", {
-                            refresh: sessionStorage.getItem("refresh"),
+                            refresh: localStorage.getItem("refresh"),
                         });
                     }
                 }
             } catch (e) {
-                sessionStorage.removeItem("access");
-                sessionStorage.removeItem("refresh");
-                sessionStorage.removeItem("user");
+                localStorage.removeItem("access");
+                localStorage.removeItem("refresh");
+                localStorage.removeItem("user");
 
                 window.location
                     .replace(window.location.origin)
@@ -43,8 +43,8 @@ client.interceptors.request.use(
 
             if (token) {
                 if (typeof token === "object") {
-                    sessionStorage.setItem("access", token.data.access);
-                    sessionStorage.setItem("refresh", token.data.refresh);
+                    localStorage.setItem("access", token.data.access);
+                    localStorage.setItem("refresh", token.data.refresh);
 
                     config.headers = {
                         "Content-Type": "application/json",

@@ -1,10 +1,11 @@
-import React from "react";
+import {useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useGetClientsQuery } from "../../app/services";
 import { setEdit, setNoHere } from "../../app/slices/TipoActivo.slice";
 import ClientsRow from "../tableBody/ClientsRow";
-import { PersonAddOutlined } from "@mui/icons-material";
+import { PersonAddOutlined,FiberManualRecord } from "@mui/icons-material";
+
 
 const Usuarios = () => {
   const navigate = useNavigate();
@@ -13,36 +14,44 @@ const Usuarios = () => {
     refetchOnReconnect: true,
   });
 
-  React.useEffect(() => {
-    dispatch(setEdit(null));
-  }, []);
+    useEffect(() => {
+      dispatch(setEdit(null));
+    }, []);
 
-  return (
+
+
+
+return (
     <div className=" px-16">
      <div className="flex-row flex w-full p-6">
-        <div className="w-2/3 flex items-center">
-          <h1 className="font-bold text-2xl text-inherit ">Trabajadores</h1>
+        <div className="w-2/3 flex flex-col text-gray-400">
+          <h1 className="font-bold text-2xl text-black ">Usuarios</h1>
+          <h2 className="text-gray-500 ml-2">Estados</h2>
+          <h3><FiberManualRecord style={{fontSize: "small", paddingBottom: "4px" , color: "greenyellow"}}/>Activo</h3>
+          <h3><FiberManualRecord style={{fontSize: "small", paddingBottom: "4px" , color: "gray"}}/>Inactivo</h3>
+          <h3><FiberManualRecord style={{fontSize: "small", paddingBottom: "4px" , color: "red"}}/>Suspendido</h3>
         </div>
-        <div className="w-1/3 flex justify-end mt-20">
+        <div className="w-1/3 flex justify-end mt-28">
           <button
             onClick={() => {
               dispatch(setNoHere(false));
               navigate("Agregar/");
             }}
-            className=" rounded-full shadow-sm bg-orange-300 hover:bg-orange-200 transition-all text-white w-12 uppercase flex-end"
+            className=" flex rounded-full shadow-sm h-6 justify-center bg-orange-300 hover:bg-orange-200 transition-all text-white w-12 uppercase flex-end"
           >
             <PersonAddOutlined />
           </button>
         </div>
       </div>
       <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
-        <table className=" w-full">
+         <table className=" w-full">
           <thead className="border-b">
             <tr className="text-left">
               <th className="p-2 px-4 w-16">#</th>
               <th >Nombre</th>
               <th >Apellidos</th>
               <th >Dirección</th>
+              <th >Estado</th>
               <th className="  font-bold text-center">Acciones</th>
             </tr>
           </thead>
@@ -51,7 +60,7 @@ const Usuarios = () => {
               <ClientsRow key={el.id} index={index} client={el} />
             ))}
           </tbody>
-        </table>
+        </table> 
       </div>
     </div>
   );

@@ -22,19 +22,19 @@ export const authAPI = createApi({
           let data = getCacheEntry().data;
           let user = jwtDecode(data.access);
 
-          sessionStorage.setItem("access", data.access);
-          sessionStorage.setItem("refresh", data.refresh);
-          sessionStorage.setItem("id", user.user_id);
-          sessionStorage.setItem("username", JSON.stringify(user.username));
+          localStorage.setItem("access", data.access);
+          localStorage.setItem("refresh", data.refresh);
+          localStorage.setItem("id", user.user_id);
+          localStorage.setItem("username", JSON.stringify(user.username));
          
           await dispatch(
             userAPI.endpoints.getUserById.initiate(user.user_id)
           );
         } catch (error) {
-          sessionStorage.removeItem("access");
-          sessionStorage.removeItem("refresh")
-          sessionStorage.removeItem("user")
-          sessionStorage.removeItem("id")
+          localStorage.removeItem("access");
+          localStorage.removeItem("refresh")
+          localStorage.removeItem("user")
+          localStorage.removeItem("id")
           stop()
         }
       },
@@ -44,16 +44,16 @@ export const authAPI = createApi({
       query: () => ({
         url: "auth/logout/",
         method: "POST",
-        body: { refresh: sessionStorage.getItem("refresh"), access: sessionStorage.getItem("access")},
+        body: { refresh: localStorage.getItem("refresh"), access: localStorage.getItem("access")},
       }),
       async onQueryStarted(args, { queryFulfilled }) {
         try {
           await queryFulfilled;
 
-           sessionStorage.removeItem("access");
-           sessionStorage.removeItem("refresh");
-           sessionStorage.removeItem("user")
-           sessionStorage.removeItem("id")
+           localStorage.removeItem("access");
+           localStorage.removeItem("refresh");
+           localStorage.removeItem("user")
+           localStorage.removeItem("id")
          
         } catch (error) {
           console.log(error);

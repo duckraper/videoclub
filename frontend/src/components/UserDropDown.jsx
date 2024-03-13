@@ -13,6 +13,7 @@ import { useDispatch,} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useGetUserByIdQuery } from "../app/services";
 import Swal from "sweetalert2";
+import { setEdit, setNoHere } from "../app/slices/TipoActivo.slice";
 
 
 export default function AccountMenu() {
@@ -22,6 +23,14 @@ export default function AccountMenu() {
     const dispatch = useDispatch();
     const [logout] = useLogoutMutation();
     const Navigate = useNavigate();
+
+    const handleClickEdit = async () => {
+        dispatch(setEdit(data));
+        dispatch(setNoHere(false));
+        Navigate(`Trabajadores/editar/${data.id}`);
+      };
+
+    let char = name.charAt(0).toUpperCase()
    
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -30,13 +39,18 @@ export default function AccountMenu() {
     };
     const handleClose = () => {
        setAnchorEl(null);
+       
     };
      
     React.useEffect(() => {
         if (data) {
             setName(data.username);
+            
         }
+        char = name.charAt(0).toUpperCase()
+            console.log(char)
     }, [data]);
+
     
     const Toast = Swal.mixin({
         toast: true,
@@ -84,7 +98,7 @@ export default function AccountMenu() {
                         aria-expanded={open ? "true" : undefined}
                         
                     >
-                        <Avatar sx={{ width: 32, height: 32 }} className=" border-orange-400 border-2">M</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }} className=" border-orange-400 border-2">{char}</Avatar>
                     </IconButton>
                 </Tooltip>
                 
@@ -124,7 +138,7 @@ export default function AccountMenu() {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleClickEdit}>
                     <Avatar /> {name} 
                 </MenuItem>
                 <MenuItem onClick={logoutUser}>

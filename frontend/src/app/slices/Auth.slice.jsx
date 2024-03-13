@@ -3,9 +3,9 @@ import { authAPI, userAPI } from "../services";
 
 
 const initialState = {
-  user_id: sessionStorage.getItem("id"),
-  authenticated: sessionStorage?.getItem("access") ? true : false,
-  user: JSON.parse(sessionStorage.getItem("username")),
+  user_id: localStorage.getItem("id"),
+  authenticated: localStorage?.getItem("access") ? true : false,
+  // user: JSON.parse(localStorage.getItem("username")),
 };
 
   
@@ -15,15 +15,15 @@ export const authSlice = createSlice({
   reducers: {
     loginState: (state) => {
       state.authenticated = true;
-      state.user = JSON.parse(sessionStorage.getItem("username"));
+      // state.user = JSON.parse(localStorage.getItem("username"));
     },
     logoutState: (state) => {
       state.authenticated = false;
       state.user = null;
       state.user_id = null;
-      sessionStorage.removeItem("username");
-      sessionStorage.removeItem("access");
-      sessionStorage.removeItem("refresh");
+      localStorage.removeItem("username");
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
     },
   },
   extraReducers: (builder) => {

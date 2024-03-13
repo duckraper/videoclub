@@ -1,7 +1,7 @@
 import React from "react";
 import Swal from "sweetalert2";
 import { useDeleteClientMutation } from "../../app/services";
-import { PersonRemoveOutlined, EditOutlined } from "@mui/icons-material";
+import { PersonRemoveOutlined, EditOutlined, FiberManualRecord } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 import { setEdit, setNoHere } from "../../app/slices/TipoActivo.slice";
@@ -41,6 +41,9 @@ const ClientRow = ({ index, client }) => {
       <td>{`${client.nombre}`}</td>
       <td>{client.apellidos}</td>
       <td>{client.direccion}</td>
+      <td className=" pl-5">{client.es_fijo ? <FiberManualRecord style={{fontSize: "small", paddingBottom: "4px" , color: "greenyellow"}}/> :
+       <FiberManualRecord style={{fontSize: "small", paddingBottom: "4px" , color: "gray"}}/> }</td>
+      
 
   
 

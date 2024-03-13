@@ -15,22 +15,22 @@ import {
 import Swal from "sweetalert2";
 
 const provincias = {
-  Pinar_del_Rio: "PRI",
-  Artemisa: "ART",
-  La_Habana: "HAB",
-  Mayabeque: "MAY",
-  Matanzas: "MTZ",
-  Cienfuegos: "CFG",
-  Villa_Clara: "VCL",
-  Sancti_Spíritus: "SSP",
-  Ciego_de_Ávila: "CAV",
-  Camagüey: "CMG",
-  Las_Tunas: "LTU",
-  Holguín: "HOL",
-  Granma: "GRA",
-  Santiago_de_Cuba: "SCU",
-  Guantánamo: "GTM",
-  Isla_de_la_Juventud: "IJV",
+  "Pinar del Rio": "PRI",
+  "Artemisa": "ART",
+  "La Habana": "HAB",
+  "Mayabeque": "MAY",
+  "Matanzas": "MTZ",
+  "Cienfuegos": "CFG",
+  "Villa Clara": "VCL",
+  "Sancti Spíritus": "SSP",
+  "Ciego de Ávila": "CAV",
+  "Camagüey": "CMG",
+  "Las Tunas": "LTU",
+  "Holguín": "HOL",
+  "Granma": "GRA",
+  "Santiago de Cuba": "SCU",
+  "Guantánamo": "GTM",
+  "Isla de la Juventud": "IJV",
 };
 
 
@@ -131,7 +131,7 @@ const UsersForm = () => {
       <div className="flex w-full p-6 items-center justify-center">
         <div className="w-2/3 flex items-center justify-center">
           <h1 className="font-bold text-orange-400 text-2xl ">
-            {edit ? "Editar Usuario" : "Agregar Usuario"}
+            {edit ? "Editar Cliente" : "Agregar Cliente"}
           </h1>
         </div>
       </div>
@@ -291,20 +291,20 @@ const UsersForm = () => {
                   <div className="md:w-2/3">
                     <select
                       onBlur={handleBlur}
-                      className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
-                        errors.edad && touched.edad && "border-red-400"
+                      className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-2 ${
+                        errors.provincia && touched.provincia && "border-red-400"
                       } ${isError && "border-red-400"} ${
-                        values.edad.length > 0 && "border-green-100"
+                        values.provincia.length > 0 && "border-green-100"
                       } `}
                       value={values.provincia}
                       name="provincia"
                       onChange={handleChange}
                     >
-                      <option value="" disabled>
+                      <option value="" disabled  >
                         Seleccione una Provincia
                       </option>
                     {Object.keys(provincias).map((provincia) => (
-                        <option key={provincia} value={provincias[provincia]}>
+                        <option key={provincia} value={provincias[provincia]} >
                           {provincia}
                         </option>
                       ))}
@@ -317,7 +317,7 @@ const UsersForm = () => {
                       Dirección
                     </label>
                   </div>
-                  <div className="md:w-2/3 space-y-2 mb-6 relative">
+                  <div className="md:w-2/3  relative">
                     <input
                       type="text"
                       name="direccion"
@@ -341,7 +341,7 @@ const UsersForm = () => {
                       Teléfono
                     </label>
                   </div>
-                  <div className="md:w-2/3 space-y-2 mb-6 relative">
+                  <div className="md:w-2/3 relative">
                     <input
                       type="text"
                       name="telefono"
@@ -361,16 +361,16 @@ const UsersForm = () => {
                 <div className="flex justify-between w-full px-auto">
                   <button
                     onClick={() => navigate(-1)}
-                    className=" rounded-md bg-red-400 uppercase w-1/6 text-white font-semibold"
+                    className=" rounded-md bg-red-400 uppercase py-1 px-2 font-medium text-sm text-white"
                     type="button"
                   >
                     cancelar
                   </button>
                   <button
                     disabled={!isValid}
-                    className={` rounded-md ${
-                      !isValid && "bg-orange-200"
-                    } bg-orange-300 uppercase w-1/6 text-white font-semibold`}
+                    className={`rounded-md bg-orange-300 ${
+                      !isValid && "bg-orange-50"
+                    }  uppercase py-1 px-2 font-medium text-sm text-white`}
                     type="submit"
                   >
                     {edit ? "editar" : "agregar"}

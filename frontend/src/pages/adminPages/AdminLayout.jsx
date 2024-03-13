@@ -15,7 +15,7 @@ import { useGetUserByIdQuery } from "../../app/services";
 
 export default function AdminView() {
     const location = useLocation();
-    const id = sessionStorage.getItem("id");
+    const id = localStorage.getItem("id");
     const [role, setRole] = useState("");
     const {data}= useGetUserByIdQuery(id);
 
@@ -84,11 +84,11 @@ export default function AdminView() {
                             <NavLink
                                 className={
                                     location.pathname ===
-                                    "/home/Dashboard/Películas"
+                                    "/home/Dashboard/Peliculas"
                                         ? "flex items-center gap-3 text-xl text-orange-400 pl-3 pr-4 border-r-4 border-orange-400 transition-all"
                                         : "flex items-center gap-3 text-xl px-3  text-orange-400 transition-all hover:text-yellow-900"
                                 }
-                                to="Películas"
+                                to="Peliculas"
                             >
                                 <MovieCreationOutlined />
                                 Películas

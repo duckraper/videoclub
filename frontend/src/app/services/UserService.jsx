@@ -25,7 +25,7 @@ export const userAPI = createApi({
 
     getUserById: builder.query({
       query: (id) => ({
-        url: `/auth/users/profile/`,
+        url: `/auth/users/me/`,
         method: "GET",
       }),
       providesTags: (result, error, id) => [{ type: "User", id }],
@@ -35,10 +35,10 @@ export const userAPI = createApi({
           let data = getCacheEntry().data
 
           await queryFulfilled;
-          sessionStorage.setItem("user", JSON.stringify(data));
+          localStorage.setItem("user", JSON.stringify(data));
         } catch (error) {
-          sessionStorage.removeItem("user");
-          sessionStorage.removeItem("access");
+          localStorage.removeItem("user");
+          localStorage.removeItem("access");
         }
       },
     }),
