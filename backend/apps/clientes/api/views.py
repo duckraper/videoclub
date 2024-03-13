@@ -1,5 +1,4 @@
 from django.core.exceptions import ValidationError
-from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import (
@@ -12,7 +11,7 @@ from rest_framework.status import (
 
 from .serializers import ClienteSerializer, ClienteFijoSerializer, InvalidacionSerializer
 from apps.clientes.models import Cliente, ClienteFijo, Invalidacion
-from apps.clientes.utils import parse_cliente, crear_fijo, deshacer_fijo
+from apps.clientes.utils import parse_cliente, crear_fijo
 
 
 class ListCreateClienteView(APIView):
@@ -162,7 +161,6 @@ class RetrieveUpdateDestroyClienteView(APIView):
             return Response(status=HTTP_204_NO_CONTENT)
 
         return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
-
 
 
 class InvalidarClienteView(APIView):

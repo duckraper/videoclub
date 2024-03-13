@@ -12,7 +12,7 @@ Este módulo se encarga de gestionar los clientes de la empresa.
 - Listar clientes
 - Listar clientes por tipo de cliente
 - Establecer un cliente como fijo
-- Un cliente fijo tendra genero favorito, el cual no puede ser modificado y se le haran recomendaciones en base a eso
+- Un cliente fijo tendra género favorito, el cual no puede ser modificado y se le haran recomendaciones con base en eso
 - Invalidar o revalidar clientes
 - Listar clientes invalidados
 - Validar entrada de datos de CI, nombre, apellidos y email

@@ -86,6 +86,9 @@ def poblar_con_clientes(sender, **kwargs):
         print("Poblando con clientes:")
         count = 0
         for i, cliente in enumerate(clientes, start=1):
+            if Cliente.objects.filter(ci=cliente['ci']).exists():
+                continue
+
             cliente, c_created = Cliente.objects.get_or_create(
                 ci=cliente['ci'],
                 nombre=cliente['nombre'],

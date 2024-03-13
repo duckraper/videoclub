@@ -3,7 +3,6 @@ from .views import (
     ListCreateClienteView,
     RetrieveUpdateDestroyClienteView,
     InvalidarClienteView,
-    CrearClienteFijoView,
     ListInvalidadosView,
     ListClientesFijosView
     )
