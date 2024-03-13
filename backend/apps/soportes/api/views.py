@@ -1,7 +1,6 @@
 from django.db import transaction
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAdminUser
 from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
@@ -10,9 +9,9 @@ from rest_framework.status import (
     HTTP_404_NOT_FOUND
 )
 from apps.peliculas.models import Pelicula
-from .models import Casete, DVD, VCD, Soporte
+from ..models import Casete, DVD, VCD, Soporte
 from .serializers import CaseteSerializer, DVDSerializer, SoporteSerializer, VCDSerializer
-from .utils import parse_soporte
+from ..utils import parse_soporte
 
 
 class RetrieveSoporte(APIView):
@@ -121,14 +120,14 @@ class GrabarPeliculaView(APIView):
             with transaction.atomic():
                 # si es casete o VCD
                 if pelicula.soportes.all().filter(pk=soporte.pk).exists():
-                    return Response("La pelicula ya esta grabada en este soporte", status=HTTP_405_METHOD_NOT_ALLOWED)
+                    return Response("La pelicula ya esta grabada en este soporte", status=HTTP_400_BAD_REQUEST)
 
                 if soporte.pk in VCD.objects.all().values_list('pk', flat=True) or \
                         soporte.pk in Casete.objects.all().values_list('pk', flat=True):
                     if soporte.cant_peliculas_grabadas < soporte.cant_max_peliculas and \
                             soporte.estado != "M" and soporte.disponible:
                         soporte.cant_peliculas_grabadas += 1
-                        soporte.peliculas.add(pelicula)  # type:ignore
+                        soporte.peliculas.add(pelicula)
                         soporte.save()
 
                         pelicula.soportes.add(soporte)

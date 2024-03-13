@@ -1,8 +1,8 @@
 from typing import Literal
-from django.db import models
+from django.db import models, transaction
 from decimal import Decimal
 from django.core.validators import MinValueValidator
-from datetime import date
+from datetime import date, datetime as dt
 from apps.clientes.models import ClienteFijo
 
 PORCENTAJE_CLIENTE_FIJO = Decimal(0.1)
@@ -33,6 +33,29 @@ class SolicitudPrestamo(models.Model):
     fecha_de_devolucion = models.DateField(null=True, blank=True)
 
     activo = models.BooleanField(default=True)
+
+    # ======================== Realizar devolucion del prestamo ============================ #
+
+    @transaction.atomic
+    def devolucion(self, fecha=None):
+        """
+        Realiza la devolucion de un prestamo, se le aplicarán los correspondientes cargos en caso de existir
+        """
+
+        if fecha is None:
+            fecha = dt.today().date()
+
+        self.ha_sido_devuelto = True
+        self.fecha_de_devolucion = fecha
+        self.activo = False
+        self.save()
+
+        self.cliente.cant_soportes_alquilados -= 1
+        self.cliente.save()
+
+        self.soporte.estado = self.soporte.calcular_estado()
+        self.soporte.disponible = True
+        self.soporte.save()
 
     # ============================= Comprobar si ya se vencio el prestamo ================== #
 

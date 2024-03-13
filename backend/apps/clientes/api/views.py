@@ -11,8 +11,8 @@ from rest_framework.status import (
 )
 
 from .serializers import ClienteSerializer, ClienteFijoSerializer, InvalidacionSerializer
-from .models import Cliente, ClienteFijo, Invalidacion
-from .utils import parse_cliente
+from apps.clientes.models import Cliente, ClienteFijo, Invalidacion
+from apps.clientes.utils import parse_cliente, crear_fijo, deshacer_fijo
 
 
 class ListCreateClienteView(APIView):
@@ -86,12 +86,14 @@ class RetrieveUpdateDestroyClienteView(APIView):
                 serializer = ClienteFijoSerializer(cliente)
             else:
                 serializer = ClienteSerializer(cliente)
-                print(serializer.data)
 
             data = serializer.data
 
             if cliente.invalidado:
-                data = {**data, "invalidado": True}  # type: ignore
+                data = {
+                    **data,
+                    "invalidado": True
+                }
 
             return Response(data, status=HTTP_200_OK)
 
@@ -122,10 +124,17 @@ class RetrieveUpdateDestroyClienteView(APIView):
         except Cliente.DoesNotExist:
             return Response("Cliente no encontrado", status=HTTP_404_NOT_FOUND)
 
-        if cliente.activo:
-            cliente = parse_cliente(cliente)
+        es_fijo = request.data.get('es_fijo')
+        if es_fijo is not None and cliente.es_fijo != es_fijo:
+            if cliente.es_fijo:
+                cliente_fijo = parse_cliente(cliente)
+                cliente_fijo.delete()
+            else:
+                genero = request.data.get('genero_favorito')
+                cliente = crear_fijo(cliente, genero)
 
-            if isinstance(cliente, ClienteFijo):
+        if cliente.activo:
+            if cliente.es_fijo:
                 serializer = ClienteFijoSerializer(
                     cliente, data=request.data, partial=True)
             else:
@@ -155,6 +164,7 @@ class RetrieveUpdateDestroyClienteView(APIView):
         return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
 
 
+# TODO: implementar la logica de crear cliente fijo en una `PATCH` request
 class CrearClienteFijoView(APIView):
     """
     `POST`: Convierte cliente normal en cliente fijo
@@ -172,7 +182,7 @@ class CrearClienteFijoView(APIView):
 
         cliente = parse_cliente(cliente)
 
-        if isinstance(cliente, ClienteFijo):
+        if cliente.es_fijo:
             return Response("Cliente ya es fijo", status=HTTP_400_BAD_REQUEST)
 
         with transaction.atomic():

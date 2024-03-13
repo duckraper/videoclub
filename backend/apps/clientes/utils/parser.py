@@ -1,5 +1,4 @@
-from django.apps import apps
-from .models import Cliente, ClienteFijo
+from apps.clientes.models import Cliente, ClienteFijo
 
 
 def parse_cliente(cliente: Cliente | ClienteFijo) -> Cliente | ClienteFijo:

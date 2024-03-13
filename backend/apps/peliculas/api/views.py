@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND
 from rest_framework.views import APIView
 
-from .models import Pelicula
+from apps.peliculas.models import Pelicula
 from .serializers import PeliculaSerializer
 
 

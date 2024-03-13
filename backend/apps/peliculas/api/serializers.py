@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, SerializerMethodField
-from .models import Pelicula
+from apps.peliculas.models import Pelicula
 
 
 class PeliculaSerializer(ModelSerializer):

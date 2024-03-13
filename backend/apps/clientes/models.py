@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from datetime import datetime as dt
-
 from ..peliculas.models import GENEROS
 
 PROVINCIAS = [
@@ -30,7 +29,7 @@ class Cliente(models.Model):
 
     ci = models.CharField(
         max_length=11,
-        unique=True,  
+        unique=True,
         validators=[
             RegexValidator(r"^(?:[0-9]{2})(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])[0-9]{5}$",
                            'El CI debe tener 11 números sin letras')
@@ -89,10 +88,7 @@ class Cliente(models.Model):
         return f"{self.nombre} {self.apellidos}"
 
 
-
-
 class ClienteFijo(Cliente):
-
     class Meta:
         db_table = "cliente_fijo"
 
@@ -113,7 +109,7 @@ class Invalidacion(models.Model):
 
     cliente = models.OneToOneField(
         Cliente, on_delete=models.CASCADE, primary_key=True)
-    
+
     fecha_invalidacion = models.DateField(auto_now_add=True, editable=False)
     motivo = models.CharField(max_length=255, blank=True, null=True)
 

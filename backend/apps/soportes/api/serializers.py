@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from .models import Casete, DVD, VCD, Soporte
-from .utils import parse_soporte
-from apps.peliculas.serializers import PeliculaSerializer
+from ..models import Casete, DVD, VCD, Soporte
+from ..utils import parse_soporte
+from apps.peliculas.api.serializers import PeliculaSerializer
 
 SOPORTES = ['casete', 'vcd', 'dvd']
 

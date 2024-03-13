@@ -1,4 +1,3 @@
-from unicodedata import decimal
 from django.db import models
 from django.core.validators import MinValueValidator as MinValue
 from decimal import Decimal
@@ -45,6 +44,10 @@ class Soporte(models.Model):
     cant_prestamos = models.PositiveIntegerField(default=0, blank=True)
 
     disponible = models.BooleanField(default=True)
+
+    @property
+    def tipo_de_soporte(self):
+        return
 
     def calcular_estado(self):
         """

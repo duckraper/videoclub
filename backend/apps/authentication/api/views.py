@@ -13,8 +13,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import User
-from .serializers import MyTokenObtainPairSerializer, UserSerializer
+from apps.authentication.models import User
+from apps.authentication.api.serializers import MyTokenObtainPairSerializer, UserSerializer
 
 
 class MyTokenObtainPairView(TokenObtainPairView):

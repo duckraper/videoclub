@@ -12,11 +12,11 @@ from django.db import transaction
 from django.utils import timezone
 from django.forms import ValidationError
 
-from ..clientes.models import Cliente
-from ..soportes.models import Soporte
+from apps.clientes.models import Cliente
+from apps.soportes.models import Soporte
 from .serializers import SolicitudPrestamoSerializer
-from .models import SolicitudPrestamo
-from .utils import crear_solicitud, devolucion
+from apps.prestamos.models import SolicitudPrestamo
+from apps.prestamos.utils import crear_solicitud
 
 ULTIMA_QUINCENA = timezone.now() - timezone.timedelta(days=15)
 
@@ -25,7 +25,6 @@ class ListCreateSolicitudView(APIView):
     """
     Crea nuevas solicitudes de prestamo y lista las realizadas
     """
-
     @staticmethod
     def get(request):
         try:
@@ -87,9 +86,9 @@ class DevolverPrestamoView(APIView):
         fecha_entrega = request.query_params.get('fecha')
 
         if fecha_entrega:
-            devolucion(prestamo, fecha_entrega)
+            prestamo.devolucion(fecha_entrega)
         else:
-            devolucion(prestamo)
+            prestamo.devolucion()
 
         return Response({'message': 'La devolucion ha sido realizada correctamente'}, status=HTTP_200_OK)
 

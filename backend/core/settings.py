@@ -30,6 +30,14 @@ ALLOWED_HOSTS = ['*']  # TODO Cambiar a solo recibir del frontend, y de postgres
 
 AUTH_USER_MODEL = "authentication.User"
 
+MIGRATION_MODULES = {
+    "authentication": "migrations.authentication",
+    "soportes": "migrations.soportes",
+    "peliculas": "migrations.peliculas",
+    "prestamos": "migrations.prestamos",
+    "clientes": "migrations.clientes"
+}
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -186,7 +194,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 

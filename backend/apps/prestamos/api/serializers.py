@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer
 
-from apps.clientes.serializers import ClienteSerializer
-from apps.soportes.serializers import SoporteSerializer
-from .models import SolicitudPrestamo
+from apps.clientes.api.serializers import ClienteSerializer
+from apps.soportes.api.serializers import SoporteSerializer
+from apps.prestamos.models import SolicitudPrestamo
 
 
 class SolicitudPrestamoSerializer(ModelSerializer):

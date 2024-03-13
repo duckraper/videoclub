@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.serializers import ModelSerializer
 
-from .models import User
+from apps.authentication.models import User
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

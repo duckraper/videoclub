@@ -8,7 +8,7 @@ import codecs
 from time import sleep
 
 
-# @receiver(post_migrate)
+@receiver(post_migrate)
 def poblar_con_usuarios(sender, **kwargs):
     if sender.name == "apps.authentication":
         User = apps.get_model("authentication", "User")
@@ -19,6 +19,11 @@ def poblar_con_usuarios(sender, **kwargs):
         print("Poblando con usuarios:")
         count = 0
         for i, user in enumerate(users, start=1):
+            # Hacer consulta que compruebe si el nombre de usuario o correo ya existe
+            if User.objects.filter(username=user["username"]).exists() or\
+                    User.objects.filter(email=user["email"]).exists():
+                continue
+
             user, p_created = User.objects.get_or_create(
                 username=user["username"],
                 password=make_password(user["password"]),
@@ -31,7 +36,7 @@ def poblar_con_usuarios(sender, **kwargs):
                 count += 1
                 print(f" {i}- {user}")
             user.save()
-            sleep(secs=1)
+            sleep(0.5)
 
         if count == 0:
             print(' - No hay usuarios para agregar.')

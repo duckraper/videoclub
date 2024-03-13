@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import *
 
 from apps.soportes.models import Casete, DVD, Soporte, VCD
 

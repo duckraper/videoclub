@@ -10,6 +10,5 @@ class User(AbstractUser):
         verbose_name_plural = "Usuarios"
 
     # ...
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     # ...

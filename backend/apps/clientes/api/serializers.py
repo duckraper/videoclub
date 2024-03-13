@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import Cliente, ClienteFijo, Invalidacion
+from apps.clientes.models import Cliente, ClienteFijo, Invalidacion
 
 
 class ClienteSerializer(ModelSerializer):
