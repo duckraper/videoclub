@@ -164,54 +164,6 @@ class RetrieveUpdateDestroyClienteView(APIView):
         return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
 
 
-# TODO: implementar la logica de crear cliente fijo en una `PATCH` request
-class CrearClienteFijoView(APIView):
-    """
-    `POST`: Convierte cliente normal en cliente fijo
-    """
-
-    @staticmethod
-    def post(request, pk):
-        try:
-            cliente = Cliente.objects.get(pk=pk)
-        except Cliente.DoesNotExist:
-            return Response("Cliente no encontrado", status=HTTP_404_NOT_FOUND)
-
-        if not cliente.activo:
-            return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
-
-        cliente = parse_cliente(cliente)
-
-        if cliente.es_fijo:
-            return Response("Cliente ya es fijo", status=HTTP_400_BAD_REQUEST)
-
-        with transaction.atomic():
-            cliente.delete()
-
-            genero = str(request.data.get("genero_favorito"))
-
-            try:
-                cliente_fijo, created = ClienteFijo.objects.get_or_create(
-                    ci=cliente.ci,
-                    nombre=cliente.nombre,
-                    apellidos=cliente.apellidos,
-                    edad=cliente.edad,
-                    provincia=cliente.provincia,
-                    direccion=cliente.direccion,
-                    telefono=cliente.telefono,
-                    fecha_registro=cliente.fecha_registro,
-                    activo=cliente.activo,
-                    cant_soportes_alquilados=cliente.cant_soportes_alquilados,
-                    genero_favorito=genero if genero else "Indefinido"
-                )
-            except Exception as e:
-                return Response(f"Error al crear: {str(e)}", status=HTTP_400_BAD_REQUEST)
-
-        if not created:
-            return Response("Cliente ya es fijo", status=HTTP_400_BAD_REQUEST)
-        
-        return Response("Cliente convertido a fijo", status=HTTP_200_OK)
-
 
 class InvalidarClienteView(APIView):
     """

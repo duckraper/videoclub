@@ -70,7 +70,7 @@ API dedicada a la autenticación de usuarios y la generación de tokens de acces
 
 ### Ver el perfil del usuario (requiere estar autenticado)
 
-- `GET api/auth/users/profile/` Ver perfil
+- `GET api/auth/users/me/` Ver perfil
 
 #### Se debe presentar un token de acceso para acceder a cada *endpoint*
 
