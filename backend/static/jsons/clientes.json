@@ -1,6 +1,6 @@
 [
   {
-    "ci": "8503141234",
+    "ci": "85031412334",
     "nombre": "Ana",
     "apellidos": "Pérez García",
     "direccion": "Calle 12 No. 34",
@@ -9,7 +9,7 @@
     "telefono": "53456789"
   },
   {
-    "ci": "9010255678",
+    "ci": "90102553678",
     "nombre": "Juan",
     "apellidos": "Martínez Rodríguez",
     "direccion": "Avenida 5ta No. 12",
@@ -18,7 +18,7 @@
     "telefono": "59876543"
   },
   {
-    "ci": "0005123456",
+    "ci": "00051234536",
     "nombre": "María",
     "apellidos": "González López",
     "direccion": "Callejón del Carmen No. 1",
@@ -27,7 +27,7 @@
     "telefono": "55432109"
   },
   {
-    "ci": "7511204567",
+    "ci": "75112045367",
     "nombre": "Pedro",
     "apellidos": "Díaz Hernández",
     "direccion": "Reparto Alamar No. 54",
@@ -36,7 +36,7 @@
     "telefono": "52345678"
   },
   {
-    "ci": "6008051234",
+    "ci": "60080512334",
     "nombre": "Rosa",
     "apellidos": "Fernández Pérez",
     "direccion": "Calle 8 No. 12",
@@ -45,7 +45,7 @@
     "telefono": "51234567"
   },
   {
-    "ci": "0502147890",
+    "ci": "05021478390",
     "nombre": "Miguel",
     "apellidos": "Sánchez Rodríguez",
     "direccion": "Reparto El Vedado No. 12",
@@ -54,7 +54,7 @@
     "telefono": "59876543"
   },
   {
-    "ci": "8012315678",
+    "ci": "80123156783",
     "nombre": "Laura",
     "apellidos": "González Díaz",
     "direccion": "Calle 100 No. 12",
@@ -63,7 +63,7 @@
     "telefono": "53456789"
   },
   {
-    "ci": "9509012345",
+    "ci": "95090123435",
     "nombre": "David",
     "apellidos": "Pérez Martínez",
     "direccion": "Reparto Cubanacán No. 12",
@@ -72,7 +72,7 @@
     "telefono": "55432109"
   },
   {
-    "ci": "1004156789",
+    "ci": "10041567893",
     "nombre": "Camila",
     "apellidos": "López Hernández",
     "direccion": "Calle 23 No. 12",
@@ -81,7 +81,7 @@
     "telefono": "52345678"
   },
   {
-    "ci": "7006201234",
+    "ci": "70062012334",
     "nombre": "Jorge",
     "apellidos": "García Rodríguez",
     "direccion": "Reparto Miramar No. 12",

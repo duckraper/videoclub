@@ -26,12 +26,12 @@ class ClienteAdmin(admin.ModelAdmin):
     nombre_completo.short_description = "Nombre Completo"
 
 
-@admin.register(ClienteFijo)
-class ClienteFijoAdmin(ClienteAdmin):
-
-    def get_queryset(self, request):
-        qs = super().get_queryset(request).filter(pk__in=ClienteFijo.objects.all().values_list('pk', flat=True))
-        return qs
+class ClienteFijoAdmin(admin.ModelAdmin):
+    list_display = (
+        "cliente",
+        "genero_favorito",
+    )
+    readonly_fields = ("cliente",)
 
 
 @admin.register(Invalidacion)

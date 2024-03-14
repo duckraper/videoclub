@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import (
@@ -42,7 +43,7 @@ class ListCreateClienteView(APIView):
         if cliente and not cliente.activo:
             cliente.activo = True
             cliente.save()
-            return Response("Cliente reactivado", status=HTTP_200_OK)
+            return Response({"message": "Cliente reactivado"}, status=HTTP_201_CREATED)
 
         serializer = ClienteSerializer(data=request.data)
 
@@ -51,15 +52,6 @@ class ListCreateClienteView(APIView):
             return Response(serializer.data, status=HTTP_201_CREATED)
 
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-
-
-class ListClientesFijosView(APIView):
-    @staticmethod
-    def get(request):
-        clientes = ClienteFijo.objects.all().filter(activo=True)
-        serializer = ClienteFijoSerializer(clientes, many=True)
-
-        return Response(serializer.data, status=HTTP_200_OK)
 
 
 class RetrieveUpdateDestroyClienteView(APIView):
@@ -76,53 +68,48 @@ class RetrieveUpdateDestroyClienteView(APIView):
         try:
             cliente = Cliente.objects.get(pk=pk)
         except Cliente.DoesNotExist:
-            return Response("Cliente no encontrado", status=HTTP_404_NOT_FOUND)
+            return Response({"message": "Cliente no encontrado"}, status=HTTP_404_NOT_FOUND)
 
         if cliente.activo:
-            cliente = parse_cliente(cliente)
-
-            if isinstance(cliente, ClienteFijo):
-                serializer = ClienteFijoSerializer(cliente)
+            if cliente.es_fijo:
+                cliente_fijo = ClienteFijo.objects.get(pk=cliente.pk)
+                serializer = ClienteFijoSerializer(cliente_fijo)
             else:
                 serializer = ClienteSerializer(cliente)
 
-            data = serializer.data
+            return Response(serializer.data, status=HTTP_200_OK)
 
-            if cliente.invalidado:
-                data = {
-                    **data,
-                    "invalidado": True
-                }
-
-            return Response(data, status=HTTP_200_OK)
-
-        return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
+        return Response({"message": "Cliente no está activo"}, status=HTTP_400_BAD_REQUEST)
 
     @staticmethod
     def put(request, pk):
         try:
             cliente = Cliente.objects.get(pk=pk)
         except Cliente.DoesNotExist:
-            return Response("Cliente no encontrado", status=HTTP_404_NOT_FOUND)
+            return Response({"message": "Cliente no encontrado"}, status=HTTP_404_NOT_FOUND)
 
-        if cliente.activo:
-            serializer = ClienteSerializer(cliente, data=request.data)
+        if not cliente.activo:
+            return Response({"message": "Cliente no está activo"}, status=HTTP_400_BAD_REQUEST)
 
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=HTTP_200_OK)
+        serializer = ClienteSerializer(cliente, data=request.data)
 
-            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_200_OK)
 
-        return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
     @staticmethod
     def patch(request, pk):
         try:
             cliente = Cliente.objects.get(pk=pk)
         except Cliente.DoesNotExist:
-            return Response("Cliente no encontrado", status=HTTP_404_NOT_FOUND)
+            return Response({"message": "Cliente no encontrado"}, status=HTTP_404_NOT_FOUND)
 
+        if not cliente.activo:
+            return Response({"message": "Cliente no está activo"}, status=HTTP_400_BAD_REQUEST)
+
+        cliente_fijo = None
         es_fijo = request.data.get('es_fijo')
         if es_fijo is not None and cliente.es_fijo != es_fijo:
             if cliente.es_fijo:
@@ -130,23 +117,20 @@ class RetrieveUpdateDestroyClienteView(APIView):
                 cliente_fijo.delete()
             else:
                 genero = request.data.get('genero_favorito')
-                cliente = crear_fijo(cliente, genero)
+                cliente_fijo = crear_fijo(cliente, genero)
 
-        if cliente.activo:
-            if cliente.es_fijo:
-                serializer = ClienteFijoSerializer(
-                    cliente, data=request.data, partial=True)
-            else:
-                serializer = ClienteSerializer(
-                    cliente, data=request.data, partial=True)
+        if cliente.es_fijo and cliente_fijo:
+            serializer = ClienteFijoSerializer(
+                cliente_fijo, data=request.data, partial=True)
+        else:
+            serializer = ClienteSerializer(
+                cliente, data=request.data, partial=True)
 
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=HTTP_200_OK)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_200_OK)
 
-            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-
-        return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
     @staticmethod
     def delete(request, pk):
@@ -171,28 +155,32 @@ class InvalidarClienteView(APIView):
     """
 
     @staticmethod
+    @transaction.atomic
     def post(request, pk):
         try:
             cliente = Cliente.objects.get(pk=pk)
         except Cliente.DoesNotExist:
-            return Response("Cliente no encontrado", status=HTTP_404_NOT_FOUND)
+            return Response({"message": "Cliente no encontrado"}, status=HTTP_404_NOT_FOUND)
 
         if cliente.invalidado:
-            return Response("Cliente ya está invalidado", status=HTTP_400_BAD_REQUEST)
+            return Response({"message": "Cliente ya está invalidado"}, status=HTTP_400_BAD_REQUEST)
 
         if not cliente.activo:
-            return Response("Cliente no está activo", status=HTTP_400_BAD_REQUEST)
+            return Response({"message": "Cliente no está activo"}, status=HTTP_400_BAD_REQUEST)
 
         if cliente.es_fijo:
-            cliente_fijo = ClienteFijo.objects.get(pk=cliente.pk)
-            cliente_fijo.delete(keep_parents=True)
+            try:
+                cliente_fijo = ClienteFijo.objects.get(pk=cliente.pk)
+                cliente_fijo.delete(keep_parents=True)
+            except ClienteFijo.DoesNotExist:
+                return Response({"message": "Cliente fijo no encontrado"}, status=HTTP_404_NOT_FOUND)
 
         try:
             motivo = request.data.get("motivo")
             cliente.invalidar(motivo) if motivo else cliente.invalidar()
 
         except ValidationError as e:
-            return Response({"error": e.message}, status=HTTP_400_BAD_REQUEST)
+            return Response({"message": e.message}, status=HTTP_400_BAD_REQUEST)
 
         return Response("Cliente invalidado", status=HTTP_200_OK)
 

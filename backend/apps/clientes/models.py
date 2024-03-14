@@ -25,7 +25,7 @@ PROVINCIAS = [
 class Cliente(models.Model):
     class Meta:
         db_table = "cliente"
-        ordering = ["nombre", "apellidos"]
+        ordering = ["-cant_soportes_alquilados", "nombre", "apellidos"]
 
     ci = models.CharField(
         max_length=11,
@@ -78,27 +78,40 @@ class Cliente(models.Model):
 
     @property
     def invalidado(self):
-        return hasattr(self, "invalidacion")
+        return self.pk in Invalidacion.objects.all().values_list('pk', flat=True)
 
     @property
     def es_fijo(self):
         return self.pk in ClienteFijo.objects.all().values_list('pk', flat=True)
 
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.title()
+        self.apellidos = self.apellidos.title()
+        self.direccion = self.direccion.title()
+
+        return super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.nombre} {self.apellidos}"
 
 
-class ClienteFijo(Cliente):
+class ClienteFijo(models.Model):
     class Meta:
         db_table = "cliente_fijo"
 
+    cliente = models.OneToOneField(
+        Cliente, on_delete=models.CASCADE, primary_key=True)
     genero_favorito = models.CharField(max_length=32, choices=GENEROS, default='Indefinido')
 
     def save(self, *args, **kwargs):
-        if not self.pk:
-            self.max_soportes_prestados = 3
+        if self.cliente.max_soportes_prestados < 3 or self.pk is None:
+            self.cliente.max_soportes_prestados = 3
+            self.cliente.save()
 
         return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.cliente.__str__()
 
 
 class Invalidacion(models.Model):

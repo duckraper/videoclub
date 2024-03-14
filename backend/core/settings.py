@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'apps.soportes',
     'apps.peliculas',
     'apps.prestamos',
-    'apps.clientes',
+    'apps.clientes'
 ]
 
 IPRESTRICT_GEOIP_ENABLED = False

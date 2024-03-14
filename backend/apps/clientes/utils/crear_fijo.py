@@ -1,25 +1,18 @@
 from django.db import transaction
-from ..models import Cliente, ClienteFijo
+from ..models import Cliente, ClienteFijo, Invalidacion
 
 
-# TODO: eliminar un cliente fijo si se pone en falso 'es_fijo'
 @transaction.atomic
-def crear_fijo(cliente: Cliente, genero: str = None):
-    cliente.delete()
+def crear_fijo(cliente: Cliente | ClienteFijo, genero: str = None) -> Cliente | ClienteFijo:
+
+    if cliente.invalidado:
+        invalidacion = Invalidacion.objects.get(pk=cliente.pk)
+        invalidacion.delete()
 
     genero = genero if genero is not None or genero == "" else "Indefinido"
 
     cliente_fijo, created = ClienteFijo.objects.get_or_create(
-        ci=cliente.ci,
-        nombre=cliente.nombre,
-        apellidos=cliente.apellidos,
-        edad=cliente.edad,
-        provincia=cliente.provincia,
-        direccion=cliente.direccion,
-        telefono=cliente.telefono,
-        fecha_registro=cliente.fecha_registro,
-        activo=cliente.activo,
-        cant_soportes_alquilados=cliente.cant_soportes_alquilados,
+        cliente_id=cliente.pk,
         genero_favorito=genero
     )
 

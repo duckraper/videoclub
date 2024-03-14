@@ -4,6 +4,7 @@ from apps.clientes.models import Cliente, ClienteFijo, Invalidacion
 
 class ClienteSerializer(ModelSerializer):
     es_fijo = SerializerMethodField()
+    invalidado = SerializerMethodField()
 
     class Meta:
         model = Cliente
@@ -13,10 +14,17 @@ class ClienteSerializer(ModelSerializer):
     def get_es_fijo(obj):
         return obj.es_fijo
 
+    @staticmethod
+    def get_invalidado(obj):
+        return obj.invalidado
 
-class ClienteFijoSerializer(ClienteSerializer):
-    class Meta(ClienteSerializer.Meta):
+
+class ClienteFijoSerializer(ModelSerializer):
+    cliente = ClienteSerializer(read_only=True)
+
+    class Meta:
         model = ClienteFijo
+        fields = '__all__'
 
 
 class InvalidacionSerializer(ModelSerializer):
