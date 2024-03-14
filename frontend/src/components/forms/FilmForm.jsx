@@ -3,8 +3,8 @@ import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import {
-  useCreateClientMutation,
-  useUpdateClientMutation,
+  useCreateFilmMutation,
+  useUpdateFilmMutation,
 } from "../../app/services";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,38 +14,24 @@ import {
 } from "../../app/slices/TipoActivo.slice";
 import Swal from "sweetalert2";
 
-const provincias = {
-  "Pinar del Rio": "PRI",
-  "Artemisa": "ART",
-  "La Habana": "HAB",
-  "Mayabeque": "MAY",
-  "Matanzas": "MTZ",
-  "Cienfuegos": "CFG",
-  "Villa Clara": "VCL",
-  "Sancti Spíritus": "SSP",
-  "Ciego de Ávila": "CAV",
-  "Camagüey": "CMG",
-  "Las Tunas": "LTU",
-  "Holguín": "HOL",
-  "Granma": "GRA",
-  "Santiago de Cuba": "SCU",
-  "Guantánamo": "GTM",
-  
-};
-
-
+const clasif_edads = {
+    "A": "A",
+    "B": "B",
+    "C": "C",
+    "D": "D",
+}
 const UsersForm = () => {
-  const [createClient, { isLoading, isSuccess, isError, error }] =
-    useCreateClientMutation();
+  const [createFilm, { isLoading, isSuccess, isError, error }] =
+    useCreateFilmMutation();
   const [
-    editClient,
+    editFilm,
     {
       isLoading: isLoadingEdit,
       isSuccess: isSuccessEdit,
       isError: isErrorEdit,
       error: errorEdit,
     },
-  ] = useUpdateClientMutation();
+  ] = useUpdateFilmMutation();
 
   const { noHere, edit } = useSelector(tipo_state);
   const dispatch = useDispatch();
@@ -75,7 +61,7 @@ const UsersForm = () => {
       Toast.fire({
         icon: "success",
         iconColor: "orange",
-        title: `Se ${isSuccessEdit ? "editó" : "creó"} cliente ${
+        title: `Se ${isSuccessEdit ? "editó" : "creó"} la película ${
           isSuccessEdit ? "seleccionado" : ""
         } correctamente `,
       });
@@ -97,31 +83,31 @@ const UsersForm = () => {
     actions.resetForm();
 
     if (edit) {
-      await editClient({
+      await editFilm({
         id: edit.id,
-        nombre:
-          values?.nombre.charAt(0).toUpperCase() + values?.nombre.slice(1),
-        apellidos:
-          values?.apellidos.charAt(0).toUpperCase() +
-          values?.apellidos.slice(1),
-        ci: values?.ci,
-        edad: values?.edad,
-        provincia: values?.provincia,
-        direccion: values?.direccion,
-        telefono: values?.telefono,
+        titulo:
+          values?.titulo.charAt(0).toUpperCase() + values?.titulo.slice(1),
+        genero:
+          values?.genero.charAt(0).toUpperCase() +
+          values?.genero.slice(1),
+        duracion: values?.duracion,
+        director: values?.director,
+        clasif_edad: values?.clasif_edad,
+        tamanio: values?.tamanio,
+        precio: values?.precio,
       });
     } else {
-      await createClient({
-        nombre:
-          values?.nombre.charAt(0).toUpperCase() + values?.nombre.slice(1),
-        apellidos:
-          values?.apellidos.charAt(0).toUpperCase() +
-          values?.apellidos.slice(1),
-        ci: values?.ci,
-        edad: values?.edad,
-        provincia: values?.provincia,
-        direccion: values?.direccion,
-        telefono: values?.telefono,
+      await createFilm({
+        titulo:
+          values?.titulo.charAt(0).toUpperCase() + values?.titulo.slice(1),
+        genero:
+          values?.genero.charAt(0).toUpperCase() +
+          values?.genero.slice(1),
+        duracion: values?.duracion,
+        director: values?.director,
+        clasif_edad: values?.clasif_edad,
+        tamanio: values?.tamanio,
+        precio: values?.precio,
       });
     }
   };
@@ -131,40 +117,40 @@ const UsersForm = () => {
       <div className="flex w-full p-6 items-center justify-center">
         <div className="w-2/3 flex items-center justify-center">
           <h1 className="font-bold text-orange-400 text-2xl ">
-            {edit ? "Editar Cliente" : "Agregar Cliente"}
+            {edit ? "Editar película" : "Agregar película"}
           </h1>
         </div>
       </div>
       <div className="w-3/4 h-auto shadow-md md:flex md:justify-center md:items-center overflow-auto rounded-md">
         <Formik
           initialValues={{
-            nombre: "",
-            apellidos: "",
-            ci: "",
-            edad: "",
-            provincia: "HAB",
-            direccion: "",
-            telefono: "",
+            titulo: "",
+            genero: "",
+            duracion: "",
+            director: "",
+            clasif_edad: "A",
+            tamanio: "",
+            precio: "",
           }}
           validationSchema={Yup.object({
-            nombre: Yup.string().required("El campo nombre es requerido"),
-            apellidos: Yup.string().required("El campo nombre es requerido"),
+            titulo: Yup.string().required("El campo titulo es requerido"),
+            genero: Yup.string().required("El campo titulo es requerido"),
             ci: Yup.string()
               .matches(
                 /^\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])\d{4}\d$/,
                 "El campo CI no cumple con las condiciones"
               )
-              .required("El campo nombre es requerido"),
-            telefono: Yup.string().matches(
+              .required("El campo titulo es requerido"),
+            precio: Yup.string().matches(
               /^5[0-9]{7}$/,
-              "El campo telefono debe ser un número de 8 dígitos que empiece con 5"
+              "El campo precio debe ser un número de 8 dígitos que empiece con 5"
             ),
-            edad: Yup.number()
-              .min(18, "La edad debe ser mayor de 18")
-              .max(99, "La edad debe ser menor de 99")
-              .required("El campo edad es requerido"),
-            provincia: Yup.string().required("El campo provincia es requerido"),
-            direccion: Yup.string().required("El campo dirección es requerido"),
+            director: Yup.number()
+              .min(18, "La director debe ser mayor de 18")
+              .max(99, "La director debe ser menor de 99")
+              .required("El campo director es requerido"),
+            clasif_edad: Yup.string().required("El campo clasif_edad es requerido"),
+            tamanio: Yup.string().required("El campo dirección es requerido"),
           })}
           onSubmit={handleSubmit}
         >
@@ -179,13 +165,13 @@ const UsersForm = () => {
           }) => {
             useEffect(() => {
               if (edit) {
-                setFieldValue("nombre", edit?.nombre, true);
-                setFieldValue("apellidos", edit?.apellidos, true);
-                setFieldValue("ci", edit?.ci, true);
-                setFieldValue("edad", edit?.edad, true);
-                setFieldValue("provincia", edit?.provincia, true);
-                setFieldValue("direccion", edit?.direccion, true);
-                setFieldValue("telefono", edit?.telefono, true);
+                setFieldValue("titulo", edit?.titulo, true);
+                setFieldValue("genero", edit?.genero, true);
+                setFieldValue("duracion", edit?.duracion, true);
+                setFieldValue("director", edit?.director, true);
+                setFieldValue("clasif_edad", edit?.clasif_edad, true);
+                setFieldValue("tamanio", edit?.tamanio, true);
+                setFieldValue("precio", edit?.precio, true);
               }
             }, []);
 
@@ -194,21 +180,21 @@ const UsersForm = () => {
                 <div className="md:flex md:items-center mb-6">
                   <div className="md:w-1/3">
                     <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                      Nombre
+                      Título
                     </label>
                   </div>
                   <div className="md:w-2/3">
                     <input
                       type="text"
-                      name="nombre"
-                      value={values.nombre}
+                      name="titulo"
+                      value={values.titulo}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder="Escriba el nombre"
+                      placeholder="Escriba el titulo"
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
-                        errors.nombre && touched.nombre && "border-red-400"
+                        errors.titulo && touched.titulo && "border-red-400"
                       } ${isError && "border-red-400"} ${
-                        values.nombre.length > 0 && "border-green-100"
+                        values.titulo.length > 0 && "border-green-100"
                       } `}
                     />
                   </div>
@@ -216,23 +202,23 @@ const UsersForm = () => {
                 <div className="md:flex md:items-center mb-6">
                   <div className="md:w-1/3">
                     <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                      Apellidos
+                      Género
                     </label>
                   </div>
                   <div className="md:w-2/3">
                     <input
                       type="text"
-                      name="apellidos"
-                      value={values.apellidos}
+                      name="genero"
+                      value={values.genero}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder="Escriba los apellidos"
+                      placeholder="Escriba los genero"
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
-                        errors.apellidos &&
-                        touched.apellidos &&
+                        errors.genero &&
+                        touched.genero &&
                         "border-red-400"
                       } ${isError && "border-red-400"} ${
-                        values.apellidos.length > 0 && "border-green-100"
+                        values.genero.length > 0 && "border-green-100"
                       } `}
                     />
                   </div>
@@ -240,21 +226,21 @@ const UsersForm = () => {
                 <div className="md:flex md:items-center mb-6">
                   <div className="md:w-1/3">
                     <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                      Carnet de Identidad
+                      Duración
                     </label>
                   </div>
                   <div className="md:w-2/3">
                     <input
                       type="text"
-                      name="ci"
-                      value={values.ci}
+                      name="duracion"
+                      value={values.duracion}
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      placeholder="ej.03051656897"
+                      placeholder="Introduzca la duración en minutos"
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
-                        errors.ci && touched.ci && "border-red-400"
+                        errors.duracion && touched.duracion && "border-red-400"
                       } ${isError && "border-red-400"} ${
-                        values.ci.length > 0 && "border-green-100"
+                        values.duracion.length > 0 && "border-green-100"
                       } `}
                     />
                   </div>
@@ -262,21 +248,21 @@ const UsersForm = () => {
                 <div className="md:flex md:items-center mb-6">
                   <div className="md:w-1/3">
                     <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                      Edad
+                      Director
                     </label>
                   </div>
                   <div className="md:w-2/3">
                     <input
                       type="text"
-                      name="edad"
-                      value={values.edad}
+                      name="director"
+                      value={values.director}
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      placeholder="escriba la edad"
+                      placeholder="escriba la director"
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
-                        errors.edad && touched.edad && "border-red-400"
+                        errors.director && touched.director && "border-red-400"
                       } ${isError && "border-red-400"} ${
-                        values.edad.length > 0 && "border-green-100"
+                        values.director.length > 0 && "border-green-100"
                       } `}
                     />
                   </div>
@@ -285,27 +271,27 @@ const UsersForm = () => {
                 <div className="md:flex md:items-center mb-6">
                   <div className="md:w-1/3">
                     <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                      Provincia
+                      Clasificacion de Edad
                     </label>
                   </div>
                   <div className="md:w-2/3">
                     <select
                       onBlur={handleBlur}
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-2 ${
-                        errors.provincia && touched.provincia && "border-red-400"
+                        errors.clasif_edad && touched.clasif_edad && "border-red-400"
                       } ${isError && "border-red-400"} ${
-                        values.provincia.length > 0 && "border-green-100"
+                        values.clasif_edad.length > 0 && "border-green-100"
                       } `}
-                      value={values.provincia}
-                      name="provincia"
+                      value={values.clasif_edad}
+                      name="clasif_edad"
                       onChange={handleChange}
                     >
                       <option value="" disabled  >
-                        Seleccione una Provincia
+                        Seleccione una clasif_edad
                       </option>
-                    {Object.keys(provincias).map((provincia) => (
-                        <option key={provincia} value={provincias[provincia]} >
-                          {provincia}
+                    {Object.keys(clasif_edads).map((clasif_edad) => (
+                        <option key={clasif_edad} value={clasif_edads[clasif_edad]} >
+                          {clasif_edad}
                         </option>
                       ))}
                     </select>
@@ -314,23 +300,23 @@ const UsersForm = () => {
                 <div className="md:flex md:items-center mb-6">
                   <div className="md:w-1/3">
                     <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                      Dirección
+                      Tamaño
                     </label>
                   </div>
                   <div className="md:w-2/3  relative">
                     <input
                       type="text"
-                      name="direccion"
-                      value={values.direccion}
+                      name="tamanio"
+                      value={values.tamanio}
                       onChange={handleChange}
                       placeholder="Escriba la dirección"
                       onBlur={handleBlur}
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
-                        errors.direccion &&
-                        touched.direccion &&
+                        errors.tamanio &&
+                        touched.tamanio &&
                         "border-red-400"
                       } ${isError && "border-red-400"} ${
-                        values.direccion.length > 0 && "border-green-100"
+                        values.tamanio.length > 0 && "border-green-100"
                       } `}
                     />
                   </div>
@@ -344,15 +330,15 @@ const UsersForm = () => {
                   <div className="md:w-2/3 relative">
                     <input
                       type="text"
-                      name="telefono"
-                      value={values.telefono}
+                      name="precio"
+                      value={values.precio}
                       onChange={handleChange}
                       placeholder="Escriba el teléfono"
                       onBlur={handleBlur}
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
-                        errors.telefono && touched.telefono && "border-red-400"
+                        errors.precio && touched.precio && "border-red-400"
                       } ${isError && "border-red-400"} ${
-                        values.telefono.length > 0 && "border-green-100"
+                        values.precio.length > 0 && "border-green-100"
                       } `}
                     />
                   </div>

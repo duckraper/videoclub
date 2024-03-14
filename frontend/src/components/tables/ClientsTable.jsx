@@ -18,26 +18,19 @@ const Usuarios = () => {
       dispatch(setEdit(null));
     }, []);
 
-
-
-
 return (
     <div className=" px-16">
      <div className="flex-row flex w-full p-6">
-        <div className="w-2/3 flex flex-col text-gray-400">
+        <div className="w-2/3 flex flex-col">
           <h1 className="font-bold text-2xl text-black ">Usuarios</h1>
-          <h2 className="text-gray-500 ml-2">Estados</h2>
-          <h3><FiberManualRecord style={{fontSize: "small", paddingBottom: "4px" , color: "greenyellow"}}/>Activo</h3>
-          <h3><FiberManualRecord style={{fontSize: "small", paddingBottom: "4px" , color: "gray"}}/>Inactivo</h3>
-          <h3><FiberManualRecord style={{fontSize: "small", paddingBottom: "4px" , color: "red"}}/>Suspendido</h3>
         </div>
-        <div className="w-1/3 flex justify-end mt-28">
+        <div className="w-1/3 flex justify-end mt-16">
           <button
             onClick={() => {
               dispatch(setNoHere(false));
               navigate("Agregar/");
             }}
-            className=" flex rounded-full shadow-sm h-6 justify-center bg-orange-300 hover:bg-orange-200 transition-all text-white w-12 uppercase flex-end"
+            className=" flex rounded-full shadow-sm justify-center bg-orange-300 hover:bg-orange-200 transition-all text-white w-12 uppercase flex-end"
           >
             <PersonAddOutlined />
           </button>

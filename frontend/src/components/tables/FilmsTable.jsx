@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useGetFilmsQuery } from "../../app/services";
 import FilmsRow from "../tableBody/FilmsRow";
+import { PersonAddOutlined } from "@mui/icons-material";
 
 const Usuarios = () => {
 //   const dispatch = useDispatch();
@@ -12,34 +13,32 @@ const Usuarios = () => {
   return (
     <div className=" px-16 ">
       <div className="flex-row flex w-full p-6">
-        <div className="w-2/3 flex items-center">
-          <h1 className="font-bold antialiased text-2xl text-inherit font-mono">
-            Películas
-          </h1>
+        <div className="w-2/3 flex flex-col">
+          <h1 className="font-bold text-2xl text-black ">Película</h1>
         </div>
-        {/* <div className="w-1/3 flex justify-end"> */}
-          {/* <button
+        <div className="w-1/3 flex justify-end mt-16">
+          <button
             onClick={() => {
               dispatch(setNoHere(false));
-              navigate(ADD_USUARIO_URL);
+              navigate("Agregar/");
             }}
-            className="btn btn-primary p-0 m-0 w-32 uppercase flex-end"
+            className=" flex rounded-full shadow-sm justify-center bg-orange-300 hover:bg-orange-200 transition-all text-white w-12 uppercase flex-end"
           >
-            agregar
+            <PersonAddOutlined />
           </button>
-        </div> */}
+        </div>
       </div>
       <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
         <table className=" w-full">
-          {/* <!-- head --> */}
           <thead className="border-b">
             <tr className="text-left">
-              <th className="p-2 px-4 w-16">#</th>
-              <th className="font-sans">Titulo</th>
-              <th className="font-sans">Género</th>
-              <th className="font-sans">Duración</th>
-            <th className="font-sans">Precio</th>
-              <th className=" font-sans font-bold text-center">Acciones</th>
+              <th className="p-2 px-4 w-16 text">#</th>
+              <th >Titulo</th>
+              <th >Género</th>
+              <th >Clasificación</th>
+              <th >Duración (min)</th>
+            <th >Precio</th>
+              <th className="  font-bold text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>

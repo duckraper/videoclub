@@ -17,39 +17,35 @@ import { setEdit, setNoHere } from "../app/slices/TipoActivo.slice";
 
 
 export default function AccountMenu() {
-    const id = sessionStorage.getItem("id");
-    const [name, setName] = React.useState("");
-    const {data}= useGetUserByIdQuery(id);
+    const id = localStorage.getItem("id");
+    let name = JSON.parse(localStorage.getItem("username"));
+    const {data}= useGetUserByIdQuery(id,{
+        refetchOnReconnect: true,
+      });
     const dispatch = useDispatch();
     const [logout] = useLogoutMutation();
     const Navigate = useNavigate();
-
-    const handleClickEdit = async () => {
-        dispatch(setEdit(data));
-        dispatch(setNoHere(false));
-        Navigate(`Trabajadores/editar/${data.id}`);
-      };
-
-    let char = name.charAt(0).toUpperCase()
-   
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
+    let char = ""
+     if (name){
+         char = name.charAt(0).toUpperCase();
+        }
+
     const handleClose = () => {
        setAnchorEl(null);
        
     };
-     
-    React.useEffect(() => {
-        if (data) {
-            setName(data.username);
-            
-        }
-        char = name.charAt(0).toUpperCase()
-            console.log(char)
-    }, [data]);
+    
+    const handleClickEdit = async () => {
+        dispatch(setEdit(data));
+        dispatch(setNoHere(false));
+        Navigate(`Trabajadores/editar/${data.id}`);
+      };
 
     
     const Toast = Swal.mixin({
@@ -63,9 +59,11 @@ export default function AccountMenu() {
           toast.onmouseleave = Swal.resumeTimer;
         }
       });
+      
     
     const logoutUser = async () => {
-        await logout()
+         if(data){
+            await logout()
             .unwrap()
             .then(() => {
              dispatch(logoutState());
@@ -76,6 +74,7 @@ export default function AccountMenu() {
                 title: "Sesión cerrada correctamente"
               });
             });
+        }
         };
         
     

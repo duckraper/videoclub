@@ -17,7 +17,7 @@ const Formlogin = () => {
  
     const dispatch = useDispatch();
     const { authenticated } = useSelector(auth_state);
-    console.log(authenticated)
+    
     const navigate = useNavigate();
 
     const initialValues = {
@@ -98,7 +98,7 @@ const Formlogin = () => {
               handleBlur,
             }) => (  
                 <Form>
-                    <div className="space-y-2 mb-6">
+                    <div className="space-y-2 mb-4">
                         <Field
                             type="text"
                             id="username"
@@ -113,7 +113,7 @@ const Formlogin = () => {
                         
                         
                     </div>
-                    <div className="space-y-2 mb-6 relative">
+                    <div className="space-y-2 mb-4 relative">
                         <Field
                             type={showPassword ? "text" : "password"}
                             id="password"

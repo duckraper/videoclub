@@ -63,7 +63,7 @@ const UsersForm = () => {
       Toast.fire({
         icon: "error",
         title: `${
-          isError ? JSON.stringify(error.data) : JSON.stringify(errorEdit.data)
+          isError ?  Object.values(error.data) : Object.values(errorEdit.data)
         }`,
       });
       console.error(error);
@@ -189,7 +189,7 @@ const UsersForm = () => {
             const handleShowPassRe = () => {
               setShowPassRe(!showPassRe);
             };
-
+            
             const handleRole = () => {
               setFieldValue("administrador", !values.administrador);
             };
@@ -263,31 +263,32 @@ const UsersForm = () => {
                     />
                   </div>
                 </div>
-                <div className="flex justify-end space-x-36">
-                  <div className="md:flex mb-6 md:w-2/6 ">
-                    <div className="">
-                      <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                        Correo
-                      </label>
-                    </div>
-                    <div className="w-full">
-                      <input
-                        type="email"
-                        name="email"
-                        value={values.email}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        placeholder="pepe@uci.cu"
-                        className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
-                          errors.email && touched.email && "border-red-400"
-                        } ${isError && "border-red-400"} ${
-                          values.email.length > 0 && "border-green-100"
-                        } `}
-                      />
-                    </div>
+                <div className="md:flex md:items-center">
+                  <div className=" w-1/2 pb-6">
+                    <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
+                      Correo
+                    </label>
+                  </div>
+                  <div className="flex justify-start w-full">
+                  <div className="md:flex mb-6 w-4/5 ">
+                      <div className="w-4/5">
+                        <input
+                          type="email"
+                          name="email"
+                          value={values.email}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          placeholder="pepe@uci.cu"
+                          className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
+                            errors.email && touched.email && "border-red-400"
+                          } ${isError && "border-red-400"} ${
+                            values.email.length > 0 && "border-green-100"
+                          } `}
+                        />
+                      </div>
                   </div>
 
-                  <div className="flex md:items-center mb-6 md:w-1/4 ml-6">
+                  <div className="flex md:items-center mb-6 md:w-1/3 ">
                     <div className="">
                       <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
                         Administrador
@@ -300,13 +301,11 @@ const UsersForm = () => {
                           name="administrador"
                           value={values.administrador}
                           onChange={handleRole}
-                          className="mr-2"
+                          className="mr-2 text-lg"
+                          
                         />
-                        {/* <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                        {values.administrador ? "Si" : "No"}
-                      </label> */}
-                      </div>
-                    
+                      </div>  
+                  </div>
                   </div>
                 </div>
                 <div className="md:flex md:items-center mb-6">
@@ -394,9 +393,9 @@ const UsersForm = () => {
                   </button>
                   <button
                     disabled={!isValid}
-                    className={` rounded-md ${
-                      !isValid || values.user === "" && "bg-orange-200"
-                    } bg-orange-300 uppercase py-1 px-2 text-white font-medium text-sm`}
+                    className={` rounded-md  bg-orange-300 ${
+                      !isValid && "bg-orange-50"
+                    } uppercase py-1 px-2 text-white font-medium text-sm`}
                     type="submit"
                   >
                     {edit ? "editar" : "agregar"}
