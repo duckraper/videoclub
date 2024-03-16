@@ -58,6 +58,11 @@ INSTALLED_APPS = [
     'apps.clientes'
 ]
 
+BRUTE_FORCE_THRESHOLD = 3  # Intentos de login permitidos (3)
+BRUTE_FORCE_TIMEOUT = 60  # Tiempo de espera para intentar login nuevamente (60 segundos)
+
+REQUESTS_PER_MINUTE_ALLOWED = 50  # Número de solicitudes permitidas por minuto
+
 IPRESTRICT_GEOIP_ENABLED = False
 CORS_ALLOW_ALL_ORIGINS = True  # TODO restringir permisos
 CORS_ALLOW_CREDENTIALS = True
@@ -118,6 +123,9 @@ SIMPLE_JWT = {
 
 
 MIDDLEWARE = [
+    'apps.authentication.middlewares.BruteForceProtectionMiddleware',  # Middleware para protección contra fuerza bruta
+    'apps.authentication.middlewares.DDoSProtectionMiddleware',  # Middleware para protección contra DDoS
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
 
