@@ -40,14 +40,12 @@ const ClientRow = ({ index, client }) => {
       <th className="py-3 text-left px-4 text-black">{index + 1}</th>
       <td>{`${client.nombre}`}</td>
       <td>{client.apellidos}</td>
-      <td>{client.direccion}</td>
+      <td className="pl-3">{client.fecha_registro}</td>
+      <td className="pl-8">{client.cant_soportes_alquilados}</td>
       <td className=" pl-5">{client.es_fijo ? <FiberManualRecord style={{fontSize: "small", paddingBottom: "4px" , color: "greenyellow"}}/> :
        <FiberManualRecord style={{fontSize: "small", paddingBottom: "4px" , color: "gray"}}/> }</td>
       
-
-  
-
-      <td>
+       <td>
         <div className="flex flex-row w-100% justify-center items-center space-x-2">
           <div className="hover:cursor-pointer has-tooltip">
             <span className="tooltip rounded shadow-sm p-1 text-xs bg-gray-100 text-yellow-400 -mt-6">

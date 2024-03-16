@@ -9,6 +9,7 @@ import UsersForm from "../components/forms/UsersForm";
 import Clients from "../components/tables/ClientsTable";
 import ClientsForm from "../components/forms/ClientsForm"
 import Films from "../components/tables/FilmsTable";
+import FilmsForm from "../components/forms/FilmForm"
 import Supports from "../components/tables/SupportTables";
 //  import Rents from "../components/tables/PrestamosTable";
 
@@ -56,6 +57,14 @@ const router = createBrowserRouter([
             {
                 path: "Peliculas",
                 element: <Films />,
+            },
+            {
+                path: "Peliculas/Agregar",
+                element: <FilmsForm />,
+            },
+            {
+                path: "Peliculas/Editar/:id",
+                element: <FilmsForm />,
             },
             {
                 path: "Soportes",

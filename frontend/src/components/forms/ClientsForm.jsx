@@ -85,7 +85,7 @@ const UsersForm = () => {
       Toast.fire({
         icon: "error",
         title: `${
-          isError ? Object.values(error.data) : Object.values(errorEdit.data)
+          isError ? `${Object.values(error.data)}${Object.keys(error.data)}` : `${Object.values(errorEdit.data)}${Object.keys(errorEdit.data)}`
         }`,
       });
       console.error(error);
@@ -109,6 +109,7 @@ const UsersForm = () => {
         provincia: values?.provincia,
         direccion: values?.direccion,
         telefono: values?.telefono,
+
       });
     } else {
       await createClient({

@@ -43,7 +43,8 @@ return (
               <th className="p-2 px-4 w-16">#</th>
               <th >Nombre</th>
               <th >Apellidos</th>
-              <th >Dirección</th>
+              <th >Inscrito desde</th>
+              <th>Prestamos</th>
               <th >Estado</th>
               <th className="  font-bold text-center">Acciones</th>
             </tr>

@@ -4,15 +4,13 @@ import { useDeleteFilmMutation } from "../../app/services";
 import { PersonRemoveOutlined, EditOutlined } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
-import { setEdit, setNoHere } from "../../app/slices/TipoActivo.slice"
-
+import { setEdit, setNoHere } from "../../app/slices/TipoActivo.slice";
 
 const ClientRow = ({ index, film }) => {
   const [deleteFilm, { isSuccess, isError, isLoading, error }] =
     useDeleteFilmMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
 
   const handleDelete = async () => {
     Swal.fire({
@@ -32,22 +30,19 @@ const ClientRow = ({ index, film }) => {
   };
 
   const handleClickEdit = async () => {
-    dispatch(setEdit(client));
+    dispatch(setEdit(film));
     dispatch(setNoHere(false));
-    navigate(`editar/${client.id}`);
+    navigate(`editar/${film.id}`);
   };
-   
-  return (
-    <tr className="border-b text-gray-500">
-      <th className="py-3 text-left px-4 text-black">{index + 1}</th>
-      <td>{`${film.titulo}`}</td>
-      <td>{film.genero}</td>
-      <td className="text-center">{film.clasif_edad}</td>
-      <td>{film.duracion}</td>
-      <td>{film.precio}</td>
-    
 
-      
+  return (
+    <tr className="border-b text-gray-500 overflow-x-hidden ">
+      <th className="py-3 text-left px-4 text-black">{index + 1}</th>
+      <td className="">{`${film.titulo}`}</td>
+      <td>{film.genero}</td>
+      <td className="pl-10">{film.clasif_edad}</td>
+      <td className="pl-9 ">{film.duracion}</td>
+      <td>{film.precio}</td>
 
       <td>
         <div className="flex flex-row w-100% justify-center items-center space-x-2">

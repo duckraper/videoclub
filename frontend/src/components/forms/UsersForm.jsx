@@ -63,7 +63,7 @@ const UsersForm = () => {
       Toast.fire({
         icon: "error",
         title: `${
-          isError ?  Object.values(error.data) : Object.values(errorEdit.data)
+          isError ?  `${Object.values(error.data)}${Object.keys(error.data)}` : `${Object.values(errorEdit.data)}${Object.keys(errorEdit.data)}`
         }`,
       });
       console.error(error);
@@ -127,9 +127,7 @@ const UsersForm = () => {
             nombre: Yup.string().required("El campo nombre es requerido"),
             apellidos: Yup.string().required("El campo nombre es requerido"),
             email: Yup.string().email().required("El campo email es requerido"),
-            password: Yup.string()
-              .required("El campo contraseña es requerido")
-              .min(8, "La contraseña debe tener al menos 8 caracteres")
+            password: Yup.string().required("Campo Obligatorio").min(8, "La contraseña debe tener al menos 8 caracteres")
               .notOneOf(
                 [
                   Yup.ref("user"),
@@ -152,13 +150,13 @@ const UsersForm = () => {
                   return !commonPasswords.includes(value);
                 }
               ),
-            re_password: Yup.string()
+            re_password: Yup.string().required("Campo Obligatorio")
               .oneOf(
                 [Yup.ref("password"), null],
                 "Las contraseñas deben coincidir"
               )
-              .required("Debe repetir la contraseña"),
           })}
+          
           onSubmit={handleSubmit}
         >
           

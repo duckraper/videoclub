@@ -3,9 +3,12 @@ import { useDispatch } from "react-redux";
 import { useGetFilmsQuery } from "../../app/services";
 import FilmsRow from "../tableBody/FilmsRow";
 import { PersonAddOutlined } from "@mui/icons-material";
+import { setEdit, setNoHere } from "../../app/slices/TipoActivo.slice";
+import { useNavigate } from "react-router-dom";
 
 const Usuarios = () => {
-//   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { data } = useGetFilmsQuery(undefined, {
     refetchOnReconnect: true,
   });
@@ -14,7 +17,7 @@ const Usuarios = () => {
     <div className=" px-16 ">
       <div className="flex-row flex w-full p-6">
         <div className="w-2/3 flex flex-col">
-          <h1 className="font-bold text-2xl text-black ">Película</h1>
+          <h1 className="font-bold text-2xl text-black ">Películas</h1>
         </div>
         <div className="w-1/3 flex justify-end mt-16">
           <button
@@ -29,11 +32,11 @@ const Usuarios = () => {
         </div>
       </div>
       <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
-        <table className=" w-full">
+        <table className=" w-full overflow-x-hidden">
           <thead className="border-b">
             <tr className="text-left">
               <th className="p-2 px-4 w-16 text">#</th>
-              <th >Titulo</th>
+              <th className=" w-1/4" >Titulo</th>
               <th >Género</th>
               <th >Clasificación</th>
               <th >Duración (min)</th>
