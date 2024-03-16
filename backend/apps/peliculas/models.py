@@ -51,7 +51,7 @@ class Pelicula(models.Model):
     duracion = models.IntegerField()  # duracion en mins
     director = models.CharField(max_length=64, default="Indefinido")
     clasif_edad = models.CharField(
-        max_length=1, choices=CLASIFICACIONES, default="A", editable=False)
+        max_length=1, choices=CLASIFICACIONES, default="A")
     fecha_estreno = models.DateField(help_text="must be format: YYYY-MM-DD")
 
     tamanio = models.DecimalField(max_digits=3, decimal_places=1)  # GB'
