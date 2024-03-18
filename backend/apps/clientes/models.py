@@ -26,6 +26,10 @@ class Cliente(models.Model):
     class Meta:
         db_table = "cliente"
         ordering = ["-cant_soportes_alquilados", "nombre", "apellidos"]
+        indexes = [
+            models.Index(fields=["ci", "nombre", "apellidos"], name="cliente_idx"),
+            models.Index(fields=["activo"], name="cliente_activo_idx"),
+        ]
 
     ci = models.CharField(
         max_length=11,

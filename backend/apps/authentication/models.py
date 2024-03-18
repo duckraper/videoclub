@@ -7,6 +7,9 @@ class User(AbstractUser):
         db_table = 'user'
         verbose_name = 'Usuario'
         verbose_name_plural = "Usuarios"
+        indexes = [
+            models.Index(fields=["username", "email"], name="user_idx")
+        ]
 
     # ...
     email = models.EmailField(unique=True)

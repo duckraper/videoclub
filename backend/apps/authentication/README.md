@@ -41,6 +41,7 @@ API dedicada a la autenticación de usuarios y la generación de tokens de acces
 
     ```json
     {
+        "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
         "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI..."
     }
     ```
@@ -50,6 +51,8 @@ API dedicada a la autenticación de usuarios y la generación de tokens de acces
 ### CRUD de Usuarios (requiere rol de administrador)
 
 - `GET api/auth/users/` Listar usuarios
+- `GET api/auth/users/?search=foo` Buscar usuarios
+- `GET api/auth/users/?limit=10` Limitar registros
 - `POST api/auth/users/` Crear usuario
 
     ```json

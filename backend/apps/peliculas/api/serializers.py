@@ -13,6 +13,6 @@ class PeliculaSerializer(ModelSerializer):
         model = Pelicula
         exclude = ['disponible']
 
-    @staticmethod # TODO Cubos OLAP y DATA Warehouse
+    @staticmethod  # TODO Cubos OLAP y DATA Warehouse
     def get_estreno(obj):
         return obj.estreno

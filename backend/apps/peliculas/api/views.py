@@ -14,8 +14,14 @@ class PeliculaListCreateView(ListCreateAPIView):
     """
     View para listar y crear películas.
     """
-    queryset = Pelicula.objects.all().filter(disponible=True)
     serializer_class = PeliculaSerializer
+
+    def get_queryset(self):
+        queryset = Pelicula.objects.all().filter(disponible=True)
+        titulo = self.request.query_params.get('search', None)
+        if titulo is not None:
+            queryset = queryset.filter(titulo__icontains=titulo)
+        return queryset
 
 
 class PeliculaRetrieveUpdateDestroyView(RetrieveUpdateAPIView, APIView):

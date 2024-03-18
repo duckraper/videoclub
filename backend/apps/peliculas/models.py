@@ -44,6 +44,9 @@ class Pelicula(models.Model):
     class Meta:
         db_table = "pelicula"
         ordering = ["fecha_estreno", "titulo"]
+        indexes = [
+            models.Index(fields=["titulo", "genero", "fecha_estreno"], name="pelicula_idx")
+        ]
 
     titulo = models.CharField(max_length=64)
     genero = models.CharField(max_length=32, choices=GENEROS, default='Indefinido')

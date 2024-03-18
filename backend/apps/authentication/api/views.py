@@ -1,4 +1,5 @@
 from django.forms import ValidationError
+from django.db.models import Q
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.status import (
@@ -10,11 +11,13 @@ from rest_framework.status import (
     HTTP_204_NO_CONTENT
 )
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from apps.authentication.models import User
 from apps.authentication.api.serializers import MyTokenObtainPairSerializer, UserSerializer
+from datetime import timedelta
+from re import search
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -23,16 +26,18 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 class LogoutView(APIView):
-
     @staticmethod
     def post(request):
         try:
+            access_token = request.data.get("access")
             refresh_token = request.data.get('refresh')
 
             if not refresh_token:
                 return Response({"message": "No se proveyo ningun token de refresco"}, status=HTTP_400_BAD_REQUEST)
 
             token = RefreshToken(refresh_token)
+            AccessToken(access_token).lifetime = timedelta(seconds=1)
+
             token.blacklist()
 
             return Response({"message": "Cierre de sesion exitoso"}, status=HTTP_204_NO_CONTENT)
@@ -45,8 +50,20 @@ class UserViewSet(APIView):
 
     @staticmethod
     def get(request):
-        users = User.objects.filter(is_active=True)
-        serializer = UserSerializer(users, many=True)
+        params = request.query_params
+        search_query = params.get("search")
+        values_limit = int(params.get("limit")) if params.get("limit") else None
+
+        users = User.objects.all().filter(
+            Q(username__icontains=search_query) |
+            Q(email__icontains=search_query) |
+            Q(first_name__icontains=search_query) |
+            Q(last_name__icontains=search_query)
+        ) if search_query \
+            else User.objects.all()
+
+        serializer = UserSerializer(users[:values_limit], many=True) \
+            if values_limit else UserSerializer(users, many=True)
 
         return Response(serializer.data, status=HTTP_200_OK)
 
@@ -129,10 +146,10 @@ class UserCRUDView(APIView):
         if user:
             try:
                 user.delete()
-                
+
             except Exception as e:
                 return Response(str(e), status=HTTP_400_BAD_REQUEST)
-            
+
             return Response(status=HTTP_204_NO_CONTENT)
 
         return Response(status=HTTP_404_NOT_FOUND)

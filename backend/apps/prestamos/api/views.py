@@ -28,14 +28,14 @@ class ListCreateSolicitudView(APIView):
     @staticmethod
     def get(request):
         try:
-            if request.query_params.get("activos"):
+            if request.query_params.get("activos") is not None:
                 solicitudes = SolicitudPrestamo.objects.all().filter(
                     activo=True,
                     fecha_de_prestamo__gte=ULTIMA_QUINCENA
                 )
             else:
                 solicitudes = SolicitudPrestamo.objects.all().filter(
-                    fecha_de_devolucion__gte=ULTIMA_QUINCENA
+                    fecha_de_prestamo__gte=ULTIMA_QUINCENA
                 )
 
             serializer = SolicitudPrestamoSerializer(solicitudes, many=True)

@@ -31,9 +31,8 @@ class UserSerializer(ModelSerializer):
             'is_staff'
         ]
         extra_kwargs = {
-            'id': {
-                'read_only': True,
-                'required': False
+            'password': {
+                'write_only': True
             }
         }
 

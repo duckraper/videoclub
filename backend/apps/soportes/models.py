@@ -30,6 +30,9 @@ class Soporte(models.Model):
     class Meta:
         db_table = "soporte"
         ordering = ["-cant_peliculas_grabadas", "estado", "costo_adquisicion"]
+        indexes = [
+            models.Index(fields=["disponible", "estado", "cant_peliculas_grabadas"], name="soporte_index"),
+        ]
 
     costo_adquisicion = models.DecimalField(
         max_digits=5, decimal_places=2, validators=[MinValue(0.01)])
