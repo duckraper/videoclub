@@ -1,6 +1,6 @@
 import React from "react";
 import Swal from "sweetalert2";
-import { PersonRemoveOutlined, EditOutlined } from "@mui/icons-material";
+import { PersonRemoveOutlined, EditOutlined, InfoOutlined } from "@mui/icons-material";
 import { useDeleteUserMutation } from "../../app/services";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
@@ -11,6 +11,22 @@ const UserRow = ({ index, user }) => {
     useDeleteUserMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleInfo = (user) => {
+    if (user) {
+      Swal.fire({
+        title: "<strong>Info</strong>",
+        html: `Usuario: ${user.username} <br><br>
+               Nombre: ${user.first_name} ${user.last_name} <br><br>
+               Correo: ${user.email} <br><br>
+               Rol: ${user.is_staff ? "Administrador" : "Dependiente"}`,
+        focusConfirm: false,
+        confirmButtonText: `ok`,
+        confirmButtonColor: "orange",
+      });
+    }
+  };
+  
     
   
   const id = localStorage.getItem("id"); 
@@ -18,7 +34,7 @@ const UserRow = ({ index, user }) => {
     const handleDelete = async () => {
     Swal.fire({
       title: "¿Estás seguro?",
-      text: `¡Si eliminas al usuario: "${user.username}", esta acción no se podrá revertir!`,
+      text: `¡Si eliminas al usuario: ${user.username}, esta acción no se podrá revertir!`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "orange",
@@ -36,7 +52,7 @@ const UserRow = ({ index, user }) => {
   if (user.is_staff) {
     role = "Administador";
   } else if (!user.is_staff) {
-    role = "Dependiente";
+    role = "Dependiente"; 
   }
  
   const handleClickEdit = async () => {
@@ -54,6 +70,15 @@ const UserRow = ({ index, user }) => {
 
       {id != user.id &&  <td>
         <div className="flex flex-row w-100% justify-center items-center space-x-2">
+        <div className="hover:cursor-pointer has-tooltip">
+            <span className="tooltip rounded shadow-sm p-1 text-xs bg-gray-100 text-red-400 -mt-6">
+              Info Trabajador
+            </span>
+            <InfoOutlined
+              onClick={()=>handleInfo(user)}
+              className="text-black mx-1 w-5 h-5 hover:text-red-400 transition-all"
+            />
+          </div>
           <div className="hover:cursor-pointer has-tooltip">
             <span className="tooltip rounded shadow-sm p-1 text-xs bg-gray-100 text-yellow-400 -mt-6">
               Editar Trabajador

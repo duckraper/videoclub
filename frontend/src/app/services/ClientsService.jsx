@@ -24,9 +24,10 @@ export const clientsAPI = createApi({
     }),
 
     getClientById: builder.query({
-      query: (id) => ({
+      query: (id, ...rest) => ({
         url: `clientes/${id}/`,
         method: "GET",
+        body: rest,
       }),
       invalidatesTags: (result, error, id) => [{ type: "Clients", id }],
     }),
@@ -61,11 +62,11 @@ export const clientsAPI = createApi({
       }),
       invalidatesTags: [{ type: "Clients", id: "LIST" }],
     }),
-    createFijoClient: builder.mutation({
-      query: (id) => ({
-        url: `clientes/${id}/crear-fijo/`,
+    createInvalidClient: builder.mutation({
+      query: (id, ...rest) => ({
+        url: `/clientes/${id}/invalidar/`,
         method: "POST",
-        body,
+        body: rest,
       }),
       invalidatesTags: [{ type: "Clients", id: "LIST" }],
     }),
@@ -87,7 +88,7 @@ export const clientsAPI = createApi({
     }),
     deleteInvalidClient: builder.mutation({
       query: (id) => ({
-        url: `clientes/${id}/`,
+        url: `clientes/${id}/invalidar/`,
         method: "DELETE",
       }),
       invalidatesTags: [{ type: "Clients", id: "LIST" }],
@@ -101,7 +102,7 @@ export const {
   useCreateClientMutation,
   useUpdateClientMutation,
   useDeleteClientMutation,
-  useCreateFijoClientMutation,
+  useCreateInvalidClientMutation,
   useListInvalidClientQuery,
   useDeleteInvalidClientMutation,
 } = clientsAPI;

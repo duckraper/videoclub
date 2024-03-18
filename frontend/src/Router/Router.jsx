@@ -11,7 +11,12 @@ import ClientsForm from "../components/forms/ClientsForm"
 import Films from "../components/tables/FilmsTable";
 import FilmsForm from "../components/forms/FilmForm"
 import Supports from "../components/tables/SupportTables";
-//  import Rents from "../components/tables/PrestamosTable";
+import SupportsForm from "../components/forms/SupportForm";
+import SupportsCopyForm from "../components/forms/SupportCopyForm";
+import Rents from "../components/tables/RentsTable";
+import RentForm from "../components/forms/RentForm";
+import InvalidsTable from "../components/tables/InvalidsTable";
+import InvalidateForm from "../components/forms/InvalidateForm";
 
 
 const router = createBrowserRouter([
@@ -40,7 +45,7 @@ const router = createBrowserRouter([
                 element: <UsersForm />,
             },
             {
-                path: "Trabajadores/Editar/:id",
+                path: "Trabajadores/Editar/:id/",
                 element: <UsersForm />,
             },
             {
@@ -51,8 +56,12 @@ const router = createBrowserRouter([
                 element: <ClientsForm />,
             },
             {
-                path: "Clientes/Editar/:id",
+                path: "Clientes/Editar/:id/",
                 element: <ClientsForm />,
+            },
+            {
+                path: "Clientes/Invalidar/:id/",
+                element: <InvalidateForm/>
             },
             {
                 path: "Peliculas",
@@ -63,17 +72,34 @@ const router = createBrowserRouter([
                 element: <FilmsForm />,
             },
             {
-                path: "Peliculas/Editar/:id",
+                path: "Peliculas/Editar/:id/",
                 element: <FilmsForm />,
             },
             {
                 path: "Soportes",
                 element: <Supports />,
             },
-            // {
-            //     path: "Prestamos",
-            //     element: <Rents/>,
-            // },
+            {
+                path: "Soportes/Agregar",
+                element: <SupportsForm />,
+            },
+            {
+                path: "Soportes/Copiar/:id/",
+                element: <SupportsCopyForm />,
+            },
+            {
+                path: "Prestamos",
+                element: <Rents/>,
+            },
+            {
+                path: "Prestamos/Agregar",
+                element: <RentForm />,
+            
+            },
+            {
+                path: "Invalidados",
+                element: <InvalidsTable />,
+            }
         ],
     },
    
