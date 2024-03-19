@@ -7,6 +7,7 @@ class User(AbstractUser):
         db_table = 'user'
         verbose_name = 'Usuario'
         verbose_name_plural = "Usuarios"
+        ordering = ["first_name", "last_name", "-is_staff"]
         indexes = [
             models.Index(fields=["username", "email"], name="user_idx")
         ]
