@@ -100,6 +100,9 @@ class Pelicula(models.Model):
         if not self.pk or not self.precio or self.precio == PRECIO_BASE:
             self.precio = self.get_price()
 
+        self.titulo = self.titulo.title()
+        self.director = self.director.title()
+
         return super().save(*args, **kwargs)
 
     def __str__(self):
