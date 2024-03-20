@@ -1,12 +1,10 @@
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, SerializerMethodField
 from apps.peliculas.models import Pelicula
+from apps.soportes.api.serializers import SoporteSerializerMin
 
 
 class PeliculaSerializer(ModelSerializer):
-    soportes = PrimaryKeyRelatedField(
-        many=True,
-        read_only=True
-    )
+    soportes = SoporteSerializerMin(many=True, read_only=True)
     estreno = SerializerMethodField()
 
     class Meta:
