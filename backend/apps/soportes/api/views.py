@@ -35,6 +35,21 @@ class RetrieveSoporte(APIView):
 
         return Response("Soporte no encontrado", status=HTTP_404_NOT_FOUND)
 
+    @staticmethod
+    def delete(request, pk):
+        soporte = Soporte.objects.all().filter(pk=pk).first()
+
+        if soporte:
+            if not soporte.disponible:
+                return Response(status=HTTP_404_NOT_FOUND)
+
+            soporte.disponible = False
+            soporte.save()
+
+            return Response("Soporte dado de baja con exito", status=HTTP_200_OK)
+
+        return Response("Soporte no encontrado", status=HTTP_404_NOT_FOUND)
+
 
 class SoporteListCreateSet(APIView):
     @staticmethod
@@ -85,23 +100,6 @@ class SoporteListCreateSet(APIView):
             return Response(str(e), status=HTTP_400_BAD_REQUEST)
 
         return Response(status=HTTP_400_BAD_REQUEST)
-
-
-class DarBajaSoporteView(APIView):
-    @staticmethod
-    def post(request, pk):
-        soporte = Soporte.objects.all().filter(pk=pk).first()
-
-        if soporte:
-            if not soporte.disponible:
-                return Response(status=HTTP_404_NOT_FOUND)
-
-            soporte.disponible = False
-            soporte.save()
-
-            return Response("Soporte dado de baja con exito", status=HTTP_200_OK)
-
-        return Response("Soporte no encontrado", status=HTTP_404_NOT_FOUND)
 
 
 class GrabarPeliculaView(APIView):

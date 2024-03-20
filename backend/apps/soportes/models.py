@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator as MinValue
 from decimal import Decimal
+from string import ascii_uppercase, digits
+from secrets import choice
 
 ESTADOS = [
     ("B", "Bien"),
@@ -34,6 +36,7 @@ class Soporte(models.Model):
             models.Index(fields=["disponible", "estado", "cant_peliculas_grabadas"], name="soporte_index"),
         ]
 
+    no_serie = models.CharField(max_length=10, unique=True, editable=False)
     costo_adquisicion = models.DecimalField(
         max_digits=5, decimal_places=2, validators=[MinValue(0.01)])
 
@@ -63,8 +66,20 @@ class Soporte(models.Model):
 
         return ESTADOS[self.cant_prestamos // 10][0] if self.cant_prestamos < 30 else "I"
 
+    def generar_no_serie(self):
+        return self.__class__.__name__[:3].upper() + ''.join(choice(ascii_uppercase + digits) for _ in range(6))
+
+    def save(self, *args, **kwargs):
+        if not self.no_serie:
+            self.no_serie = self.generar_no_serie()
+
+            while self.__class__.objects.filter(no_serie=self.no_serie).exists():
+                self.no_serie = self.generar_no_serie()
+
+        super().save(*args, **kwargs)
+
     def __str__(self) -> str:
-        return f"Soporte {self.pk}"
+        return self.no_serie
 
 
 class Casete(Soporte):
@@ -78,8 +93,8 @@ class Casete(Soporte):
         self.cant_max_peliculas = 1
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return f"Casete {self.formato_cinta}"
+    def str(self):
+        return self.formato_cinta.upper() + self.no_serie
 
 
 class VCD(Soporte):
@@ -92,9 +107,6 @@ class VCD(Soporte):
         self.cant_max_peliculas = 1
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return f"VCD {self.marca}"
-
 
 class DVD(Soporte):
 
@@ -106,6 +118,3 @@ class DVD(Soporte):
 
     formato_almacenamiento = models.CharField(
         choices=FORMATOS_ALMACENAMIENTO, default="Dato", max_length=8)
-
-    def __str__(self):
-        return f"DVD {self.formato_almacenamiento}"
