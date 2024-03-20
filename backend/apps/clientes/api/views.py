@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.db import transaction
+from django.db import transaction, models
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import (
@@ -24,7 +24,15 @@ class ListCreateClienteView(APIView):
 
     @staticmethod
     def get(request):
-        clientes = Cliente.objects.all().filter(activo=True)
+        params = request.query_params
+        search_query = params.get("search")
+
+        clientes = Cliente.objects.all().filter(
+            models.Q(nombre__icontains=search_query) |
+            models.Q(apellidos__icontains=search_query)
+        ) if search_query \
+            else Cliente.objects.all()
+
         serializer = ClienteSerializer(clientes, many=True)
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -177,12 +185,14 @@ class InvalidarClienteView(APIView):
 
         try:
             motivo = request.data.get("motivo")
-            cliente.invalidar(motivo) if motivo else cliente.invalidar()
+            invalidacion = cliente.invalidar(motivo) if motivo else cliente.invalidar()
+
+            serializer = InvalidacionSerializer(invalidacion)
 
         except ValidationError as e:
             return Response({"message": e.message}, status=HTTP_400_BAD_REQUEST)
 
-        return Response("Cliente invalidado", status=HTTP_200_OK)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     @staticmethod
     def delete(request, pk):
