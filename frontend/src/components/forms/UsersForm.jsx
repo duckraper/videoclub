@@ -298,8 +298,9 @@ const UsersForm = () => {
                           type="checkbox"
                           name="administrador"
                           value={values.administrador}
+                          checked={values.administrador}
                           onChange={handleRole}
-                          className="mr-2 text-lg"
+                          className="mr-2 text-lg "
                           
                         />
                       </div>  

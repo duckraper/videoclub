@@ -24,9 +24,10 @@ export const rentsAPI = createApi({
         }),
     
         getRentById: builder.query({
-        query: (id) => ({
+        query: (id, ...rest) => ({
             url: `prestamos/${id}/`,
             method: "GET",
+            body: rest,
         }),
         providesTags: (result, error, id) => [{ type: "Rents", id }],
         }),

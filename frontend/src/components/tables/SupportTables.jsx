@@ -1,45 +1,60 @@
 import React from "react";
+import { NoteAddOutlined } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useGetSupportsQuery } from "../../app/services";
+import { setNoHere } from "../../app/slices/TipoActivo.slice";
 import SupportRow from "../tableBody/SupportRow";
 
-const Usuarios = () => {
-//   const dispatch = useDispatch();
-  const { data } = useGetSupportsQuery(undefined, {
+const Support = () => {
+  const dispatch = useDispatch();  
+  const navigate = useNavigate();
+  
+  const { data, isSuccess } = useGetSupportsQuery(undefined, {
     refetchOnReconnect: true,
   });
 
+  const [exist, setExist] = React.useState([]);
+
+  React.useEffect(() => {
+   if(isSuccess){setExist(data);}
+  }, [isSuccess])
+
   return (
-    <div className=" px-16" >
+    <div className=" px-16 mb-20" >
       <div className="flex-row flex w-full p-6">
         <div className="w-2/3 flex items-center">
-          <h1 className="font-bold antialiased text-2xl text-inherit font-mono">
+          <h1 className="font-bold antialiased text-2xl text-inherit">
             Soportes
           </h1>
         </div>
-        {/* <div className="w-1/3 flex justify-end"> */}
-          {/* <button
+        <div className="w-1/3 flex justify-end mt-16">
+          <button
             onClick={() => {
               dispatch(setNoHere(false));
-              navigate(ADD_USUARIO_URL);
+              navigate("Agregar/");
             }}
-            className="btn btn-primary p-0 m-0 w-32 uppercase flex-end"
+            className=" flex rounded-full shadow-sm justify-center bg-orange-300 hover:bg-orange-200 transition-all text-white w-12 uppercase flex-end"
           >
-            agregar
+            <NoteAddOutlined />
           </button>
-        </div> */}
+        </div>
       </div>
+      {exist.length > 0 ?
       <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
         <table className=" w-full">
-          {/* <!-- head --> */}
+          
           <thead className="border-b">
             <tr className="text-left">
               <th className="p-2 px-4 w-16">#</th>
-              <th className="font-sans">Tipo</th>
-              <th className="font-sans">Estado</th>
-              <th className="font-sans">Disponibilidad</th>
-                <th className="font-sans">Precio</th>
-              <th className=" font-sans font-bold text-center">Acciones</th>
+              <th className="">Tipo</th>
+              <th className="">Estado</th>
+              <th className="">Disponibilidad</th>
+              <th className="">Préstamos</th>
+              <th className="">Películas</th>
+              <th className="">titulo principal</th>
+              <th className="">Precio</th>
+              <th className="  font-bold text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -48,9 +63,9 @@ const Usuarios = () => {
             ))}
           </tbody>
         </table>
-      </div>
+      </div>: "No hay soportes actualmente"}
     </div>
   );
 };
 
-export default Usuarios;
+export default Support;

@@ -1,21 +1,45 @@
 import React from "react";
 import Swal from "sweetalert2";
 import { useDeleteFilmMutation } from "../../app/services";
-import { PersonRemoveOutlined, EditOutlined } from "@mui/icons-material";
+import { CancelPresentationOutlined, EditOutlined, InfoOutlined } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 import { setEdit, setNoHere } from "../../app/slices/TipoActivo.slice";
 
-const ClientRow = ({ index, film }) => {
+const FilmsRow = ({ index, film }) => {
   const [deleteFilm, { isSuccess, isError, isLoading, error }] =
     useDeleteFilmMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+ 
+
+ const handleInfo = (film) => {
+    if (film) {
+      Swal.fire({
+        title: "<strong>Info</strong>",
+        html: `
+               Titulo: ${film.titulo} <br><br>
+               Director: ${film.director} <br><br>
+               Género: ${film.genero} <br><br>
+               Clasificación de edad: ${film.clasif_edad} <br><br>
+               Duración: ${film.duracion} min <br><br>
+               Precio: $${film.precio}.00 <br><br>
+               Fecha de estreno: ${film.fecha_estreno} <br><br>
+               Tamaño: ${film.tamanio} GB <br><br>
+               Estreno: ${film.estreno ? "si": "no"} <br><br>
+               Soportes: ${film.soportes} <br><br>
+               `,
+        focusConfirm: false,
+        confirmButtonText: `ok`,
+        confirmButtonColor: "orange",
+      });
+    }
+  };
 
   const handleDelete = async () => {
     Swal.fire({
       title: "¿Estás seguro?",
-      text: `¡Si eliminas la película: "${film.username}", esta acción no se podrá revertir!`,
+      text: `¡Si eliminas la película: ${film.titulo}, esta acción no se podrá revertir!`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "orange",
@@ -46,6 +70,15 @@ const ClientRow = ({ index, film }) => {
 
       <td>
         <div className="flex flex-row w-100% justify-center items-center space-x-2">
+        <div className="hover:cursor-pointer has-tooltip">
+            <span className="tooltip rounded shadow-sm p-1 text-xs bg-gray-100 text-red-400 -mt-6">
+              Info película
+            </span>
+            <InfoOutlined
+              onClick={()=>handleInfo(film)}
+              className="text-black mx-1 w-5 h-5 hover:text-red-400 transition-all"
+            />
+          </div>
           <div className="hover:cursor-pointer has-tooltip">
             <span className="tooltip rounded shadow-sm p-1 text-xs bg-gray-100 text-yellow-400 -mt-6">
               Editar Película
@@ -59,7 +92,7 @@ const ClientRow = ({ index, film }) => {
             <span className="tooltip rounded shadow-sm p-1 text-xs bg-gray-100 text-red-400 -mt-6">
               Eliminar Película
             </span>
-            <PersonRemoveOutlined
+            <CancelPresentationOutlined
               onClick={handleDelete}
               className="text-black mx-1 w-5 h-5 hover:text-red-400 transition-all"
             />
@@ -70,4 +103,4 @@ const ClientRow = ({ index, film }) => {
   );
 };
 
-export default ClientRow;
+export default FilmsRow;

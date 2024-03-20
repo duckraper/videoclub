@@ -18,7 +18,7 @@ const Usuarios = () => {
   }, []);
 
   return (
-    <div className=" px-16">
+    <div className=" px-16 mb-20">
       <div className="flex-row flex w-full p-6">
         <div className="w-2/3 flex items-center">
           <h1 className="font-bold text-2xl text-inherit ">Trabajadores</h1>
@@ -40,7 +40,7 @@ const Usuarios = () => {
           <thead className="border-b">
             <tr className="text-left">
               <th className="p-2 px-4 w-16">#</th>
-              <th className="">Nombre</th>
+              <th className="">Nombre de usuario</th>
               <th className="">Correo</th>
               <th className="">Role</th>
               <th className="font-bold text-center">Acciones</th>

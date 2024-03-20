@@ -33,8 +33,32 @@ const provincias = {
   
 };
 
+const generos = {
+  "Comedia": "Comedia",
+  "Acción": "Acción",
+  "Aventura": "Aventura",
+  "Ciencia Ficción": "Ciencia Ficción",
+  "Drama": "Drama",
+  "Romance": "Romance",
+  "Fantasía": "Fantasía",
+  "Terror": "Terror",
+  "Suspenso": "Suspenso",
+  "Animación": "Animación",
+  "Documental": "Documental",
+  "Musical": "Musical",
+  "Crimen": "Crimen",
+  "Misterio": "Misterio",
+  "Western": "Western",
+  "Histórico": "Histórico",
+  "Guerra": "Guerra",
+  "Biografía": "Biografía",
+  "Fantástico": "Fantástico",
+  "Infantil": "Infantil",
+  "Indefinido": "Indefinido",
+}
 
-const UsersForm = () => {
+
+const ClientForm = () => {
   const [createClient, { isLoading, isSuccess, isError, error }] =
     useCreateClientMutation();
   const [
@@ -109,7 +133,8 @@ const UsersForm = () => {
         provincia: values?.provincia,
         direccion: values?.direccion,
         telefono: values?.telefono,
-
+        es_fijo: values?.es_fijo,
+        genero_favorito: values?.genero_favorito,
       });
     } else {
       await createClient({
@@ -123,6 +148,8 @@ const UsersForm = () => {
         provincia: values?.provincia,
         direccion: values?.direccion,
         telefono: values?.telefono,
+        es_fijo: values?.es_fijo,
+        genero_favorito: values?.genero_favorito,
       });
     }
   };
@@ -146,6 +173,8 @@ const UsersForm = () => {
             provincia: "HAB",
             direccion: "",
             telefono: "",
+            es_fijo: false,
+            genero_favorito: "",
           }}
           validationSchema={Yup.object({
             nombre: Yup.string().required("El campo nombre es requerido"),
@@ -187,8 +216,14 @@ const UsersForm = () => {
                 setFieldValue("provincia", edit?.provincia, true);
                 setFieldValue("direccion", edit?.direccion, true);
                 setFieldValue("telefono", edit?.telefono, true);
+                setFieldValue("es_fijo",edit?.es_fijo, true)
+                setFieldValue("genero_favorito",edit?.genero_favorito, true)
               }
             }, []);
+
+            const handleFijo = () => {
+              setFieldValue("es_fijo", !values.es_fijo);
+            };
 
             return (
               <Form className="w-full p-6 bg-white" autoComplete="off">
@@ -277,7 +312,7 @@ const UsersForm = () => {
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
                         errors.edad && touched.edad && "border-red-400"
                       } ${isError && "border-red-400"} ${
-                        values.edad.length > 0 && "border-green-100"
+                        values.edad >= 18 && "border-green-100"
                       } `}
                     />
                   </div>
@@ -358,6 +393,50 @@ const UsersForm = () => {
                     />
                   </div>
                 </div>
+                {edit && <div className="md:flex md:items-center mb-6">
+                  <div className="flex w-2/5  md:justify-end pr-9">
+                    <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label text-center">
+                      Cliente Fijo
+                    </label>
+                    <div className="flex pt-1 ">
+                        <input
+                          type="checkbox"
+                          name="es_fijo"
+                          value={values.es_fijo}
+                          checked={values.es_fijo}
+                          onChange={handleFijo}
+                          className="mr-2 text-lg"
+                          
+                        />
+                    </div>  
+                  </div>
+                {values.es_fijo &&  
+                 <div className="flex w-3/5 md:justify-end">
+                    <div className="">
+                      <label className="block text-gray-500 font-sans md:text-right  md:mb-0 pr-4 pt-2 label w-full">
+                        Género favorito
+                      </label> 
+                    </div>
+                    <select
+                        onBlur={handleBlur}
+                        className={`border-2 border-gray-200 w-3/5 rounded-lg focus:outline-none px-3 py-2 ${
+                            errors.genero_favorito && touched.genero_favorito && "border-red-400"
+                        } ${isError && "border-red-400"} `}
+                        value={values.genero_favorito}
+                        name="genero_favorito"
+                        onChange={handleChange}
+                    >
+                        <option value=""  >
+                            Seleccione un género
+                        </option>
+                        {Object.keys(generos).map((genero) => (
+                            <option key={genero} value={generos[genero]} >
+                                {genero}
+                            </option>
+                        ))}
+                    </select>
+                  </div>}
+                </div>}
 
                 <div className="flex justify-between w-full px-auto">
                   <button
@@ -386,4 +465,4 @@ const UsersForm = () => {
   );
 };
 
-export default UsersForm;
+export default ClientForm;

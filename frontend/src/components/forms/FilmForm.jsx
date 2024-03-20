@@ -44,7 +44,7 @@ const generos = {
     "Infantil": "Infantil",
     "Indefinido": "Indefinido",
 }
-const UsersForm = () => {
+const FilmForm = () => {
   const [createFilm, { isLoading, isSuccess, isError, error }] =
     useCreateFilmMutation();
   const [
@@ -206,7 +206,7 @@ const UsersForm = () => {
                       placeholder="Escriba el título de la película"
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
                         errors.titulo && touched.titulo && "border-red-400"
-                      } ${isError && "border-red-400"}  `}
+                      } ${isError && "border-red-400"} ${values.titulo.length > 0 && "border-green-100"}  `}
                     />
                   </div>
                 </div>
@@ -221,7 +221,7 @@ const UsersForm = () => {
                         onBlur={handleBlur}
                         className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-2 ${
                             errors.genero && touched.genero && "border-red-400"
-                        } ${isError && "border-red-400"} `}
+                        } ${isError && "border-red-400"} ${values.genero.length > 0 && "border-green-100"}`}
                         value={values.genero}
                         name="genero"
                         onChange={handleChange}
@@ -253,7 +253,7 @@ const UsersForm = () => {
                       placeholder="Introduzca la duración en minutos"
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
                         errors.duracion && touched.duracion && "border-red-400"
-                      } ${isError && "border-red-400"}  `}
+                      } ${isError && "border-red-400"} ${values.duracion > 0 && "border-green-100"}`}
                     />
                   </div>
                 </div>
@@ -273,7 +273,7 @@ const UsersForm = () => {
                       placeholder="Escriba el director de la película"
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
                         errors.director && touched.director && "border-red-400"
-                      }  `}
+                      } ${values.director.length > 0 && "border-green-100"}  `}
                     />
                   </div>
                 </div>
@@ -289,7 +289,7 @@ const UsersForm = () => {
                       onBlur={handleBlur}
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-2 ${
                         errors.clasif_edad && touched.clasif_edad && "border-red-400"
-                      } ${isError && "border-red-400"} `}
+                      } ${isError && "border-red-400"} ${values.clasif_edad.length > 0 && "border-green-100"}`}
                       value={values.clasif_edad}
                       name="clasif_edad"
                       onChange={handleChange}
@@ -323,7 +323,7 @@ const UsersForm = () => {
                         errors.tamanio &&
                         touched.tamanio &&
                         "border-red-400"
-                      } `}
+                      } ${values.tamanio.length > 0 && "border-green-100"}`}
                     />
                   </div>
                 </div>
@@ -335,15 +335,15 @@ const UsersForm = () => {
                   </div>
                   <div className="md:w-2/3 relative">
                     <input
-                      type="text"
+                      type="date"
                       name="fecha"
                       value={values.fecha}
                       onChange={handleChange}
-                      placeholder="Escriba la fecha de estreno"
+                      placeholder="ej. 2021-12-31"
                       onBlur={handleBlur}
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
                         errors.fecha && touched.fecha && "border-red-400"
-                      }  `}
+                      } ${values.fecha.length > 0 && "border-green-100"}`}
                     />
                   </div>
                 </div>
@@ -375,4 +375,4 @@ const UsersForm = () => {
   );
 };
 
-export default UsersForm;
+export default FilmForm;
