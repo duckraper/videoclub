@@ -17,6 +17,7 @@ class SolicitudPrestamo(models.Model):
         verbose_name_plural = "Solicitudes de Préstamo"
         db_table = "solicitud_prestamo"
         ordering = ["-fecha_de_prestamo"]
+
         indexes = [
             models.Index(fields=["fecha_de_prestamo"], name="idx_fecha_de_prestamo"),
             models.Index(fields=["cliente", "soporte"], name="idx_cliente_soporte")

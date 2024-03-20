@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
-    HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND
 )
@@ -75,25 +74,7 @@ class ListCreateSolicitudView(APIView):
         return Response(serializer.data, status=HTTP_201_CREATED)
 
 
-class DevolverPrestamoView(APIView):
-    @staticmethod
-    def post(request, pk):
-        try:
-            prestamo = SolicitudPrestamo.objects.get(pk=pk)
-        except SolicitudPrestamo.DoesNotExist:
-            return Response({'message': f'Solicitud con id {pk} no encontrado'}, status=HTTP_404_NOT_FOUND)
-
-        fecha_entrega = request.query_params.get('fecha')
-
-        if fecha_entrega:
-            prestamo.devolucion(fecha_entrega)
-        else:
-            prestamo.devolucion()
-
-        return Response({'message': 'La devolucion ha sido realizada correctamente'}, status=HTTP_200_OK)
-
-
-class RetrieveDeleteSolicitudView(APIView):
+class RetrieveSolicitudView(APIView):
     @staticmethod
     def get(request, pk):
         try:
@@ -105,13 +86,23 @@ class RetrieveDeleteSolicitudView(APIView):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
+
+class DevolverPrestamoView(APIView):
     @staticmethod
-    def delete(request, pk):
+    def post(request, pk):
         try:
-            solicitud_prestamo = SolicitudPrestamo.objects.get(pk=pk)
+            prestamo = SolicitudPrestamo.objects.get(pk=pk)
         except SolicitudPrestamo.DoesNotExist:
             return Response({'message': f'Solicitud con id {pk} no encontrado'}, status=HTTP_404_NOT_FOUND)
 
-        solicitud_prestamo.delete(keep_parents=True)
+        if prestamo.ha_sido_devuelto:
+            return Response({'message': 'El prestamo ya ha sido devuelto'}, status=HTTP_400_BAD_REQUEST)
 
-        return Response(status=HTTP_204_NO_CONTENT)
+        fecha_entrega = request.query_params.get('fecha')
+
+        if fecha_entrega:
+            prestamo.devolucion(fecha_entrega)
+        else:
+            prestamo.devolucion()
+
+        return Response({'message': 'La devolucion ha sido realizada correctamente'}, status=HTTP_200_OK)
