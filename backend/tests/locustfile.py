@@ -7,8 +7,8 @@ class QuickstartUser(HttpUser):
     @task
     def authenticate(self):
         self.client.post(f"{BASE_URL}/auth/token/", json={
-            "username": "admin",
-            "password": "admin"
+            "username": "beli",
+            "password": "odiotodo"
         })
 
 

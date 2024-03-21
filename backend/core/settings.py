@@ -9,13 +9,12 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -58,10 +57,10 @@ INSTALLED_APPS = [
     'apps.clientes'
 ]
 
-BRUTE_FORCE_THRESHOLD = 3  # Intentos de login permitidos (3)
+BRUTE_FORCE_THRESHOLD = 6  # Intentos de login permitidos (3)
 BRUTE_FORCE_TIMEOUT = 60  # Tiempo de espera para intentar login nuevamente (60 segundos)
 
-REQUESTS_PER_MINUTE_ALLOWED = 50  # Número de solicitudes permitidas por minuto
+REQUESTS_PER_MINUTE_ALLOWED = 200  # Número de solicitudes permitidas por minuto
 
 IPRESTRICT_GEOIP_ENABLED = False
 CORS_ALLOW_ALL_ORIGINS = True  # TODO restringir permisos
@@ -121,7 +120,6 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
-
 MIDDLEWARE = [
     'apps.authentication.middlewares.BruteForceProtectionMiddleware',  # Middleware para protección contra fuerza bruta
     'apps.authentication.middlewares.DDoSProtectionMiddleware',  # Middleware para protección contra DDoS
@@ -158,28 +156,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 #
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'videoclub.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'videoclub',
+        'USERNAME': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
-}
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'videoclub',
-#         'USERNAME': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-
+} if os.environ.get("USE_POSTGRES_DB") or not DEBUG\
+    else \
+    {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'videoclub.sqlite3',
+        }
+    }
+print(DATABASES)
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -198,7 +196,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -209,7 +206,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
