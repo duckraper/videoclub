@@ -60,7 +60,7 @@ INSTALLED_APPS = [
 BRUTE_FORCE_THRESHOLD = 6  # Intentos de login permitidos (3)
 BRUTE_FORCE_TIMEOUT = 60  # Tiempo de espera para intentar login nuevamente (60 segundos)
 
-REQUESTS_PER_MINUTE_ALLOWED = 200  # Número de solicitudes permitidas por minuto
+REQUESTS_PER_MINUTE_ALLOWED = 500  # Número de solicitudes permitidas por minuto
 
 IPRESTRICT_GEOIP_ENABLED = False
 CORS_ALLOW_ALL_ORIGINS = True  # TODO restringir permisos
@@ -160,24 +160,30 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 #
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'videoclub',
+#         'USERNAME': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# } if os.environ.get("USE_POSTGRES_DB") or not DEBUG\
+#     else \
+#     {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'videoclub.sqlite3',
+#         }
+#     }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'videoclub',
-        'USERNAME': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-} if os.environ.get("USE_POSTGRES_DB") or not DEBUG\
-    else \
-    {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'videoclub.sqlite3',
         }
     }
-print(DATABASES)
+# print(DATABASES)
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
