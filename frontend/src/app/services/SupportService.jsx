@@ -42,7 +42,7 @@ export const supportAPI = createApi({
     
         grabarSupport: builder.mutation({
         query: (body) => ({
-            url: `soportes/${body.id}/`,
+            url: `soportes/${body.id}/grabar/`,
             method: "POST",
             body,
         }),
@@ -57,8 +57,8 @@ export const supportAPI = createApi({
     
         bajaSupport: builder.mutation({
         query: (id) => ({
-            url: `soportes/${id}/baja/`,
-            method: "POST",
+            url: `soportes/${id}/`,
+            method: "DELETE",
         }),
         invalidatesTags: [{ type: "Support", id: "LIST" }],
         }),

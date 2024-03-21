@@ -12,6 +12,18 @@ const UserRow = ({ index, user }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: false,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
+
   const handleInfo = (user) => {
     if (user) {
       Swal.fire({
@@ -44,6 +56,11 @@ const UserRow = ({ index, user }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await deleteUser(user.id);
+        Toast.fire({
+          icon: "success",
+          iconColor: "orange",
+          title: `Se ha eliminado el usuario correctamente `,
+        });
       }
     });
   };

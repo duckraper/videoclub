@@ -22,6 +22,18 @@ const ClientRow = ({ index, client }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: false,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
+
   const handleDelete = async () => {
     Swal.fire({
       title: "¿Estás seguro?",
@@ -35,8 +47,15 @@ const ClientRow = ({ index, client }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await deleteClient(client.id);
+        Toast.fire({
+          icon: "success",
+          iconColor: "orange",
+          title: `Se ha eliminado el cliente correctamente `,
+        });
       }
+      
     });
+    
   };
 
   const handleInfo = (client) => {
@@ -61,33 +80,29 @@ const ClientRow = ({ index, client }) => {
     }
   };
 
-  // const handleInvalidar = async () => {
-  //   Swal.fire({
-  //     title: "¿Estás seguro?",
-  //     text: `¡Invalidar al cliente: ${(client.nombre)}, lo sacara de esta lista!`,
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "orange",
-  //     cancelButtonColor: "#d33",
-  //     cancelButtonText: "Cancelar",
-  //     confirmButtonText: "¡Si, invalidar!",
-  //   }).then(async (result) => {
-  //     if (result.isConfirmed) {
-  //       await invalidar(client.id);
-  //     }
-  //   });
-  // };
+  const handleInvalidar = async (client) => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: `¡Invalidar al cliente: ${(client.nombre)}, lo sacara de esta lista!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "orange",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "¡Si, invalidar!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await invalidar(client.id,{
+        motivo: "Invalidado por el administrador",
+        });
+      }
+    });
+  };
 
   const handleClickEdit = async () => {
     dispatch(setEdit(client));
     dispatch(setNoHere(false));
     navigate(`editar/${client.id}`);
-  };
-
-  const handleInvalidar = async () => {
-    dispatch(setEdit(client.id));
-    dispatch(setNoHere(false));
-    navigate(`invalidar/${client.id}`);
   };
 
   return (
@@ -156,7 +171,7 @@ const ClientRow = ({ index, client }) => {
               Invalidar Cliente
             </span>
             <PersonOffOutlined
-              onClick={handleInvalidar}
+              onClick={()=>handleInvalidar(client)}
               className="text-black mx-1 w-5 h-5 hover:text-red-400 transition-all"
             />
           </div>}

@@ -14,12 +14,13 @@ import {
 import Swal from "sweetalert2";
 
 const InvalidateForm = () => {
-  const [setInvalid, { isLoading, isSuccess, isError, error }] =
-    useCreateInvalidClientMutation();
+ 
  
   const { noHere, edit } = useSelector(tipo_state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [setInvalid, { isLoading, isSuccess, isError, error }] =
+  useCreateInvalidClientMutation();
 
   useEffect(() => {
     if (noHere) {
@@ -66,7 +67,7 @@ const InvalidateForm = () => {
     if (edit) {
     console.log(edit.id)
       setInvalid({
-        id: edit.id,
+        
         motivo: values?.motivo.charAt(0).toUpperCase() + values?.motivo.slice(1),
       });
       

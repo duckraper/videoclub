@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   useCreateClientMutation,
   useUpdateClientMutation,
+  useGetClientByIdQuery
 } from "../../app/services";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -70,10 +71,19 @@ const ClientForm = () => {
       error: errorEdit,
     },
   ] = useUpdateClientMutation();
+  
 
   const { noHere, edit } = useSelector(tipo_state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { data } = useGetClientByIdQuery(edit?.id)
+  
+  let genero = "Indefinido"
+  
+  if (data) {
+    genero = data?.genero_favorito
+  }
 
   useEffect(() => {
     if (noHere) {
@@ -217,7 +227,7 @@ const ClientForm = () => {
                 setFieldValue("direccion", edit?.direccion, true);
                 setFieldValue("telefono", edit?.telefono, true);
                 setFieldValue("es_fijo",edit?.es_fijo, true)
-                setFieldValue("genero_favorito",edit?.genero_favorito, true)
+                setFieldValue("genero_favorito",genero, true)
               }
             }, []);
 
