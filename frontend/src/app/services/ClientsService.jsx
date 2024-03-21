@@ -63,8 +63,8 @@ export const clientsAPI = createApi({
       invalidatesTags: [{ type: "Clients", id: "LIST" }],
     }),
     createInvalidClient: builder.mutation({
-      query: (id, ...rest) => ({
-        url: `/clientes/${id}/invalidar/`,
+      query: (id, rest) => ({
+        url: `clientes/${id}/invalidar/`,
         method: "POST",
         body: rest,
       }),
@@ -98,7 +98,7 @@ export const clientsAPI = createApi({
 
 export const {
   useGetClientsQuery,
-  useLazyGetClientByIdQuery,
+  useGetClientByIdQuery,
   useCreateClientMutation,
   useUpdateClientMutation,
   useDeleteClientMutation,

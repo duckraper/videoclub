@@ -39,7 +39,7 @@ const RentForm = () => {
     if (datas) {
       const newSoportes = {};
       datas.forEach((dat) => {
-        const peliculas = dat.peliculas[0].titulo;
+        const peliculas = dat.peliculas;
         // console.log(peliculas);
         newSoportes[peliculas] = dat.id;
       });
@@ -76,7 +76,7 @@ const RentForm = () => {
       Toast.fire({
         icon: "success",
         iconColor: "orange",
-        title: `Se creó el prestamo correctamente `,
+        title: `Se creó el préstamo correctamente `,
       })
       dispatch(setNoHere(true));
     }
@@ -181,7 +181,7 @@ const RentForm = () => {
                       ))}
                     </select>
                   </div>
-                </div>
+              </div>
                 <div className="flex justify-between w-full px-auto">
                   <button
                     onClick={() => navigate(-1)}

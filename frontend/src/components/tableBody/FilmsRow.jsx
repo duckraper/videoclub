@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Swal from "sweetalert2";
-import { useDeleteFilmMutation } from "../../app/services";
+import { useDeleteFilmMutation, useGetSupportsQuery } from "../../app/services";
 import { CancelPresentationOutlined, EditOutlined, InfoOutlined } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
@@ -11,23 +11,50 @@ const FilmsRow = ({ index, film }) => {
     useDeleteFilmMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
- 
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: false,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
+  const [soportes, setSoportes] = React.useState([]);
+  const {data:supports, isSuccess:exito} = useGetSupportsQuery(undefined, {refetchOnReconnect: true})
+  useEffect(() => {
+    if(supports){
+      supports.map((el)=> {
+  
+        if(film.soportes.includes(el.id)){
+          setSoportes((prev)=>[...prev, `${el.tipo_de_soporte}:${el.id} `])
+        }
+      
+      })
+  
+    }
+  }, [exito])
+
+
+ 
  const handleInfo = (film) => {
     if (film) {
       Swal.fire({
         title: "<strong>Info</strong>",
         html: `
-               Titulo: ${film.titulo} <br><br>
+               Título: ${film.titulo} <br><br>
                Director: ${film.director} <br><br>
                Género: ${film.genero} <br><br>
                Clasificación de edad: ${film.clasif_edad} <br><br>
                Duración: ${film.duracion} min <br><br>
-               Precio: $${film.precio}.00 <br><br>
+               Precio: $${film.precio} <br><br>
                Fecha de estreno: ${film.fecha_estreno} <br><br>
                Tamaño: ${film.tamanio} GB <br><br>
                Estreno: ${film.estreno ? "si": "no"} <br><br>
-               Soportes: ${film.soportes} <br><br>
+               Soportes: ${film.soportes.length != 0 ? soportes : "Ningún soporte tiene esta película"} <br><br>
                `,
         focusConfirm: false,
         confirmButtonText: `ok`,
@@ -49,6 +76,11 @@ const FilmsRow = ({ index, film }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await deleteFilm(film.id);
+        Toast.fire({
+          icon: "success",
+          iconColor: "orange",
+          title: `Se ha eliminado la correctamente `,
+        });
       }
     });
   };

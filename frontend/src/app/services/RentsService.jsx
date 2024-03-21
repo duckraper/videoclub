@@ -42,10 +42,10 @@ export const rentsAPI = createApi({
         }),
     
         returnRent: builder.mutation({
-        query: ({ body }) => ({
-            url: `prestamos/${body.id}/devolver`,
+        query: (id, ...rest) => ({
+            url: `prestamos/${id}/devolver/`,
             method: "POST",
-            body,
+            body: rest,
         }),
         invalidatesTags: (result, { id }) =>
             result

@@ -47,7 +47,7 @@ const Films = () => {
           <thead className="border-b">
             <tr className="text-left">
               <th className="p-2 px-4 w-16 text">#</th>
-              <th className=" w-1/4" >Titulo</th>
+              <th className=" w-1/4" >Título</th>
               <th >Género</th>
               <th >Clasificación</th>
               <th >Duración (min)</th>

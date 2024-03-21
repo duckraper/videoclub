@@ -6,7 +6,19 @@ import { PersonRemoveOutlined, PersonOffOutlined, InfoOutlined } from "@mui/icon
 const InvalidsRow = ({ index, invalid }) => {
   const [deleteInvalid] = useDeleteInvalidClientMutation();
   const [deleteClient] = useDeleteClientMutation();
+  
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: false,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
 
+  });
   const handleInfo = (invalid) => {
     if (invalid) {
       Swal.fire({
@@ -58,6 +70,11 @@ const InvalidsRow = ({ index, invalid }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await deleteClient(invalid.cliente.id);
+        Toast.fire({
+          icon: "success",
+          iconColor: "orange",
+          title: `Se ha eliminado el cliente correctamente `,
+        });
       }
     });
   };
@@ -78,7 +95,7 @@ const InvalidsRow = ({ index, invalid }) => {
               Info cliente
             </span>
             <InfoOutlined
-              onClick={()=>handleInfo(invalid)}
+              onClick={()=>handleInfo(invalid.cliente)}
               className="text-black mx-1 w-5 h-5 hover:text-red-400 transition-all"
             />
           </div>
