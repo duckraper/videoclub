@@ -38,14 +38,15 @@ const RentForm = () => {
     if (datas) {
       const newSoportes = {};
       datas.forEach((dat) => {
-        const peliculas = dat.peliculas;
-        newSoportes[peliculas] = dat.id;
+        if (dat.peliculas.length > 0) {
+          const peliculas = dat.no_serie + " ( " + dat.peliculas.map((pelicula) => pelicula).join(", ") + " )"
+          newSoportes[peliculas] = dat.id;
+        }
       });
-
       setSoportes(newSoportes);
+
     }
   }, [datas, isLoading]);
-
   useEffect(() => {
     if (noHere) {
       navigate(-1);

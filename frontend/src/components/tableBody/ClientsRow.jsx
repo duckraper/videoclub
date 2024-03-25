@@ -5,13 +5,7 @@ import {
   useCreateInvalidClientMutation,
   useGetClientByIdQuery
 } from "../../app/services";
-import {
-  PersonRemoveOutlined,
-  EditOutlined,
-  FiberManualRecord,
-  PersonOffOutlined,
-  InfoOutlined,
-} from "@mui/icons-material";
+
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 import { setEdit, setNoHere } from "../../app/slices/TipoActivo.slice";
@@ -130,7 +124,7 @@ const ClientRow = ({ index, client }) => {
            });
     }
   };
-//TODO terminar el invalidar
+
   const handleInfo = (client) => {
     if (client) {
       Swal.fire({
@@ -165,8 +159,6 @@ const ClientRow = ({ index, client }) => {
     }
   };
 
-
-
   return (
     <tr className="border-b text-gray-500 hover:bg-gray-50" onClick={()=>handleInfo(client)}>
       <td className="py-3 text-left px-4">{`${client.nombre}`}</td>
@@ -175,35 +167,29 @@ const ClientRow = ({ index, client }) => {
       <td className="pl-8">{client.cant_soportes_alquilados}</td>
       {client.es_fijo && 
       <td className=" pl-5">
-          <FiberManualRecord
-            style={{
-              fontSize: "small",
-              paddingBottom: "4px",
-              color: "greenyellow",
-            }}
-          />   
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             className="bi bi-person-heart" viewBox="0 0 16 16">
+          <path
+              d="M9 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h10s1 0 1-1-1-4-6-4-6 3-6 4m13.5-8.09c1.387-1.425 4.855 1.07 0 4.277-4.854-3.207-1.387-5.702 0-4.276Z"/>
+        </svg>
       </td>
-      }{client.invalidado && 
+      }{client.invalidado &&
         <td className=" pl-5">
-            <FiberManualRecord
-              style={{
-                fontSize: "small",
-                paddingBottom: "4px",
-                color: "red",
-              }}
-            />   
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+               className="bi bi-person-fill-slash" viewBox="0 0 16 16">
+            <path
+                d="M13.879 10.414a2.501 2.501 0 0 0-3.465 3.465zm.707.707-3.465 3.465a2.501 2.501 0 0 0 3.465-3.465m-4.56-1.096a3.5 3.5 0 1 1 4.949 4.95 3.5 3.5 0 0 1-4.95-4.95ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+          </svg>
         </td>
-        }
-        {!client.es_fijo && !client.invalidado &&
-      <td className=" pl-5">
-          <FiberManualRecord
-            style={{
-              fontSize: "small",
-              paddingBottom: "4px",
-              color: "gray",
-            }}
-          />   
-      </td>
+    }
+      {!client.es_fijo && !client.invalidado &&
+          <td className=" pl-5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                 className="bi bi-person-fill"
+                 viewBox="0 0 16 16">
+              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+            </svg>
+          </td>
       }
     </tr>
   );

@@ -19,7 +19,7 @@ export default function AdminDashBoard() {
 
   React.useEffect(() => {
     if (isSuccess) {
-      setExist(dataRent);
+      setExist(dataRent.activo && dataRent);
     }
   }, [isSuccess]);
 
@@ -47,26 +47,25 @@ export default function AdminDashBoard() {
         </div>
       </div>
 
-      <h1 className="font-bold text-2xl">Rentas en Curso</h1>
-
-      {exist.length > 0 ? <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
-         <table className="w-full">
+      {exist?.length > 0 ? <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
+        <h1 className="font-bold text-2xl">Rentas en Curso</h1>
+        <table className="w-full">
           <thead className="border-b">
-            <tr className="text-left">
-              <th className="p-2">Renta</th>
-              <th>Clientes</th>
-              <th>Formato</th>
-              <th>Días para la entrega</th> 
-              <th>Precio</th>
-            </tr>
+          <tr className="text-left">
+            <th className="p-2">Renta</th>
+            <th>Clientes</th>
+            <th>Formato</th>
+            <th>Días para la entrega</th>
+            <th>Precio</th>
+          </tr>
           </thead>
           <tbody>
-            {dataRent?.map((el, index) => (
-              <ActiveRentsRow key={el.id} index={index} renta={el} />
-            ))}
+          {dataRent?.map((el, index) => (
+              <ActiveRentsRow key={el.id} index={index} renta={el}/>
+          ))}
           </tbody>
         </table>
-      </div>: "No hay préstamos en curso"}
+      </div> : <h1 className="font-bold text-2xl">No hay préstamos en curso</h1>}
     </main>
   );
 }
