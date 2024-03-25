@@ -11,7 +11,7 @@ const SupportRow = ({ index, soporte }) => {
     toast: true,
     position: "bottom-end",
     showConfirmButton: false,
-    timer: 5000,
+    timer: 3000,
     timerProgressBar: false,
     didOpen: (toast) => {
       toast.onmouseenter = Swal.stopTimer;
@@ -98,12 +98,12 @@ const SupportRow = ({ index, soporte }) => {
                 <p>Costo de adquisición: ${soporte.costo_adquisicion}</p> <br>
                 
                `,
-        focusConfirm: false,
-        confirmButtonText: `Borrar Soporte`,
+        focusConfirm: false,   
+        confirmButtonText: `<span><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg></span>`,
         confirmButtonColor: "red",
         showCloseButton: true,
         showDenyButton: true,
-        denyButtonText: `Copiar Película`, 
+        denyButtonText: `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M440-240h80v-120h120v-80H520v-120h-80v120H320v80h120v120ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>`, 
         denyButtonColor: "orange",
         
       }).then((result) => {
@@ -119,23 +119,10 @@ const SupportRow = ({ index, soporte }) => {
     let disponible = soporte.disponible ? "Disponible" : "No disponible";
    
   return (
-    <tr className="border-b text-gray-500">
-      <td className="opacity-5 hover:opacity-100 py-3" >
-        <div className="flex flex-row w-100% justify-center items-center space-x-2">
-        <div className="hover:cursor-pointer has-tooltip">
-            <span className="tooltip rounded shadow-sm p-1 text-xs bg-gray-100 text-red-400 -mt-6">
-              Info soporte
-            </span>
-            <InfoOutlined
-              onClick={()=>handleInfo(soporte)}
-              className="text-black mx-1 w-5 h-5 hover:text-red-400 transition-all"
-            />
-          </div>
-        </div>
-      </td>
-      <td>{soporte.no_serie}</td>
+    <tr className={`border-b text-gray-500 ${!soporte.disponible && "bg-gray-200"} hover:bg-gray-50`} onClick={()=>handleInfo(soporte)}>
+      <td className="py-3 text-left px-4">{soporte.no_serie}</td>
       <td>{`${soporte.tipo_de_soporte}`}</td>
-      <td className="pl-5">{soporte.estado}</td>
+      <td className="pl-5 py-3">{soporte.estado}</td>
       <td>{disponible}</td>
       <td className="pl-10">{soporte.cant_prestamos}</td>
       <td className="pl-10">{soporte.cant_peliculas_grabadas}</td>

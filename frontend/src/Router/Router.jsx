@@ -1,9 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import LogIn from "../pages/LogIn";
+import { auth_state } from "../app/slices/Auth.slice";
+import { useSelector } from "react-redux";
 
-import LoadingPageAd from "../pages/adminPages/LoadingPageAd";
-import Layout from "../pages/adminPages/AdminLayout";
-import DashBoard from "../pages/adminPages/AdminDashBoard";
+import LogIn from "../pages/LogIn";
+import LoadingPageAdd from "../pages/LoadingPageAdd";
+import Layout from "../pages/Layout";
+import DashBoard from "../pages/DashBoard";
 import Users from "../components/tables/UserTable";
 import UsersForm from "../components/forms/UsersForm";
 import Clients from "../components/tables/ClientsTable";
@@ -12,11 +14,11 @@ import Films from "../components/tables/FilmsTable";
 import FilmsForm from "../components/forms/FilmForm"
 import Supports from "../components/tables/SupportTables";
 import SupportsForm from "../components/forms/SupportForm";
-import SupportsCopyForm from "../components/forms/SupportCopyForm";
 import Rents from "../components/tables/RentsTable";
 import RentForm from "../components/forms/RentForm";
 import InvalidsTable from "../components/tables/InvalidsTable";
-import InvalidateForm from "../components/forms/InvalidateForm";
+
+
 
 
 const router = createBrowserRouter([
@@ -26,12 +28,12 @@ const router = createBrowserRouter([
     },
     {
         path: "/home",
-        element: <LoadingPageAd />,
+        element: <LoadingPageAdd />,
     },
     {
         path: "/home/Dashboard",
         element: <Layout />,
-        children: [
+        children:[
             {
                 index: true,
                 element: <DashBoard />,
@@ -60,10 +62,6 @@ const router = createBrowserRouter([
                 element: <ClientsForm />,
             },
             {
-                path: "Clientes/Invalidar/:id/",
-                element: <InvalidateForm/>
-            },
-            {
                 path: "Peliculas",
                 element: <Films />,
             },
@@ -82,10 +80,6 @@ const router = createBrowserRouter([
             {
                 path: "Soportes/Agregar",
                 element: <SupportsForm />,
-            },
-            {
-                path: "Soportes/Copiar/:id/",
-                element: <SupportsCopyForm />,
             },
             {
                 path: "Prestamos",

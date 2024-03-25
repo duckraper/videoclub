@@ -24,12 +24,10 @@ const Invalids = () => {
         <table className=" w-full overflow-x-hidden">
           <thead className="border-b">
             <tr className="text-left">
-              <th className="p-2 px-4 w-16 text">#</th>
-              <th className=" w-1/4" >Nombre</th>
+              <th className=" w-1/4 p-2 px-4" >Nombre</th>
               <th >Apellidos</th>
               <th >Fecha invalidación</th>
               <th >Motivo</th>
-              <th className="  font-bold text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>

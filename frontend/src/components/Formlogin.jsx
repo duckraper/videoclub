@@ -41,16 +41,29 @@ const Formlogin = () => {
         toast: true,
         position: "bottom-end",
         showConfirmButton: false,
-        timer: 2000,
+        timer: 3000,
         timerProgressBar: false,
         didOpen: (toast) => {
           toast.onmouseenter = Swal.stopTimer;
           toast.onmouseleave = Swal.resumeTimer;
         }
       });
-    
+
+      const [cantError,setCantError] =useState(0)
+      const [bloqueo, setBloqueo] = useState();
+      console.log(bloqueo)
+
       React.useEffect(() => {
-        if (isSuccess) {
+        if(cantError == 2 ){  
+            setBloqueo(true)
+          Toast.fire({
+            icon: "error",
+            title: "Acceso Bloqueado"             
+          });
+          
+
+        }
+       else if (isSuccess) {
           dispatch(loginState());
           navigate("/home");
           Toast.fire({
@@ -59,9 +72,10 @@ const Formlogin = () => {
             title: "Sesión iniciada correctamente"
           });
         }
+       
     
-        if (isError) {
-          navigate("/");
+        else if (isError) {
+          setCantError(cantError + 1)
           Toast.fire({
             icon: "error",
             title: "Credenciales incorrectas"
@@ -142,8 +156,9 @@ const Formlogin = () => {
                     
                     </div>
                     <button
+                        disabled={bloqueo}
                         type="submit"
-                        className="w-full bg-orange-400 hover:bg-orange-300 rounded-lg text-white p-3 transition-all"
+                        className={`w-full bg-orange-400 ${bloqueo == true && "bg-gray-300"} hover:bg-orange-300 rounded-lg text-white p-3 transition-all`}
                     >
                         Acceder <LoginOutlined />
                     </button>

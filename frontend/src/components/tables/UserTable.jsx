@@ -39,11 +39,12 @@ const Usuarios = () => {
         <table className=" w-full">
           <thead className="border-b">
             <tr className="text-left">
-              <th className="p-2 px-4 w-16">#</th>
-              <th className="">Nombre de usuario</th>
+
+              <th className="p-2 px-4">Nombre de usuario</th>
+              <th>Nombre</th>
+              <th>Apellidos</th>
               <th className="">Correo</th>
               <th className="">Role</th>
-              <th className="font-bold text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>

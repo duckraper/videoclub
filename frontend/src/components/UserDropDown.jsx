@@ -52,7 +52,7 @@ export default function AccountMenu() {
         toast: true,
         position: "bottom-end",
         showConfirmButton: false,
-        timer: 2000,
+        timer: 3000,
         timerProgressBar: false,
         didOpen: (toast) => {
           toast.onmouseenter = Swal.stopTimer;

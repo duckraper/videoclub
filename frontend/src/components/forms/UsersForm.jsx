@@ -39,7 +39,7 @@ const UsersForm = () => {
     toast: true,
     position: "bottom-end",
     showConfirmButton: false,
-    timer: 5000,
+    timer: 3000,
     timerProgressBar: false,
     didOpen: (toast) => {
       toast.onmouseenter = Swal.stopTimer;

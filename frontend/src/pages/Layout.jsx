@@ -10,8 +10,8 @@ import {
     PersonOffOutlined
 } from "@mui/icons-material";
 import { Outlet, useNavigate, NavLink, useLocation } from "react-router-dom";
-import UserDropDown from "../../components/UserDropDown";
-import { useGetUserByIdQuery } from "../../app/services";
+import UserDropDown from "../components/UserDropDown";
+import { useGetUserByIdQuery } from "../app/services";
 
 
 export default function AdminView() {
@@ -41,7 +41,7 @@ export default function AdminView() {
                             <CameraOutdoorOutlined
                                 style={{ fontSize: "xx-large" }}
                             />
-                            <span className="pt-2">Films</span>
+                            <span className="pt-2">Videoclub</span>
                         </div>
                     </NavLink>
                     <nav className="flex items-start p-4 text-sm font-medium">
@@ -55,7 +55,7 @@ export default function AdminView() {
                                 to="/home/Dashboard"
                             >
                                 <HomeOutlined />
-                                Dashboard
+                                Principal
                             </NavLink>
                             {role === "Admin" && 
                             <NavLink
@@ -68,7 +68,7 @@ export default function AdminView() {
                                 to="Trabajadores"
                             >
                                 <ContactEmergencyOutlined />
-                                Trabajadores
+                                Personal
                             </NavLink>}
                             <NavLink
                                 className={

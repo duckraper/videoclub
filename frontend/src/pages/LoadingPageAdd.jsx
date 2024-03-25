@@ -1,13 +1,22 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth_state } from "../app/slices/Auth.slice";
+import { useSelector } from "react-redux";
 import { ManageAccountsOutlined } from "@mui/icons-material";
+
 const LoadingPage = () => {
+    const { authenticated } = useSelector(auth_state);
 
     const navigate = useNavigate();
     useEffect(() => {
         setTimeout(() => {
+            if(authenticated){
             navigate("/home/Dashboard");
-        }, 1500);
+        }
+            else if(!authenticated){
+                navigate("/")
+            }
+        }, 1000);
     }, []);
 
     return (

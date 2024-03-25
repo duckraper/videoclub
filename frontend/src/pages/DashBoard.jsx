@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { PersonOutlined } from "@mui/icons-material";
-import { useGetClientsQuery } from "../../app/services";
-import { useGetRentsQuery } from "../../app/services";
-import ActiveRentsRow from "../../components/AtiveRentsRow";
+import { useGetClientsQuery } from "../app/services";
+import { useGetRentsQuery } from "../app/services";
+import ActiveRentsRow from "../components/AtiveRentsRow";
 
 export default function AdminDashBoard() {
   const { data } = useGetClientsQuery(undefined, {

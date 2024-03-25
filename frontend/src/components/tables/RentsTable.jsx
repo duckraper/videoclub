@@ -46,13 +46,11 @@ const Rentas = () => {
           <table className=" w-full">
             <thead className="border-b">
               <tr className="text-left">
-                <th className="p-2 px-4 w-16">#</th>
-                <th className="font-sans">Cliente</th>
-                <th className="font-sans">Soporte</th>
-                <th className="font-sans">Activo</th>
-                <th className="font-sans">Fecha del Préstamo</th>
-                <th className="font-sans">Costo del Préstamo</th>
-                <th className=" font-sans font-bold text-center">Acciones</th>
+                <th className="p-2 px-4">Cliente</th>
+                <th>Soporte</th>
+                <th>Activo</th>
+                <th>Fecha del Préstamo</th>
+                <th>Costo del Préstamo</th>
               </tr>
             </thead>
             <tbody>

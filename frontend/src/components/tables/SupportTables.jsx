@@ -46,8 +46,7 @@ const Support = () => {
           
           <thead className="border-b">
             <tr className="text-left">
-              <th className="p-2 px-4 w-16">Info</th>
-              <th className="">No. Serie</th>
+              <th className="p-2 px-4">No. Serie</th>
               <th className="">Tipo</th>
               <th className="">Estado</th>
               <th className="">Disponibilidad</th>

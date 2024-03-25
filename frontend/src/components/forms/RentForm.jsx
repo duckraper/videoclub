@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setNoHere,
   tipo_state,
-  setEdit,
 } from "../../app/slices/TipoActivo.slice";
 import Swal from "sweetalert2";
 
@@ -40,7 +39,6 @@ const RentForm = () => {
       const newSoportes = {};
       datas.forEach((dat) => {
         const peliculas = dat.peliculas;
-        // console.log(peliculas);
         newSoportes[peliculas] = dat.id;
       });
 
@@ -48,10 +46,6 @@ const RentForm = () => {
     }
   }, [datas, isLoading]);
 
-    console.log(soportes)
-  
-
-  
   useEffect(() => {
     if (noHere) {
       navigate(-1);
@@ -62,7 +56,7 @@ const RentForm = () => {
     toast: true,
     position: "bottom-end",
     showConfirmButton: false,
-    timer: 5000,
+    timer: 3000,
     timerProgressBar: false,
     didOpen: (toast) => {
       toast.onmouseenter = Swal.stopTimer;

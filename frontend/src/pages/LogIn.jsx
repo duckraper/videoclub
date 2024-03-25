@@ -1,7 +1,6 @@
 import React from "react";
 import imagen from "../images/Designer.png";
 import Formlogin from "../components/Formlogin";
-import logo from "../images/logo.png";
 export default function LogIn() {
     return (
         <>
@@ -15,7 +14,7 @@ export default function LogIn() {
                             src={imagen}
                         />
                         <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-4xl mb-8 anima">
-                            Bienvenido a la tienda de vídeos
+                            Bienvenido al Videoclub
                         </h1>
                         <p className="mx-auto max-w-full text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 ">
                             Administre su videoclub con facilidad utilizando

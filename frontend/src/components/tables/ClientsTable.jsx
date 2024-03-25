@@ -44,13 +44,11 @@ return (
          <table className=" w-full">
           <thead className="border-b">
             <tr className="text-left">
-              <th className="p-2 px-4 w-16">#</th>
-              <th >Nombre</th>
+              <th className=" p-2 px-4" >Nombre</th>
               <th >Apellidos</th>
               <th >Inscrito desde</th>
               <th>Prestamos</th>
               <th >Estado</th>
-              <th className="  font-bold text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>
