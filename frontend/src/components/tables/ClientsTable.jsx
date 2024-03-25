@@ -47,7 +47,7 @@ return (
               <th className=" p-2 px-4" >Nombre</th>
               <th >Apellidos</th>
               <th >Inscrito desde</th>
-              <th>Prestamos</th>
+              <th>Préstamos</th>
               <th >Estado</th>
             </tr>
           </thead>

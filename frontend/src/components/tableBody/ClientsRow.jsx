@@ -38,7 +38,7 @@ const ClientRow = ({ index, client }) => {
   const handleDelete = async () => {
     Swal.fire({
       title: "¿Estás seguro?",
-      text: `¡Si eliminas al cliente: ${client.nombre}, esta acción no se podrá revertir!`,
+      text: `¡Si eliminas al cliente ${client.nombre}, esta acción no se podrá revertir!`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "orange",
@@ -87,7 +87,7 @@ const ClientRow = ({ index, client }) => {
   const handleInvalidar = async (client) => {
     Swal.fire({
       title: "¿Estás seguro?",
-      text: `¡Invalidar al cliente, lo sacara de esta lista!`,
+      text: `¡Invalidar al cliente, lo sacará de esta lista!`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "orange",
@@ -111,7 +111,7 @@ const ClientRow = ({ index, client }) => {
     if (client) {
       Swal.fire({
         title: "<strong>Info</strong>",
-        text: `Desea eliminar o invalidar al cliente ${client.nombre}`,
+        text: `¿Desea eliminar, o invalidar al cliente ${client.nombre}?`,
         focusConfirm: false,
         confirmButtonText: `<svg xmlns="http://www.w3.org/2000/svg" height="24" style = {{color: "white"}} viewBox="0 -960 960 960" width="24"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>`,
         confirmButtonColor: "red",
