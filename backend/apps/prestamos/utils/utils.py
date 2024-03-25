@@ -15,6 +15,9 @@ def crear_solicitud(cliente: Cliente | ClienteFijo, soporte: Soporte, dias: int 
             or cliente.invalidado:
         raise ValidationError(f"El cliente {cliente} no puede alquilar más soportes")
 
+    if not soporte.disponible:
+        raise ValidationError(f"El soporte {soporte} no está disponible")
+
     prestamo = SolicitudPrestamo.objects.create(
         cliente=cliente,
         soporte=soporte,
