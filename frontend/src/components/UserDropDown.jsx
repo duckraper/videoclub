@@ -9,144 +9,154 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import { logoutState } from "../app/slices/Auth.slice";
 import { useLogoutMutation } from "../app/services";
-import { useDispatch,} from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useGetUserByIdQuery } from "../app/services";
 import Swal from "sweetalert2";
 import { setEdit, setNoHere } from "../app/slices/TipoActivo.slice";
 
-
 export default function AccountMenu() {
-    const id = localStorage.getItem("id");
-    let name = JSON.parse(localStorage.getItem("username"));
-    const {data}= useGetUserByIdQuery(id,{
-        refetchOnReconnect: true,
-      });
-    const dispatch = useDispatch();
-    const [logout] = useLogoutMutation();
-    const Navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+  const id = localStorage.getItem("id");
+  let name = JSON.parse(localStorage.getItem("username"));
+  const { data } = useGetUserByIdQuery(id, {
+    refetchOnReconnect: true,
+  });
+  const dispatch = useDispatch();
+  const [logout] = useLogoutMutation();
+  const Navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-    let char = ""
-     if (name){
-         char = name.charAt(0).toUpperCase();
-        }
+  let char = "";
+  if (name) {
+    char = name.charAt(0).toUpperCase();
+  }
 
-    const handleClose = () => {
-       setAnchorEl(null);
-       
-    };
-    
-    const handleClickEdit = async () => {
-        dispatch(setEdit(data));
-        dispatch(setNoHere(false));
-        Navigate(`Trabajadores/editar/${data.id}`);
-      };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-    
-    const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: false,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
-        }
-      });
-      
-    
-    const logoutUser = async () => {
-         if(data){
-            await logout()
-            .unwrap()
-            .then(() => {
-             dispatch(logoutState());
-            Navigate("/")
-            Toast.fire({
-                icon: "success",
-                iconColor: "orange",
-                title: "Sesión cerrada correctamente"
-              });
-            });
-        }
-        };
-        
-    
-    return (
-        <React.Fragment>
-            <Box
-                sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    textAlign: "center",
-                }}
+  const handleClickEdit = async () => {
+    dispatch(setEdit(data));
+    dispatch(setNoHere(false));
+    Navigate(`Trabajadores/editar/${data.id}`);
+  };
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: false,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
+
+  const logoutUser = async () => {
+    if (data) {
+      await logout()
+        .unwrap()
+        .then(() => {
+          dispatch(logoutState());
+          Navigate("/");
+          Toast.fire({
+            icon: "success",
+            iconColor: "orange",
+            title: "Sesión cerrada correctamente",
+          });
+        });
+    }
+  };
+
+  return (
+    <React.Fragment>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        <Tooltip title="Opciones">
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            sx={{ ml: 2 }}
+            aria-controls={open ? "account-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+          >
+            <Avatar
+              sx={{ width: 32, height: 32 }}
+              className=" border-orange-400 border-2"
             >
-                <Tooltip title="Opciones">
-                    <IconButton
-                        onClick={handleClick}
-                        size="small"
-                        sx={{ ml: 2 }}
-                        aria-controls={open ? "account-menu" : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
-                        
-                    >
-                        <Avatar sx={{ width: 32, height: 32 }} className=" border-orange-400 border-2">{char}</Avatar>
-                    </IconButton>
-                </Tooltip>
-                
-            </Box>
-            <Menu
-                anchorEl={anchorEl}
-                id="account-menu"
-                open={open}
-                onClose={handleClose}
-                onClick={handleClose}
-                slotProps={{ paper: {
-                    elevation: 0,
-                    sx: {
-                        overflow: "visible",
-                        filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                        mt: 1.5,
-                        "& .MuiAvatar-root": {
-                            width: 32,
-                            height: 32,
-                            ml: -0.5,
-                            mr: 1,
-                        },
-                        "&::before": {
-                            content: '""',
-                            display: "block",
-                            position: "absolute",
-                            top: 0,
-                            right: 14,
-                            width: 10,
-                            height: 10,
-                            bgcolor: "background.paper",
-                            transform: "translateY(-50%) rotate(45deg)",
-                            zIndex: 0,
-                        },
-                    },
-                }}}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              {char}
+            </Avatar>
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        slotProps={{
+          paper: {
+            elevation: 0,
+            sx: {
+              overflow: "visible",
+              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+              mt: 1.5,
+              "& .MuiAvatar-root": {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              "&::before": {
+                content: '""',
+                display: "block",
+                position: "absolute",
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: "background.paper",
+                transform: "translateY(-50%) rotate(45deg)",
+                zIndex: 0,
+              },
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem onClick={handleClickEdit}>
+          <Avatar /> {name}
+        </MenuItem>
+        <MenuItem onClick={logoutUser}>
+          <div className="flex justify-between w-36">
+            <div>Cerrar Sesión</div>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              class="bi bi-person-wheelchair"
+              viewBox="0 0 16 16"
             >
-                <MenuItem onClick={handleClickEdit}>
-                    <Avatar /> {name} 
-                </MenuItem>
-                <MenuItem onClick={logoutUser}>
-                    <ListItemIcon>
-                        <Logout fontSize="small" />
-                    </ListItemIcon>
-                    Cerrar Sesión
-                </MenuItem>
-            </Menu>
-        </React.Fragment>
-    );
+              <path d="M12 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m-.663 2.146a1.5 1.5 0 0 0-.47-2.115l-2.5-1.508a1.5 1.5 0 0 0-1.676.086l-2.329 1.75a.866.866 0 0 0 1.051 1.375L7.361 3.37l.922.71-2.038 2.445A4.73 4.73 0 0 0 2.628 7.67l1.064 1.065a3.25 3.25 0 0 1 4.574 4.574l1.064 1.063a4.73 4.73 0 0 0 1.09-3.998l1.043-.292-.187 2.991a.872.872 0 1 0 1.741.098l.206-4.121A1 1 0 0 0 12.224 8h-2.79zM3.023 9.48a3.25 3.25 0 0 0 4.496 4.496l1.077 1.077a4.75 4.75 0 0 1-6.65-6.65z" />
+            </svg>
+          </div>
+        </MenuItem>
+      </Menu>
+    </React.Fragment>
+  );
 }

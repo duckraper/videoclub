@@ -49,16 +49,31 @@ const Formlogin = () => {
         }
       });
 
+      const bloqued = Swal.mixin({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 180000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+
       const [cantError,setCantError] =useState(0)
       const [bloqueo, setBloqueo] = useState();
-      console.log(bloqueo)
 
       React.useEffect(() => {
         if(cantError == 2 ){  
-            setBloqueo(true)
-          Toast.fire({
+          setBloqueo(true)
+          setTimeout(() => {
+            setBloqueo(false)
+            setCantError(0)
+           }, 180000);     
+          bloqued.fire({
             icon: "error",
-            title: "Acceso Bloqueado"             
+            title: "Acceso Bloqueado, podrá acceder nuevamente en 3 minutos"             
           });
           
 
@@ -158,7 +173,7 @@ const Formlogin = () => {
                     <button
                         disabled={bloqueo}
                         type="submit"
-                        className={`w-full bg-orange-400 ${bloqueo == true && "bg-gray-300"} hover:bg-orange-300 rounded-lg text-white p-3 transition-all`}
+                        className={`w-full  ${bloqueo ? "bg-gray-300" : "bg-orange-400 hover:bg-orange-300 " } rounded-lg text-white p-3 transition-all`}
                     >
                         Acceder <LoginOutlined />
                     </button>

@@ -1,6 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import { auth_state } from "../app/slices/Auth.slice";
-import { useSelector } from "react-redux";
 
 import LogIn from "../pages/LogIn";
 import LoadingPageAdd from "../pages/LoadingPageAdd";

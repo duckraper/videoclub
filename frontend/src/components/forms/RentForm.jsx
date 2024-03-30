@@ -21,7 +21,7 @@ const RentForm = () => {
   const navigate = useNavigate();
 
   const [clientes, setClientes] = useState({});
-  const { data, isSuccess: is } = useGetClientsQuery();
+  const { data, isSuccess: is } = useGetClientsQuery({filterParams: { search: "" }});
   useEffect(() => {
     if (data) {
       const newClientes = {};

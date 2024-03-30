@@ -58,7 +58,6 @@ const generos = {
   "Indefinido": "Indefinido",
 }
 
-
 const ClientForm = () => {
   const [createClient, { isLoading, isSuccess, isError, error }] =
     useCreateClientMutation();
@@ -77,13 +76,15 @@ const ClientForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { data } = useGetClientByIdQuery(edit?.id)
-  
+  const { data, isSuccess:isS } = useGetClientByIdQuery(edit?.id)
   let genero = "Indefinido"
   
-  if (data) {
+ useEffect(() => {
+  if (data?.genero_favorito) {
     genero = data?.genero_favorito
-  }
+ }
+ }, [isS])
+ 
 
   useEffect(() => {
     if (noHere) {
@@ -419,7 +420,7 @@ const ClientForm = () => {
                         />
                     </div>  
                   </div>
-                {values.es_fijo &&  
+                {values.es_fijo && !data?.genero_favorito &&  
                  <div className="flex w-3/5 md:justify-end">
                     <div className="">
                       <label className="block text-gray-500 font-sans md:text-right  md:mb-0 pr-4 pt-2 label w-full">
@@ -435,7 +436,7 @@ const ClientForm = () => {
                         name="genero_favorito"
                         onChange={handleChange}
                     >
-                        <option value=""  >
+                        <option value=""  disabled>
                             Seleccione un género
                         </option>
                         {Object.keys(generos).map((genero) => (

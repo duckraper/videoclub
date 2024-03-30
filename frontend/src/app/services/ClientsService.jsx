@@ -1,14 +1,23 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import customFetchBase from "../../config/customBaseQuery";
 
+export function buildFiltersUrl(base, parametros) {
+  let searchParams = new URLSearchParams();
+  for (let param in parametros) {
+    if (parametros[param]) searchParams.append(param, parametros[param]);
+  }
+  if (parametros) return base + "?" + searchParams.toString();
+  else return base;
+}
+
 export const clientsAPI = createApi({
   reducerPath: "clientsAPI",
   baseQuery: customFetchBase,
   tagTypes: ["Clients"],
   endpoints: (builder) => ({
     getClients: builder.query({
-      query: () => ({
-        url: "clientes/",
+      query: ({ filterParams }) => ({
+        url: buildFiltersUrl("clientes/", filterParams),
         method: "GET",
       }),
       providesTags: (result) =>
@@ -47,19 +56,13 @@ export const clientsAPI = createApi({
         method: "PATCH",
         body: rest,
       }),
-      invalidatesTags: (result, { id }) =>
-        result
-          ? [
-              { type: "Clients", id },
-              { type: "Clients", id: "LIST" },
-            ]
-          : [{ type: "Clients", id: "LIST" }],
+      invalidatesTags: ["Clients"],
     }),
     deleteClient: builder.mutation({
-      query: (id,...rest) => ({
+      query: (id, ...rest) => ({
         url: `clientes/${id}/`,
         method: "DELETE",
-        body: rest
+        body: rest,
       }),
       invalidatesTags: [{ type: "Clients", id: "LIST" }],
     }),

@@ -79,6 +79,7 @@ const FilmForm = () => {
     },
   });
 
+
   useEffect(() => {
     if (isSuccess || isSuccessEdit) {
       navigate("/home/Dashboard/Peliculas");
@@ -98,7 +99,6 @@ const FilmForm = () => {
           isError ? `${Object.values(error.data)}${Object.keys(error.data)}` : `${Object.values(errorEdit.data)}${Object.keys(errorEdit.data)}`
         }`,
       });
-      console.error(error);
     }
   }, [isLoading, isLoadingEdit]);
 

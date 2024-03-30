@@ -1,14 +1,23 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import customFetchBase from "../../config/customBaseQuery";
 
+export function buildFiltersUrl(base, parametros) {
+  let searchParams = new URLSearchParams();
+  for (let param in parametros) {
+    if (parametros[param]) searchParams.append(param, parametros[param]);
+  }
+  if (parametros) return base + "?" + searchParams.toString();
+  else return base;
+}
+
 export const userAPI = createApi({
   reducerPath: "userAPI",
   baseQuery: customFetchBase,
   tagTypes: ["User"],
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: () => ({
-        url: "auth/users/",
+      query: ({ filterParams }) => ({
+        url: buildFiltersUrl("auth/users/", filterParams),
         method: "GET",
       }),
       providesTags: (result) =>
@@ -32,7 +41,7 @@ export const userAPI = createApi({
 
       async onQueryStarted(args, { queryFulfilled, getCacheEntry }) {
         try {
-          let data = getCacheEntry().data
+          let data = getCacheEntry().data;
 
           await queryFulfilled;
           localStorage.setItem("user", JSON.stringify(data));
@@ -73,7 +82,7 @@ export const userAPI = createApi({
               { type: "User", id: "LIST" },
             ]
           : [{ type: "User", id: "LIST" }],
-    }),   
+    }),
   }),
 });
 

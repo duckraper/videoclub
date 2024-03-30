@@ -12,10 +12,26 @@ import {
 import { Outlet, useNavigate, NavLink, useLocation } from "react-router-dom";
 import UserDropDown from "../components/UserDropDown";
 import { useGetUserByIdQuery } from "../app/services";
+import { auth_state } from "../app/slices/Auth.slice";
+import { useSelector } from "react-redux";
 
 
 export default function AdminView() {
     const location = useLocation();
+    const { authenticated } = useSelector(auth_state);
+
+    const navigate = useNavigate();
+    useEffect(() => {
+        
+            if(authenticated){
+            navigate("/home/Dashboard");
+        }
+            else if(!authenticated){
+                navigate("/")
+            }
+        
+    }, []);
+
     const id = localStorage.getItem("id");
     const [role, setRole] = useState("");
     const {data}= useGetUserByIdQuery(id);

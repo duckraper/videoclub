@@ -41,16 +41,17 @@ const Rentas = () => {
           </button>
         </div>
       </div>
+      
       {exist.length > 0 ? (
         <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
           <table className=" w-full">
             <thead className="border-b">
               <tr className="text-left">
                 <th className="p-2 px-4">Cliente</th>
-                <th>Soporte</th>
-                <th>Activo</th>
-                <th>Fecha del Préstamo</th>
-                <th>Costo del Préstamo</th>
+                <th className="w-1/8">Soporte</th>
+                <th className="w-1/8">Activo</th>
+                <th className="w-1/8">Fecha del Préstamo</th>
+                <th className="w-1/8">Costo del Préstamo</th>
               </tr>
             </thead>
             <tbody>

@@ -40,6 +40,7 @@ const Support = () => {
           </button>
         </div>
       </div>
+      
       {exist.length > 0 ?
       <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
         <table className=" w-full">

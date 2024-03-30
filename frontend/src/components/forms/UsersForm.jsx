@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useCreateUserMutation, useEditUserMutation } from "../../app/services";
 import { useDispatch, useSelector } from "react-redux";
@@ -63,10 +63,11 @@ const UsersForm = () => {
       Toast.fire({
         icon: "error",
         title: `${
-          isError ?  `${Object.values(error.data)}${Object.keys(error.data)}` : `${Object.values(errorEdit.data)}${Object.keys(errorEdit.data)}`
+          isError
+            ? `${Object.values(error.data)}${Object.keys(error.data)}`
+            : `${Object.values(errorEdit.data)}${Object.keys(errorEdit.data)}`
         }`,
       });
-      console.error(error);
     }
   }, [isLoading, isLoadingEdit]);
 
@@ -117,9 +118,9 @@ const UsersForm = () => {
             user: "",
             nombre: "",
             apellidos: "",
-            password: "",
+            ...(!edit && {password: "",
+            re_password: ""}),
             email: "",
-            re_password: "",
             administrador: false,
           }}
           validationSchema={Yup.object({
@@ -127,39 +128,42 @@ const UsersForm = () => {
             nombre: Yup.string().required("El campo nombre es requerido"),
             apellidos: Yup.string().required("El campo nombre es requerido"),
             email: Yup.string().email().required("El campo email es requerido"),
-            password: Yup.string().required("Campo Obligatorio").min(8, "La contraseña debe tener al menos 8 caracteres")
-              .notOneOf(
-                [
-                  Yup.ref("user"),
-                  Yup.ref("nombre"),
-                  Yup.ref("apellidos"),
-                  Yup.ref("email"),
-                ],
-                "La contraseña no puede ser igual a otros datos del formulario"
-              )
-              .test(
-                "common-password",
-                "La contraseña no debe ser común",
-                (value) => {
-                  const commonPasswords = [
-                    "123456",
-                    "password",
-                    "qwerty",
-                    `${value}+123 `,
-                  ];
-                  return !commonPasswords.includes(value);
-                }
-              ),
-            re_password: Yup.string().required("Campo Obligatorio")
-              .oneOf(
-                [Yup.ref("password"), null],
-                "Las contraseñas deben coincidir"
-              )
+            ...(!edit && {
+              password: Yup.string()
+                .required("Campo Obligatorio")
+                .min(8, "La contraseña debe tener al menos 8 caracteres")
+                .notOneOf(
+                  [
+                    Yup.ref("user"),
+                    Yup.ref("nombre"),
+                    Yup.ref("apellidos"),
+                    Yup.ref("email"),
+                  ],
+                  "La contraseña no puede ser igual a otros datos del formulario"
+                )
+                .test(
+                  "common-password",
+                  "La contraseña no debe ser común",
+                  (value) => {
+                    const commonPasswords = [
+                      "123456",
+                      "password",
+                      "qwerty",
+                      `${value}+123 `,
+                    ];
+                    return !commonPasswords.includes(value);
+                  }
+                ),
+              re_password: Yup.string()
+                .required("Campo Obligatorio")
+                .oneOf(
+                  [Yup.ref("password"), null],
+                  "Las contraseñas deben coincidir"
+                ),
+            }),
           })}
-          
           onSubmit={handleSubmit}
         >
-          
           {({
             values,
             errors,
@@ -178,7 +182,7 @@ const UsersForm = () => {
                 setFieldValue("administrador", edit?.is_staff, true);
               }
             }, []);
-            
+
             const [showPass, setShowPass] = useState(false);
             const handleShowPass = () => {
               setShowPass(!showPass);
@@ -187,7 +191,12 @@ const UsersForm = () => {
             const handleShowPassRe = () => {
               setShowPassRe(!showPassRe);
             };
-            
+
+            const [changePass, setChangePass] = useState(false);
+            const handlePass = () => {
+              setChangePass(!changePass);
+            };
+
             const handleRole = () => {
               setFieldValue("administrador", !values.administrador);
             };
@@ -268,7 +277,7 @@ const UsersForm = () => {
                     </label>
                   </div>
                   <div className="flex justify-start w-full">
-                  <div className="md:flex mb-6 w-4/5 ">
+                    <div className="md:flex mb-6 w-4/5 ">
                       <div className="w-4/5">
                         <input
                           type="email"
@@ -284,15 +293,15 @@ const UsersForm = () => {
                           } `}
                         />
                       </div>
-                  </div>
-
-                  <div className="flex md:items-center mb-6 md:w-1/3 ">
-                    <div className="">
-                      <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                        Administrador
-                      </label>
                     </div>
-                    
+
+                    <div className="flex md:items-center mb-6 md:w-1/3 ">
+                      <div className="">
+                        <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
+                          Administrador
+                        </label>
+                      </div>
+
                       <div className="flex pt-1 ">
                         <input
                           type="checkbox"
@@ -301,87 +310,105 @@ const UsersForm = () => {
                           checked={values.administrador}
                           onChange={handleRole}
                           className="mr-2 text-lg"
-                          
                         />
-                      </div>  
-                  </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
+
                 <div className="md:flex md:items-center mb-6">
-                  <div className="md:w-1/3">
-                    <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                      Contraseña
-                    </label>
+                  <div className="md:w-1/3 flex flex-row justify-end space-x-2">
+                    <button onClick={handlePass} type="button">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="25"
+                        fill="gray"
+                        class="bi bi-key"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5" />
+                        <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                      </svg>
+                    </button>
+
+                    {changePass && (
+                      <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
+                        Contraseña
+                      </label>
+                    )}
                   </div>
-                  <div className="md:w-2/3 relative">
-                    <input
-                      type={showPass ? "text" : "password"}
-                      name="password"
-                      value={values.password}
-                      onChange={handleChange}
-                      placeholder="Escriba la contraseña"
-                      onBlur={handleBlur}
-                      className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
-                        errors.password && touched.password && "border-red-400"
-                      } ${isError && "border-red-400"} ${
-                        values.password.length > 0 && "border-green-100"
-                      } `}
-                    />
-                    <span
-                      className="absolute right-3 top-1/3 transform -translate-y-1/2 cursor-pointer pt-2.5"
-                      onClick={handleShowPass}
-                    >
-                      {showPass ? (
-                        <VisibilityOffOutlined
-                          style={{ fontSize: "large", color: "gray" }}
-                        />
-                      ) : (
-                        <VisibilityOutlined
-                          style={{ fontSize: "large", color: "gray" }}
-                        />
-                      )}
-                    </span>
-                  </div>
+                  {changePass && (
+                    <div className="md:w-2/3 relative">
+                      <input
+                        type={showPass ? "text" : "password"}
+                        name="password"
+                        value={values.password}
+                        onChange={handleChange}
+                        placeholder="Escriba la contraseña"
+                        onBlur={handleBlur}
+                        className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
+                          errors.password &&
+                          touched.password &&
+                          "border-red-400"
+                        }   `}
+                      />
+                      <span
+                        className="absolute right-3 top-1/3 transform -translate-y-1/2 cursor-pointer pt-2.5"
+                        onClick={handleShowPass}
+                      >
+                        {showPass ? (
+                          <VisibilityOffOutlined
+                            style={{ fontSize: "large", color: "gray" }}
+                          />
+                        ) : (
+                          <VisibilityOutlined
+                            style={{ fontSize: "large", color: "gray" }}
+                          />
+                        )}
+                      </span>
+                    </div>
+                  )}
                 </div>
-                <div className="md:flex md:items-center mb-6">
-                  <div className="md:w-1/3">
-                    <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
-                      Confirmar Contraseña
-                    </label>
+                {changePass && (
+                  <div className="md:flex md:items-center mb-6">
+                    <div className="md:w-1/3">
+                      <label className="block text-gray-500 font-sans md:text-right mb-1 md:mb-0 pr-4 label">
+                        Confirmar Contraseña
+                      </label>
+                    </div>
+                    <div className="md:w-2/3 relative">
+                      <input
+                        type={showPassRe ? "text" : "password"}
+                        name="re_password"
+                        value={values.re_password}
+                        onChange={handleChange}
+                        placeholder="Repita la contraseña"
+                        onBlur={handleBlur}
+                        className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
+                          errors.re_password &&
+                          touched.re_password &&
+                          "border-red-400"
+                        } ${isError && "border-red-400"}  `}
+                      />
+                      <span
+                        className="absolute right-3 top-1/3 transform -translate-y-1/2 cursor-pointer pt-2.5"
+                        onClick={handleShowPassRe}
+                      >
+                        {showPassRe ? (
+                          <VisibilityOffOutlined
+                            style={{ fontSize: "large", color: "gray" }}
+                          />
+                        ) : (
+                          <VisibilityOutlined
+                            style={{ fontSize: "large", color: "gray" }}
+                          />
+                        )}
+                      </span>
+                    </div>
                   </div>
-                  <div className="md:w-2/3 relative">
-                    <input
-                      type={showPassRe ? "text" : "password"}
-                      name="re_password"
-                      value={values.re_password}
-                      onChange={handleChange}
-                      placeholder="Repita la contraseña"
-                      onBlur={handleBlur}
-                      className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
-                        errors.re_password &&
-                        touched.re_password &&
-                        "border-red-400"
-                      } ${isError && "border-red-400"} ${
-                        values.re_password.length > 0 && "border-green-100"
-                      } `}
-                    />
-                    <span
-                      className="absolute right-3 top-1/3 transform -translate-y-1/2 cursor-pointer pt-2.5"
-                      onClick={handleShowPassRe}
-                    >
-                      {showPassRe ? (
-                        <VisibilityOffOutlined
-                          style={{ fontSize: "large", color: "gray" }}
-                        />
-                      ) : (
-                        <VisibilityOutlined
-                          style={{ fontSize: "large", color: "gray" }}
-                        />
-                      )}
-                    </span>
-                  </div>
-                </div>
-                        
+                )}
+
                 <div className="flex justify-between w-full px-auto">
                   <button
                     onClick={() => navigate(-1)}

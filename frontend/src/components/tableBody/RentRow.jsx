@@ -52,8 +52,9 @@ const RentRow = ({ index, renta }) => {
                 Fecha de devolución: ${renta.fecha_de_devolucion} <br><br>
                 
                `,
+               confirmButtonColor: "orange",
         ...(renta.activo && {
-            confirmButtonText: `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-400q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0 280q-139 0-241-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Z"/></svg>`,
+            confirmButtonText: `<svg xmlns="http://www.w3.org/2000/svg" height="24" fill="white" viewBox="0 -960 960 960" width="24"><path d="M480-400q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0 280q-139 0-241-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Z"/></svg>`,
             confirmButtonColor: "orange",
             showCloseButton: true,
         })}).then((result) => {
@@ -68,7 +69,7 @@ const RentRow = ({ index, renta }) => {
    
   return (
     <tr className={`border-b text-gray-500 ${!renta.activo && "bg-gray-100" } hover:bg-gray-50`} onClick={() => {handleInfo(renta)}}>
-      <td className="py-3 text-left px-4 w-1/5">{`${renta.cliente.nombre} ${renta.cliente.apellidos}`}</td>
+      <td className="py-3 text-left px-4 w-1/4">{`${renta.cliente.nombre} ${renta.cliente.apellidos}`}</td>
       <td className=" w-1/5">{renta.soporte.tipo_de_soporte}</td>
         <td className=" w-1/5">
             {
@@ -84,7 +85,7 @@ const RentRow = ({ index, renta }) => {
             }
             {
                 !renta.activo &&
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check2-circle" viewBox="0 0 16 16">
                     <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
                     <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
                 </svg>

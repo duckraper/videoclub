@@ -167,7 +167,7 @@ const SupportForm = () => {
                       onChange={handleChange}
                     >
                       <option value="" disabled  >
-                        Seleccione una tipo_soporte
+                        Seleccione un Tipo de soporte
                       </option>
                     {Object.keys(tipos).map((tipo) => (
                         <option key={tipo} value={tipos[tipo]} >
@@ -186,7 +186,7 @@ const SupportForm = () => {
                   <div className="md:w-2/3">
                     <input
                       type="text"
-                      name="costo_adquisicion"
+                      name="Costo"
                       value={values.costo_adquisicion}
                       onChange={handleChange}
                       onBlur={handleBlur}

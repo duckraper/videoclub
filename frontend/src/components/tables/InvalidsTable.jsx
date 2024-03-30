@@ -4,7 +4,7 @@ import InvalidsRow from "../tableBody/InvalidsRow";
 
 
 const Invalids = () => {
-  const { data, isSuccess } = useListInvalidClientQuery(undefined, {
+  const { data, isSuccess } = useListInvalidClientQuery({
     refetchOnReconnect: true,
   });
   const [exist, setExist] = React.useState([]);
@@ -20,6 +20,7 @@ const Invalids = () => {
           <h1 className="font-bold text-2xl text-black ">Clientes Invalidados</h1>
         </div>
       </div>
+
      {exist.length > 0 ? <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
         <table className=" w-full overflow-x-hidden">
           <thead className="border-b">

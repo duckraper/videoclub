@@ -1,14 +1,23 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import customFetchBase from "../../config/customBaseQuery";
 
+export function buildFiltersUrl(base, parametros) {
+  let searchParams = new URLSearchParams();
+  for (let param in parametros) {
+    if (parametros[param]) searchParams.append(param, parametros[param]);
+  }
+  if (parametros) return base + "?" + searchParams.toString();
+  else return base;
+}
+
 export const filmsAPI = createApi({
   reducerPath: "filmsAPI",
   baseQuery: customFetchBase,
   tagTypes: ["Films"],
   endpoints: (builder) => ({
     getFilms: builder.query({
-      query: () => ({
-        url: "peliculas/",
+      query: ({ filterParams }) => ({
+        url: buildFiltersUrl("peliculas/", filterParams),
         method: "GET",
       }),
       providesTags: (result) =>
@@ -47,13 +56,7 @@ export const filmsAPI = createApi({
         method: "PATCH",
         body: rest,
       }),
-      invalidatesTags: (result, { id }) =>
-        result
-          ? [
-              { type: "Films", id },
-              { type: "Films", id: "LIST" },
-            ]
-          : [{ type: "Films", id: "LIST" }],
+      invalidatesTags: ["Films"],
     }),
 
     deleteFilm: builder.mutation({

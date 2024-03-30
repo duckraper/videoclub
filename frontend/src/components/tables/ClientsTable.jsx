@@ -9,8 +9,10 @@ import { PersonAddOutlined } from "@mui/icons-material";
 const Clientes = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data, isSuccess } = useGetClientsQuery(undefined, {
+  const [valor, setValor] = useState("");
+  const { data, isSuccess } = useGetClientsQuery({
     refetchOnReconnect: true,
+    filterParams: { search: valor },
   });
   const [exist, setExist] = useState([]);
 
@@ -40,15 +42,39 @@ return (
           </button>
         </div>
       </div>
+      <form className="pb-5 flex flex-row relative">
+        <input
+          type="text"
+          className="w-1/4 p-1 px-4 border-2 border-gray-200 rounded-lg "
+          placeholder="  Buscar Cliente"
+          value={valor}
+          onChange={(e) => {
+            setValor(e.target.value);
+          }}
+        />
+        <span className=" pt-2.5 pl-1 absolute">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="black"
+            class="bi bi-search"
+            viewBox="0 0 16 16"
+          >
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+          </svg>
+        </span>
+      </form>
+
       {exist.length >0 ? <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
          <table className=" w-full">
           <thead className="border-b">
             <tr className="text-left">
-              <th className=" p-2 px-4" >Nombre</th>
-              <th >Apellidos</th>
-              <th >Inscrito desde</th>
-              <th>Préstamos</th>
-              <th >Estado</th>
+              <th className=" p-2 px-4 w-1/5" >Nombre</th>
+              <th className="w-1/5">Apellidos</th>
+              <th className="w-1/5">Inscrito desde</th>
+              <th className="w-1/5">Préstamos</th>
+              <th className="w-1/5">Dirección</th>
             </tr>
           </thead>
           <tbody>

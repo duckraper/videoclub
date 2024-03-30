@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import customFetchBase from "../../config/customBaseQuery";
 import { userAPI } from "./UserService";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export const authAPI = createApi({
   reducerPath: "authApi",
@@ -26,38 +26,37 @@ export const authAPI = createApi({
           localStorage.setItem("refresh", data.refresh);
           localStorage.setItem("id", user.user_id);
           localStorage.setItem("username", JSON.stringify(user.username));
-         
-          await dispatch(
-            userAPI.endpoints.getUserById.initiate(user.user_id)
-          );
+
+          await dispatch(userAPI.endpoints.getUserById.initiate(user.user_id));
         } catch (error) {
           localStorage.removeItem("access");
-          localStorage.removeItem("refresh")
-          localStorage.removeItem("user")
-          localStorage.removeItem("id")
-          stop()
+          localStorage.removeItem("refresh");
+          localStorage.removeItem("user");
+          localStorage.removeItem("id");
+          stop();
         }
       },
     }),
-    
+
     logout: builder.mutation({
       query: () => ({
         url: "auth/logout/",
         method: "POST",
-        body: { refresh: localStorage.getItem("refresh"), access: localStorage.getItem("access")},
+        body: {
+          refresh: localStorage.getItem("refresh"),
+          access: localStorage.getItem("access"),
+        },
       }),
       async onQueryStarted(args, { queryFulfilled }) {
         try {
           await queryFulfilled;
 
-           localStorage.removeItem("access");
-           localStorage.removeItem("refresh");
-           localStorage.removeItem("user")
-           localStorage.removeItem("id")
-         
+          localStorage.removeItem("access");
+          localStorage.removeItem("refresh");
+          localStorage.removeItem("user");
+          localStorage.removeItem("id");
         } catch (error) {
-          console.log(error);
-           stop()
+          stop();
         }
       },
     }),
