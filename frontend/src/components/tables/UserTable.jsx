@@ -40,14 +40,14 @@ const Usuarios = () => {
       <form className="pb-5 flex flex-row relative">
         <input
           type="text"
-          className="w-1/4 p-1 px-4 border-2 border-gray-200 rounded-lg "
+          className="w-1/4 p-1 px-4 border-2 border-gray-200 rounded-lg pl-8 "
           placeholder="  Buscar Usuario"
           value={valor}
           onChange={(e) => {
             setValor(e.target.value);
           }}
         />
-        <span className=" pt-2.5 pl-1 absolute">
+        <span className=" pt-2.5 pl-2 absolute">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

@@ -55,19 +55,11 @@ const SupportRow = ({ index, soporte }) => {
         id: soporte,
         pelicula: selectedFilm,
       });
-      if (isSuccess) {
         Toast.fire({
           icon: "success",
           iconColor: "orange",
-          title: `Se ha grabado la película correctamente `,
+          ...{title: `${isSuccess ? "Se ha grabado la película correctamente": "No se ha grabado la pelicula, revise la capacidad" }`},
         });
-      } else if (Error) {
-        Toast.fire({
-          icon: "error",
-          iconColor: "orange",
-          title: `Ha ocurrido un error al grabar la película, verifique la capacidad del soporte `,
-        });
-      }
     }
   };
 

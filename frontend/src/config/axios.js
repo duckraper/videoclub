@@ -1,5 +1,5 @@
 import axios from "axios";
-import {jwtDecode} from "jwt-decode"// Add missing import statement
+import {jwtDecode} from "jwt-decode"
 
 const baseUrl = "http://127.0.0.1:8000/api/";
 

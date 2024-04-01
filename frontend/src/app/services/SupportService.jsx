@@ -46,7 +46,7 @@ export const supportAPI = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["Support"],
+      invalidatesTags: [{ type: "Support", id: "LIST" }],
     }),
 
     bajaSupport: builder.mutation({

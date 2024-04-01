@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useGetClientsQuery } from "../../app/services";
@@ -17,16 +17,18 @@ const Clientes = () => {
   const [exist, setExist] = useState([]);
 
   useEffect(() => {
-   if(isSuccess){setExist(data);}
-  }, [isSuccess])
+    if (isSuccess) {
+      setExist(data);
+    }
+  }, [isSuccess]);
 
-    useEffect(() => {
-      dispatch(setEdit(null));
-    }, []);
+  useEffect(() => {
+    dispatch(setEdit(null));
+  }, []);
 
-return (
+  return (
     <div className=" px-16 mb-20">
-     <div className="flex-row flex w-full p-6">
+      <div className="flex-row flex w-full p-6">
         <div className="w-2/3 flex flex-col">
           <h1 className="font-bold text-2xl text-black ">Clientes</h1>
         </div>
@@ -45,14 +47,14 @@ return (
       <form className="pb-5 flex flex-row relative">
         <input
           type="text"
-          className="w-1/4 p-1 px-4 border-2 border-gray-200 rounded-lg "
+          className="w-1/4 p-1 px-4 border-2 border-gray-200 rounded-lg pl-8 "
           placeholder="  Buscar Cliente"
           value={valor}
           onChange={(e) => {
             setValor(e.target.value);
           }}
         />
-        <span className=" pt-2.5 pl-1 absolute">
+        <span className=" pt-2.5 pl-2 absolute">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -66,24 +68,28 @@ return (
         </span>
       </form>
 
-      {exist.length >0 ? <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
-         <table className=" w-full">
-          <thead className="border-b">
-            <tr className="text-left">
-              <th className=" p-2 px-4 w-1/5" >Nombre</th>
-              <th className="w-1/5">Apellidos</th>
-              <th className="w-1/5">Inscrito desde</th>
-              <th className="w-1/5">Préstamos</th>
-              <th className="w-1/5">Dirección</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.map((el, index) => (
-              <ClientsRow key={el.id} index={index} client={el} />
-            ))}
-          </tbody>
-        </table> 
-      </div> : "No hay clientes Actualmente"}
+      {exist.length > 0 ? (
+        <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
+          <table className=" w-full">
+            <thead className="border-b">
+              <tr className="text-left">
+                <th className=" p-2 px-4 w-1/5">Nombre</th>
+                <th className="w-1/5">Apellidos</th>
+                <th className="w-1/5">Inscrito desde</th>
+                <th className="w-1/5">Préstamos</th>
+                <th className="w-1/5">Dirección</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.map((el, index) => (
+                <ClientsRow key={el.id} index={index} client={el} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        "No hay clientes Actualmente"
+      )}
     </div>
   );
 };

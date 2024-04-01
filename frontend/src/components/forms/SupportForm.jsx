@@ -186,11 +186,11 @@ const SupportForm = () => {
                   <div className="md:w-2/3">
                     <input
                       type="text"
-                      name="Costo"
+                      name="costo_adquisicion"
                       value={values.costo_adquisicion}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder="Escriba los costo_adquisicion"
+                      placeholder="Escriba el costo "
                       className={`border-2 border-gray-200 w-full rounded-lg focus:outline-none px-3 py-1 ${
                         errors.costo_adquisicion &&
                         touched.costo_adquisicion &&
