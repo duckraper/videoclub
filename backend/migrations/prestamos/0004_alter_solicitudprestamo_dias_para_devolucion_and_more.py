@@ -15,10 +15,5 @@ class Migration(migrations.Migration):
             model_name='solicitudprestamo',
             name='dias_para_devolucion',
             field=models.PositiveSmallIntegerField(default=3),
-        ),
-        migrations.AlterField(
-            model_name='solicitudprestamo',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True),
-        ),
+        )
     ]

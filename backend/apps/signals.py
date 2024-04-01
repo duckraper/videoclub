@@ -36,7 +36,6 @@ def poblar_con_usuarios(sender, **kwargs):
                 count += 1
                 print(f" {i}- {user}")
             user.save()
-            sleep(0.5)
 
         if count == 0:
             print(' - No hay usuarios para agregar.')
