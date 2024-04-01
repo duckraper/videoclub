@@ -1,18 +1,19 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useGetFilmsQuery} from "../../app/services";
+import { useGetFilmsQuery } from "../../app/services";
 import FilmsRow from "../tableBody/FilmsRow";
-import { AddToQueueOutlined} from "@mui/icons-material";
+import { AddToQueueOutlined } from "@mui/icons-material";
 import { setEdit, setNoHere } from "../../app/slices/TipoActivo.slice";
 import { useNavigate } from "react-router-dom";
 
 const Films = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [valor, setValor] = React.useState("");
+  const [searchQuery, setSearchQuery] = React.useState("");
+
   const { data, isSuccess } = useGetFilmsQuery({
     refetchOnReconnect: true,
-    filterParams: { search: valor },
+    filterParams: { search: searchQuery },
   });
 
   const [exist, setExist] = React.useState([]);
@@ -50,10 +51,10 @@ const Films = () => {
         <input
           type="text"
           className="w-1/4 p-1 px-4 border-2 border-gray-200 rounded-lg pl-8"
-          placeholder="  Buscar Película"
-          value={valor}
+          placeholder="Buscar Película"
+          value={searchQuery}
           onChange={(e) => {
-            setValor(e.target.value);
+            setSearchQuery(e.target.value);
           }}
         />
         <span className=" pt-2.5 pl-2 absolute">
@@ -82,7 +83,7 @@ const Films = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((el, index) => (
+              exist? {data?.map((el, index) => (
                 <FilmsRow key={el.id} index={index} film={el} />
               ))}
             </tbody>

@@ -52,7 +52,7 @@ export default function AdminDashBoard() {
           <div className="flex flex-col">
             <h1 className=" font-bold text-xl px-2">Total de Dinero</h1>
             <p className="text-gray-500 px-3">Dinero Generado de las Rentas</p>
-            <span className="text-3xl font-bold text-center">${costo}</span>
+            <span className="text-3xl font-bold text-center">${costo.toFixed(2)}</span>
           </div>
         </div>
       </div>

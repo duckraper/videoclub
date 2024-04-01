@@ -49,8 +49,7 @@ const RentRow = ({ index, renta }) => {
                 Activo: ${renta.activo ? "Si" : "No"} <br><br>
                 Fecha de prestamo: ${renta.fecha_de_prestamo} <br><br>
                 Costo del prestamo: ${renta.costo_del_prestamo} <br><br>
-                Fecha de devolución: ${renta.fecha_de_devolucion} <br><br>
-                
+                ${renta.fecha_de_devolucion? `Fecha de devolución: ${renta.fecha_de_devolucion}<br><br>`: ""}
                `,
                confirmButtonColor: "orange",
         ...(renta.activo && {

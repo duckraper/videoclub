@@ -5,7 +5,7 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_400_BAD_REQUEST,
-    HTTP_405_METHOD_NOT_ALLOWED,
+    HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND
 )
 from apps.peliculas.models import Pelicula
@@ -123,7 +123,7 @@ class GrabarPeliculaView(APIView):
                 if soporte.pk in VCD.objects.all().values_list('pk', flat=True) or \
                         soporte.pk in Casete.objects.all().values_list('pk', flat=True):
                     if soporte.cant_peliculas_grabadas < soporte.cant_max_peliculas and \
-                            soporte.estado != "M" and soporte.disponible:
+                            soporte.estado != "I" and soporte.disponible:
                         soporte.cant_peliculas_grabadas += 1
                         soporte.peliculas.add(pelicula)
                         soporte.save()
@@ -133,15 +133,15 @@ class GrabarPeliculaView(APIView):
 
                         return Response("Pelicula grabada con exito", status=HTTP_200_OK)
 
-                    return Response("No hay capacidad para mas peliculas", status=HTTP_405_METHOD_NOT_ALLOWED)
+                    return Response("No hay capacidad para mas peliculas", status=HTTP_400_BAD_REQUEST)
 
                 # si es DVD
                 elif soporte.pk in DVD.objects.all().values_list('pk', flat=True):
                     dvd = DVD.objects.all().filter(pk=soporte.pk).first()
                     if dvd and dvd.disponible:
-                        if pelicula.tamanio < dvd.capacidad and dvd.estado == 'B' and dvd.disponible:
+                        if pelicula.tamanio < dvd.capacidad and dvd.estado != 'I' and dvd.disponible:
                             soporte.cant_peliculas_grabadas += 1
-                            soporte.peliculas.add(pelicula)  # type: ignore
+                            soporte.peliculas.add(pelicula) 
                             soporte.save()
 
                             dvd.cant_peliculas_grabadas += 1
@@ -153,7 +153,7 @@ class GrabarPeliculaView(APIView):
 
                             return Response("pelicula grabada con exito", status=HTTP_200_OK)
 
-                        return Response("No hay capacidad para mas peliculas", status=HTTP_405_METHOD_NOT_ALLOWED)
+                        return Response("No hay capacidad para mas peliculas", status=HTTP_400_BAD_REQUEST)
 
                     return Response(status=HTTP_404_NOT_FOUND)
 
