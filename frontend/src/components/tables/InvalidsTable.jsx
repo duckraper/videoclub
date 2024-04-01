@@ -7,11 +7,6 @@ const Invalids = () => {
   const { data, isSuccess } = useListInvalidClientQuery({
     refetchOnReconnect: true,
   });
-  const [exist, setExist] = React.useState([]);
-
-  React.useEffect(() => {
-   if(isSuccess){setExist(data);}
-  }, [isSuccess])
   
   return (
     <div className=" px-16 mb-20">
@@ -21,7 +16,7 @@ const Invalids = () => {
         </div>
       </div>
 
-     {exist.length > 0 ? <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
+     {data?.length > 0 ? <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
         <table className=" w-full overflow-x-hidden">
           <thead className="border-b">
             <tr className="text-left">

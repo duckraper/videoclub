@@ -14,13 +14,6 @@ const Clientes = () => {
     refetchOnReconnect: true,
     filterParams: { search: valor },
   });
-  const [exist, setExist] = useState([]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      setExist(data);
-    }
-  }, [isSuccess]);
 
   useEffect(() => {
     dispatch(setEdit(null));
@@ -68,7 +61,7 @@ const Clientes = () => {
         </span>
       </form>
 
-      {exist.length > 0 ? (
+      {data?.length > 0 ? (
         <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
           <table className=" w-full">
             <thead className="border-b">

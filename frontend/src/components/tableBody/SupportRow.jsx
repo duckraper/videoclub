@@ -104,7 +104,7 @@ const SupportRow = ({ index, soporte }) => {
                     <table class = "w-full"> 
                     <thead class = "w-full">
                       <tr >
-                        <th class = "w-full bg-slate-200 py-1.5">Soportes:</th>
+                        <th class = "w-full bg-slate-200 py-1.5">Películas:</th>
                       </tr>
                     </thead> 
                     <tbody class = "w-full"> 
@@ -113,7 +113,7 @@ const SupportRow = ({ index, soporte }) => {
                           (soporte) => `
                         <tr class = "w-full bg-slate-100 hover:bg-slate-300"> 
                           <td class = "w-full" > 
-                            <a href="/home/Dashboard/Soportes/" >${soporte}</a>`
+                            ${soporte}`
                         )
                         .join("")}
                           </td>

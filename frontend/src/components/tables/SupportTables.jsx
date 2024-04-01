@@ -14,12 +14,6 @@ const Support = () => {
     refetchOnReconnect: true,
   });
 
-  const [exist, setExist] = React.useState([]);
-
-  React.useEffect(() => {
-   if(isSuccess){setExist(data);}
-  }, [isSuccess])
-
   return (
     <div className=" px-16 mb-20" >
       <div className="flex-row flex w-full p-6">
@@ -41,7 +35,7 @@ const Support = () => {
         </div>
       </div>
       
-      {exist.length > 0 ?
+      {data?.length > 0 ?
       <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
         <table className=" w-full">
           

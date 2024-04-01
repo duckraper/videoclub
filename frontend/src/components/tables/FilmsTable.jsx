@@ -16,14 +16,6 @@ const Films = () => {
     filterParams: { search: searchQuery },
   });
 
-  const [exist, setExist] = React.useState([]);
-
-  React.useEffect(() => {
-    if (isSuccess) {
-      setExist(data);
-    }
-  }, [isSuccess]);
-
   React.useEffect(() => {
     dispatch(setEdit(null));
   }, []);
@@ -70,7 +62,7 @@ const Films = () => {
           </svg>
         </span>
       </form>
-      {exist.length > 0 ? (
+      {data?.length >= 1 ? (
         <div className=" rounded-lg border-2 border-gray-200 bg-white shadow-sm ">
           <table className=" w-full overflow-x-hidden">
             <thead className="border-b">
@@ -83,7 +75,7 @@ const Films = () => {
               </tr>
             </thead>
             <tbody>
-              exist? {data?.map((el, index) => (
+                {data?.map((el, index) => (
                 <FilmsRow key={el.id} index={index} film={el} />
               ))}
             </tbody>

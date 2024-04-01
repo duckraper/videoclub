@@ -95,7 +95,7 @@ const FilmsRow = ({ index, film }) => {
                     (soporte) => `
                   <tr class = "w-full bg-slate-100 hover:bg-slate-300"> 
                     <td class = "w-full" > 
-                      <a href="/home/Dashboard/Soportes/" >${soporte}</a>`
+                      ${soporte}`
                   )
                   .join("")}
                     </td>

@@ -10,7 +10,7 @@ const Usuarios = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [valor, setValor] = React.useState("");
-  const { data } = useGetUsersQuery( {
+  const { data } = useGetUsersQuery({
     filterParams: { search: valor },
     refetchOnReconnect: true,
   });
@@ -75,6 +75,11 @@ const Usuarios = () => {
             {data?.map((el, index) => (
               <UserRow key={el.id} index={index} user={el} />
             ))}
+            {data?.length === 0 && (
+              <tr>
+                <td className="text-center">Ninguna coincdencia</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

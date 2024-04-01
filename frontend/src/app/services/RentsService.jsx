@@ -38,7 +38,7 @@ export const rentsAPI = createApi({
         method: "POST",
         body: payload,
       }),
-      invalidatesTags: [{ type: "Rents", id: "LIST" }],
+      invalidatesTags: ["Rents"],
     }),
 
     returnRent: builder.mutation({
