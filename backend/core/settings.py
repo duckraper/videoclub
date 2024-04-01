@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-4p0mv2628)41dj95%=wynw^ulk*$_!a-ula#u4d8g%k&iuc^@p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']  # TODO Cambiar a solo recibir del frontend, y de postgres
+# TODO Cambiar a solo recibir del frontend, y de postgres
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = "authentication.User"
 
@@ -58,7 +59,8 @@ INSTALLED_APPS = [
 ]
 
 BRUTE_FORCE_THRESHOLD = 6  # Intentos de login permitidos (3)
-BRUTE_FORCE_TIMEOUT = 60  # Tiempo de espera para intentar login nuevamente (60 segundos)
+# Tiempo de espera para intentar login nuevamente (60 segundos)
+BRUTE_FORCE_TIMEOUT = 60
 
 REQUESTS_PER_MINUTE_ALLOWED = 500  # Número de solicitudes permitidas por minuto
 
@@ -121,8 +123,10 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
-    'apps.authentication.middlewares.BruteForceProtectionMiddleware',  # Middleware para protección contra fuerza bruta
-    'apps.authentication.middlewares.DDoSProtectionMiddleware',  # Middleware para protección contra DDoS
+    # Middleware para protección contra fuerza bruta
+    'apps.authentication.middlewares.BruteForceProtectionMiddleware',
+    # Middleware para protección contra DDoS
+    'apps.authentication.middlewares.DDoSProtectionMiddleware',
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -169,14 +173,14 @@ DATABASES = {
         'HOST': os.environ.get('DB_HOST', 'localhost'),
         'PORT': os.environ.get('DB_PORT', '5432'),
     }
-} if os.environ.get("USE_POSTGRES_DB") or not DEBUG\
+} if os.environ.get("DB_NAME") or not DEBUG\
     else \
     {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'videoclub.sqlite3',
         }
-    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

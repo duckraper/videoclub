@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:18-bullseye
 
 WORKDIR /app/frontend/
 
@@ -6,7 +6,3 @@ COPY package*.json /app/frontend/
 RUN npm install
 
 COPY . /app/frontend/
-
-EXPOSE 3000
-
-CMD [ "npm", "run", "dev" ]

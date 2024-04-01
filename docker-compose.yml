@@ -2,13 +2,14 @@ version: '3'
 
 services:
   db:
-    image: postgres:16-alpine
+    image: postgres:16-bullseye
     ports:
-      - "5400:5432"
+      - "5431:5432"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=videoclub
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      
     volumes:
       - ./data/db:/var/lib/postgresql/data/
 
@@ -16,8 +17,9 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    command: npm run dev
     ports:
-      - "3000:5173"
+      - "5173:5173"
     volumes:
       - ./frontend:/app/frontend
     depends_on:
@@ -27,13 +29,16 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    command: python3 manage.py runserver 0.0.0.0:8000
     ports:
       - "8080:8000"
     volumes:
       - ./backend:/app/backend
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
-#    depends_on:
-#      - db
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db

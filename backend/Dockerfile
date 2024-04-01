@@ -1,18 +1,17 @@
-FROM python:3.10-alpine
+FROM python:3.12-bullseye
 
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    postgresql-client &&\
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app/backend
+COPY requirements.txt ./
+RUN pip3 install -r requirements.txt
+COPY . .
 
-COPY requirements.txt /app/backend/
-
-RUN apk add --virtual .build-deps --no-cache postgresql-dev gcc python3-dev musl-dev && \
-    pip install --no-cache-dir -r requirements.txt && \
-    apk --purge del .build-deps
-
-COPY . /app/backend/
-
-EXPOSE 8080
-
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+RUN python3 manage.py migrate
